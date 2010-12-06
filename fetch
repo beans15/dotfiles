@@ -2,4 +2,4 @@
 
 # Fetch the setting files from local machine and copy them to here.
 
-rsync -auzvr -n --files-from=.files --exclude-from=.exclude ~/ .
+rsync -auzvr $1 --files-from=.files --exclude-from=.exclude ~/ .

@@ -2,4 +2,4 @@
 
 # Setup the setting files to the local machine.
 
-rsync -auvzr --files-from=.files --exclude-from=.exclude ./ ~
+rsync -auvzr $1 --files-from=.files --exclude-from=.exclude ./ ~
