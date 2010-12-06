@@ -1,0 +1,21 @@
+snippet #!
+	#!/usr/bin/env python
+
+snippet shebang
+	#!/usr/bin/env python
+
+snippet coding
+	# -*- coding: ${1:utf-8} -*-
+	${2}
+###
+snippet main
+	if __name__ == '__main__':
+		${1}
+###
+snippet reverse
+	from django.core.urlresolvers import reverse
+
+snippet render_to_string
+	render_to_string('${1}', {
+			${2}
+		}, context_instance=RequestContext(request))
