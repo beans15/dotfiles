@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Fetch the setting files from local machine and copy them to here.
+
+rsync -auzvr -n --files-from=.files --exclude-from=.exclude ~/ .

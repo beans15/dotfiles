@@ -1,4 +1,3 @@
-.DS_Store
 *hist
 *history
 *.swp
@@ -6,3 +5,4 @@
 *.pyc
 *.pyo
 Thumbs.db
+.DS_Store

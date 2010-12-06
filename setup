@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Setup the setting files to the local machine.
+
+rsync -auvzr --files-from=.files --exclude-from=.exclude ./ ~
