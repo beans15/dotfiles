@@ -118,6 +118,9 @@ let g:VimShell_RightPrompt = 'vimshell#vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
 " 大文字小文字を区別する
 let g:NeoComplCache_SmartCase=1
 
+" netrwで非表示にするファイルパターンを設定
+let g:netrw_list_hide = '.*\.pyc,.*\.pyo'
+
 "------------------------------------------------
 " ユーザー定義関数
 "------------------------------------------------
