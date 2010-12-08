@@ -10,7 +10,7 @@ common=(
     "-q[Decrease verbosity]"
     "--quiet[Decrease verbosity]"
     "-p+[The Python interpreter to use]:file:_files"
-    "--python=[The Python interpreter to use]:file:_files"
+    "--python=-[The Python interpreter to use]:file:_files"
     "--clear[Clear out the non-root install and start from scratch]"
     "--no-site-packages[Don't give access to the global site-packages dir to the virtual environment]"
     "--unzip-setuptools[Unzip Setuptools or Distribute when installing it]"
@@ -19,15 +19,14 @@ common=(
     "--prompt=[Provides an alternative prompt prefix for this environment]"
 )
 
-case "$service" in 
-virtualenv)
-    _arguments \
-        "1:dest dir:_directories" \
-        "*::args:->command" "$common[@]" && ret=0
-    ;;
+case "$service" in
 mkvirtualenv)
     _arguments \
-        "1:env name" \
-        "*::args:->command" "$common[@]" && ret=0
+        $common
+    ;;
+virtualenv)
+    _arguments \
+        $common \
+        "1:dest dir:_directories"
     ;;
 esac
