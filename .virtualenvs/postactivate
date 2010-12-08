@@ -8,7 +8,7 @@ _OLD_RPROMPT=$RPROMPT
 RPROMPT="%{${fg_bold[white]}%}(env: %{${fg[green]}%}$VIRTUAL_ENV_NAME%{${fg_bold[white]}%})%{${reset_color}%} $RPROMPT"
 
 # 環境ごとの設定を呼び出す
-site_command="$WORKON_HOME/postactivate-$VIRTUAL_ENV_NAME"
+site_command="$WORKON_HOME/postactivate.$VIRTUAL_ENV_NAME"
 if [[ -e $site_command ]]; then
     source $site_command
 fi

@@ -4,7 +4,7 @@
 RPROMPT=$_OLD_RPROMPT
 
 # 環境ごとの設定を呼び出す
-site_command="$WORKON_HOME/postdeactivate-$VIRTUAL_ENV_NAME"
+site_command="$WORKON_HOME/postdeactivate.$VIRTUAL_ENV_NAME"
 if [[ -e $site_command ]]; then
     source $site_command
 fi
