@@ -1,8 +1,6 @@
 #!/opt/local/bin/zsh
 # This hook is run after every virtualenv is deactivated.
 
-VIRTUAL_ENV_NAME=`basename "$VIRTUAL_ENV"`
-
 RPROMPT=$_OLD_RPROMPT
 
 # 環境ごとの設定を呼び出す
