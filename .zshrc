@@ -119,6 +119,10 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # 右側まで入力がきたら、右プロンプトを消す
 setopt transient_rprompt
 # プロンプトとタイトル
+# プロンプト
+# 基本の情報
+RPROMPT="%{${fg[green]}%}[%~]%{${reset_color}%}"
+SPROMPT="%{${fg[green]}%}%r %{${fg[red]}%}is correct? [n,y,a,e]: %{${reset_color}%}"
 function precmd() {
     # タイトルの設定
     case "${TERM}" in
@@ -127,10 +131,6 @@ function precmd() {
     ;;
     esac
 
-    # プロンプト
-    # 基本の情報
-    RPROMPT="%{${fg[green]}%}[%~]%{${reset_color}%}"
-    SPROMPT="%{${fg[green]}%}%r %{${fg[red]}%}is correct? [n,y,a,e]: %{${reset_color}%}"
     PROMPT="%m:%n$ "
 
     # gitリポジトリでは、ブランチの状態を表示する
