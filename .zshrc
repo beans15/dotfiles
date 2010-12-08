@@ -14,6 +14,7 @@ alias du='du -h'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
+alias mkdir='mkdir -p'
 alias .='source'
 
 #------------------------------------------------
@@ -36,6 +37,8 @@ WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 #------------------------------------------------
 # 補完の設定
 #------------------------------------------------
+# ローカルの補完ディレクトリを追加
+fpath=(~/.zsh/functions ${fpath})
 # zshの補完機能を有効にする
 autoload -Uz compinit; compinit
 # URLを自動エスケープ

@@ -1,0 +1,8 @@
+#compdef workon rmvirtualenv
+
+local expl envs
+
+envs=($(lsvirtualenv -b))
+
+_wanted virtualenvs expl 'virtual environments' \
+    compadd $@ - ${envs}

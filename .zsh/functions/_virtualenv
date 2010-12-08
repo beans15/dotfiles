@@ -1,0 +1,33 @@
+#compdef virtualenv mkvirtualenv
+
+local common
+common=(
+    "--version[show program's version number and exit]"
+    "-h[show this help message and exit]"
+    "--help[show this help message and exit]"
+    "-v[Increase verbosity]"
+    "--verbose[Increase verbosity]"
+    "-q[Decrease verbosity]"
+    "--quiet[Decrease verbosity]"
+    "-p+[The Python interpreter to use]:file:_files"
+    "--python=[The Python interpreter to use]:file:_files"
+    "--clear[Clear out the non-root install and start from scratch]"
+    "--no-site-packages[Don't give access to the global site-packages dir to the virtual environment]"
+    "--unzip-setuptools[Unzip Setuptools or Distribute when installing it]"
+    "--relocatable[Make an EXISTING virtualenv environment relocatable.]"
+    "--distribute[Use Distribute instead of Setuptools.]"
+    "--prompt=[Provides an alternative prompt prefix for this environment]"
+)
+
+case "$service" in 
+virtualenv)
+    _arguments \
+        "1:dest dir:_directories" \
+        "*::args:->command" "$common[@]" && ret=0
+    ;;
+mkvirtualenv)
+    _arguments \
+        "1:env name" \
+        "*::args:->command" "$common[@]" && ret=0
+    ;;
+esac

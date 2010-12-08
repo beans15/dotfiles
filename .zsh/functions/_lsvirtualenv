@@ -1,0 +1,6 @@
+#compdef lsvirtualenv
+
+_arguments \
+    "-l[long mode]" \
+    "-b[brief mode]" \
+    "-h[this help message]"

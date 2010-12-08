@@ -1,5 +1,6 @@
 .vim/
 .vimrc
+.zsh/
 .zshrc
 .virtualenvs/postactivate
 .virtualenvs/postdeactivate
