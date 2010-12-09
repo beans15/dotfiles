@@ -57,6 +57,11 @@ setopt noautoremoveslash
 setopt list_packed
 # 候補でファイルの種別をマーク表示
 setopt list_types
+# キャッシュの設定
+if [ -d ~/.zsh/cache ]; then
+    zstyle ':completion:*' use-cache yes
+    zstyle ':completion:*' cache-path ~/.zsh/cache
+fi
 
 #------------------------------------------------
 # 履歴の設定

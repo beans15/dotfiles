@@ -19,3 +19,4 @@ Thumbs.db
 .DS_Store
 
 .vim/tags/*-tags
+.zsh/cache/*
