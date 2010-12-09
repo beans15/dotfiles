@@ -14,6 +14,8 @@ setl autoindent
 setl tags+=~/.vim/tags/python-tags
 " 自動折り返しを有効にする
 setl formatoptions=tcq
+" 自動折り返しの幅をPEP8に準拠させる
+setl tw=79
 
 " :Pep8で現在のバッファのPEPエラーチェックを行う
 command! -buffer PEP8 :call ListPep8Errors()
