@@ -15,7 +15,7 @@ snippet main
 snippet reverse
 	from django.core.urlresolvers import reverse
 
-snippet render_to_string
-	render_to_string('${1}', {
+snippet render_to_response
+	render_to_response('${1}', {
 			${2}
 		}, context_instance=RequestContext(request))
