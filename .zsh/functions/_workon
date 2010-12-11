@@ -1,6 +1,6 @@
 #compdef workon rmvirtualenv
 
-_list_virtualenv()
+_workon()
 {
     local update_policy
     zstyle -s ':completion:$curcontext:' cache-policy update_policy
@@ -8,21 +8,25 @@ _list_virtualenv()
         zstyle ':completion:$curcontext:' cache-policy _workon_caching_policy
     fi
 
-    _workon_caching_policy()
-    {
-        local oldp
-        oldp=( "$1"(mm-30) )
-        (( $#oldp ))
-    }
+    _arguments \
+        '1:envs:_list_virtualenv'
+}
 
+_workon_caching_policy()
+{
+    local oldp
+    oldp=( "$1"(mm-30) )
+    (( $#oldp ))
+}
+
+_list_virtualenv()
+{
     if ( [[ ${+envs} -eq 0 ]] || _cache_invalid VIRTUALENV ) && ! _retrieve_cache VIRTUALENV; then
-        envs=($(lsvirtualenv -b))
+        envs=( $(lsvirtualenv -b) )
         _store_cache VIRTUALENV envs
     fi
 
-    local expl
-    _wanted virtualenvs expl 'virtual environments' \
-        compadd $@ - ${envs}
+    compadd "$@" -- ${envs}
 }
 
-_list_virtualenv $@
+_workon "$@"
