@@ -102,6 +102,11 @@ _port()
         # otherwise empty value
         cmd="${_portcmds[(r)$words[1]:*]%%:*}"
 
+        case $cmd in
+            ed)
+                cmd="edit"
+        esac
+
         if [[ -n $cmd ]]; then
             curcontext="${curcontext%:*:*}:port-${cmd}:"
 
@@ -113,6 +118,18 @@ _port()
 
             # Load pseudo portnames
             _port_pseudo_portnames
+
+            # Select versions
+            if (( CURRENT >= 3 )); then
+                local current_word="$words[CURRENT]"
+                if [[ $current_word[1] == '@' ]]; then
+                    local port="$words[2]"
+                    _port_installed_ports
+                    versions=( `for v in $_installed_ports; do; echo $v; done | grep "${port}@" | sed -e 's/^.*@/@/'` )
+                    _describe -t version 'port version' versions || compadd "$@"
+                    return
+                fi
+            fi
 
             _call_function ret _port_$cmd || _message "no more arguments"
         else
@@ -127,6 +144,11 @@ _port_caching_policy()
     local oldp
     oldp=( "$1"(mw+1) )
     (( $#oldp )) && return 0
+
+    if [[ "$1" -ot /opt/local/var/macports/sources/rsync.macports.org/release/ports/PortIndex ]]; then
+        return 0
+    fi
+
     return 1
 }
 
@@ -163,6 +185,14 @@ _port_installed_ports()
     fi
 }
 
+_port_outdated_ports()
+{
+    if ( [[ ${+_outdated_ports} -eq 0 ]] || _cache_invalid OUTDATED_PORTS ) && ! _retrieve_cache OUTDATED_PORTS; then
+        _outdated_ports=( $(port echo outdated | awk '{print $1}') $_port_common_options )
+        _store_cache OUTDATED_PORTS _outdated_ports
+    fi
+}
+
 _port_active_ports()
 {
     if ( [[ ${+_active_ports} -eq 0 ]] || _cache_invalid ACTIVE_PORTS) && ! _retrieve_cache ACTIVE_PORTS; then
@@ -185,6 +215,48 @@ _port_inactive_ports()
     compadd "$@" -a -- _inactive_ports
 }
 
+(( $+functions[_port_build] )) || _port_build()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_cat] )) || _port_cat()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_cd] )) || _pord_cd()
+{
+    _port_installed_ports
+    compadd "$@" -a -- _installed_ports
+}
+
+(( $+functions[_port_checksum])) || _port_checksum()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_clean] )) || _port_clean()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_configure] )) || _port_configure()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_contents] )) || _port_contents()
+{
+    _port_active_ports
+    compadd "$@" -a -- _active_ports
+}
+
 (( $+functions[_port_deactivate] )) || _port_deactivate()
 {
     _port_active_ports
@@ -198,6 +270,66 @@ _port_inactive_ports()
 }
 
 (( $+functions[_port_deps] )) || _port_deps()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_destroot] )) || _port_destroot()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_dir] )) || _port_dir()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_distcheck] )) || _port_distcheck()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_distfiles] )) || _port_distfiles()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_dmg] )) || _port_dmg()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_dpkg] )) || _port_dpkg()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_edit] )) || _port_edit()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_extract] )) || _port_extract()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_fetch] )) || _port_fetch()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_file] )) || _port_file()
 {
     _port_all_ports
     compadd "$@" -a -- _all_ports
@@ -233,10 +365,94 @@ _port_inactive_ports()
     compadd "$@" -a -- _all_ports
 }
 
+(( $+functions[_port_installed] )) || _port_installed()
+{
+    _port_installed_ports
+    compadd "$@" -a -- _installed_ports
+}
+
+(( $+functions[_port_lint] )) || _port_lint()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
 (( $+functions[_port_list] )) || _port_list()
 {
     _port_all_ports
     compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_livecheck] )) || _port_livecheck()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_location] )) || _port_location()
+{
+    _port_installed_ports
+    compadd "$@" -a -- _installed_ports
+}
+
+(( $+functions[_port_load] )) || _port_load()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_log] )) || _port_log()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+
+(( $+functions[_port_mdmg] )) || _port_mdmg()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_mirror] )) || _port_mirror()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_mpkg] )) || _port_mpkg()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_notes] )) || _port_notes()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_ports_outdated] )) || _port_outdated()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_ports_patch] )) || _port_patch()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_pkg] )) || _port_pkg()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_provides] )) || _port_provides()
+{
+    _files
 }
 
 (( $+functions[_port_rdependents] )) || _port_rdependents()
@@ -251,19 +467,67 @@ _port_inactive_ports()
     compadd "$@" -a -- _all_ports
 }
 
+(( $+functions[_port_rpm] )) || _port_rpm()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_setrequested] )) || _port_setrequested()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_srpm] )) || _port_srpm()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_test] )) || _port_test()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
 (( $+functions[_port_uninstall] )) || _port_uninstall()
 {
     _port_installed_ports
     compadd "$@" -a -- _installed_ports
 }
 
+(( $+functions[_port_unload] )) || _port_unload()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_unsetrequested] )) || _port_unsetrequested()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
 (( $+functions[_port_upgrade] )) || _port_upgrade()
 {
-    _port_installed_ports
-    compadd "$@" -a -- _installed_ports
+    _port_outdated_ports
+    compadd "$@" -a -- _outdated_ports
+}
+
+(( $+functions[_port_url] )) || _port_url()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
 }
 
 (( $+functions[_port_variants] )) || _port_variants()
+{
+    _port_all_ports
+    compadd "$@" -a -- _all_ports
+}
+
+(( $+functions[_port_work] )) || _port_work()
 {
     _port_all_ports
     compadd "$@" -a -- _all_ports
