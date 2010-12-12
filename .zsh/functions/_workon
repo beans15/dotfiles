@@ -2,31 +2,32 @@
 
 _workon()
 {
-    local update_policy
-    zstyle -s ':completion:$curcontext:' cache-policy update_policy
-    if [[ -z $update_policy ]]; then
-        zstyle ':completion:$curcontext:' cache-policy _workon_caching_policy
-    fi
-
     _arguments \
         '1:envs:_list_virtualenv'
 }
 
 _workon_caching_policy()
 {
-    local oldp
-    oldp=( "$1"(mm-30) )
-    (( $#oldp ))
+    [[ $WORKON_HOME -nt "$1" ]] && return 0
+
+    return 1
 }
 
 _list_virtualenv()
 {
-    if ( [[ ${+envs} -eq 0 ]] || _cache_invalid VIRTUALENV ) && ! _retrieve_cache VIRTUALENV; then
-        envs=( $(lsvirtualenv -b) )
-        _store_cache VIRTUALENV envs
+    local curcontext="$curcontext"
+    local update_policy
+    zstyle -s ":completion:${curcontext}:" cache-policy update_policy
+    if [[ -z $update_policy ]]; then
+        zstyle ":completion:${curcontext}:" cache-policy _workon_caching_policy
     fi
 
-    compadd "$@" -- ${envs}
+    if ( [[ ${+_virtualenvs} -eq 0 ]] || _cache_invalid VIRTUALENV) && ! _retrieve_cache VIRTUALENV; then
+        _virtualenvs=( $(lsvirtualenv -b) )
+        _store_cache VIRTUALENV _virtualenvs
+    fi
+
+    compadd "$@" -- ${_virtualenvs}
 }
 
 _workon "$@"
