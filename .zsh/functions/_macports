@@ -150,6 +150,16 @@ _port_caching_policy()
         return 0
     fi
 
+    case "${1##*/}" in
+        ALL_PORTS)
+        ;;
+        *)
+            if [[ "$1" -ot /opt/local/var/macports/software ]]; then
+                return 0
+            fi
+        ;;
+    esac
+
     return 1
 }
 
