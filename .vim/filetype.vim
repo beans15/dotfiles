@@ -16,3 +16,6 @@ func! s:FTjavascript()
 
   setf javascript
 endfunc
+
+" JSON
+au BufNewFile,BufRead *.json setf json
