@@ -183,7 +183,7 @@ _port_pseudo_portnames()
 _port_all_ports()
 {
     if ( [[ ${+_all_ports} -eq 0 ]] || _cache_invalid ALL_PORTS) && ! _retrieve_cache ALL_PORTS; then
-        _all_ports=( $(port echo all) $_port_common_options )
+        _all_ports=( $(port echo all 2> /dev/null) $_port_common_options )
         _store_cache ALL_PORTS _all_ports
     fi
 }
@@ -191,7 +191,7 @@ _port_all_ports()
 _port_installed_ports()
 {
     if ( [[ ${+_installed_ports} -eq 0 ]] || _cache_invalid INSTALLED_PORTS) && ! _retrieve_cache INSTALLED_PORTS; then
-        _installed_ports=( $(port echo installed | awk '{print $1 $2}') $_port_common_options )
+        _installed_ports=( $(port echo installed 2> /dev/null | awk '{print $1 $2}') $_port_common_options )
         _store_cache INSTALLED_PORTS _installed_ports
     fi
 }
@@ -199,7 +199,7 @@ _port_installed_ports()
 _port_outdated_ports()
 {
     if ( [[ ${+_outdated_ports} -eq 0 ]] || _cache_invalid OUTDATED_PORTS ) && ! _retrieve_cache OUTDATED_PORTS; then
-        _outdated_ports=( $(port echo outdated | awk '{print $1}') $_port_common_options )
+        _outdated_ports=( $(port echo outdated 2> /dev/null | awk '{print $1}') $_port_common_options )
         _store_cache OUTDATED_PORTS _outdated_ports
     fi
 }
@@ -207,7 +207,7 @@ _port_outdated_ports()
 _port_active_ports()
 {
     if ( [[ ${+_active_ports} -eq 0 ]] || _cache_invalid ACTIVE_PORTS) && ! _retrieve_cache ACTIVE_PORTS; then
-        _active_ports=( $(port echo active | awk '{print $1 $2}') $_port_common_options )
+        _active_ports=( $(port echo active 2> /dev/null | awk '{print $1 $2}') $_port_common_options )
         _store_cache ACTIVE_PORTS _active_ports
     fi
 }
@@ -215,7 +215,7 @@ _port_active_ports()
 _port_inactive_ports()
 {
     if ( [[ ${+_inactive_ports} -eq 0 ]] || _cache_invalid INACTIVE_PORTS) && ! _retrieve_cache INACTIVE_PORTS; then
-        _inactive_ports=( $(port echo inactive | awk '{print $1 $2}') $_port_common_options )
+        _inactive_ports=( $(port echo inactive 2> /dev/null | awk '{print $1 $2}') $_port_common_options )
         _store_cache INACTIVE_PORTS _inactive_ports
     fi
 }
