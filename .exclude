@@ -1,6 +1,8 @@
 /setup
 /fetch
 /.exclude
+/.exclude-local
+/.exclude-all
 /.files
 
 .git/
