@@ -504,6 +504,13 @@ _port_inactive_ports()
 
 (( $+functions[_port_uninstall] )) || _port_uninstall()
 {
+    _arguments \
+        '--follow-dependents[recursively uninstall all dependents of this port]' \
+        '*:ports:_port_uninstall_ports'
+}
+
+(( $+functions[_port_uninstall_ports] )) || _port_uninstall_ports()
+{
     _port_installed_ports
     compadd "$@" -a -- _installed_ports
 }
