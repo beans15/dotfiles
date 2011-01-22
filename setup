@@ -3,5 +3,5 @@
 # Setup the setting files to the local machine.
 
 cat .exclude .exclude-local 2> /dev/null > .exclude-all
-rsync -auvzr --delete $1 --files-from=.files --exclude-from=.exclude-all ./ ~
+rsync -auvzr --delete $* --files-from=.files --exclude-from=.exclude-all ./ ~
 rm .exclude-all
