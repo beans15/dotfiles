@@ -17,7 +17,7 @@ setl formatoptions=tcq
 " 自動折り返しの幅をPEP8に準拠させる
 setl tw=79
 
-" :Pep8で現在のバッファのPEPエラーチェックを行う
+" :PEP8で現在のバッファのPEPエラーチェックを行う
 command! -buffer PEP8 :call ListPep8Errors()
 
 function! ListPep8Errors()
@@ -30,3 +30,6 @@ function! ListPep8Errors()
     redraw!
     cw
 endfunction
+
+" Pydictionの辞書ファイルを設定
+"let g:pydiction_location = '~/.vim/pydiction/complete-dict'
