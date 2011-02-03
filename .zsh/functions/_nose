@@ -1,0 +1,7 @@
+#compdef nosetests
+
+_arguments -- \
+    '*=FILE*:file:_files' \
+    '*=DIR*:directory: _files -/' \
+    '*=WHERE*:directory: _files -/' \
+    '*::directory:_files'
