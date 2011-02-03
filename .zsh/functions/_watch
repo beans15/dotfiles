@@ -4,9 +4,17 @@ _watch()
 {
     _arguments \
         '-d[highlight changes between updates]' \
-        '--differences[highlight changes between updates]' \
+        '--differences=-[highlight changes between updates]:differences:(cumulative )' \
         '-h[print a summary of the options]' \
         '--help[print a summary of the options]' \
         '-n+[seconds to wait between updates]' \
         '--interval=[seconds to wait between updates]' \
+        '-v[print the version number]' \
+        '--version[print the version number]' \
+        '-t[turns off showing the header]' \
+        '--no-title[turns off showing the header]' \
+        '(-):command: _command_names -e' \
+        '*::args:_normal'
 }
+
+_watch "$@"
