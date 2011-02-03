@@ -1,0 +1,198 @@
+#compdef hping2 hping3
+
+_hping()
+{
+    local mode ip basic icmp tcp_udp common
+    basic=(
+        '-h'
+        '--help'
+        '-v'
+        '--version'
+        '-c[packet count]:packet count:'
+        '--count[packet count]:packet count:'
+        '-i[wait seconds between sending each packet (uX for X microseconds)]:interval:(u)'
+        '--interval[wait seconds between sending each packet (uX for X microseconds)]:interval:(u)'
+        '--fast[wait 10000 microseconds between sending each packet]'
+        '-I[interface name]:interface:_net_interfaces'
+        '--interface[interface name]:interface:_net_interfaces'
+        "-n[numeric output only, without symbolic names lookup for host addresses]"
+        '-q'
+        '--quiet'
+        '-V'
+        '--verbose'
+        '-D'
+        '--debug'
+        '-z[bind ctrl+z to ttl (default destination port)]'
+        '--bind[bind ctrl+z to ttl (default destination port)]'
+        '-Z[unbind ctrl+z]'
+        '--unbind[unbind ctrl+z]'
+    )
+
+    mode=(
+        '-0[RAW IP mode]'
+        '--rawip[RAW IP mode]'
+        '-1[ICMP mode]'
+        '--icmp[ICMP mode]'
+        '-2[UDP mode]'
+        '--udp[UDP mode]'
+        '-8[SCAN mode]:scan target:((all\:0-65535 known\:"all the ports listed in /etc/services"))'
+        '--scan[SCAN mode]:scan target:((all\:0-65535 known\:"all the ports listed in /etc/services"))'
+        '-9[listen mode]:signature:'
+        '--listen[listen mode]:signature:'
+    )
+
+    ip=(
+        '-a[spoof source address]:source address:'
+        '--spoof[spoof source address]:source address:'
+        '--rand-dest'
+        '--rand-source'
+        '-t[ttl (default 64)]:ttl:'
+        '--ttl[ttl (default 64)]:ttl:'
+        '-N'
+        '--id'
+        '-W'
+        '--winid'
+        '-r'
+        '--rel'
+        '-f'
+        '--frag'
+        '-x'
+        '--morefrag'
+        '-y'
+        '--dontfrag'
+        '-g:fragment offset:'
+        '--fragoff:fragment offset:'
+        '-m:mtu value:'
+        '--mtu:mtu value:'
+        '-o:tos:'
+        '--tos:tos:'
+        '-G'
+        '--rroute'
+        '--lsrr'
+        '--ssrr'
+        '-H'
+        '--ipproto'
+    )
+
+    icmp=(
+        '-C[icmp type]:icmp type:_icmptype'
+        '--icmptype[icmp type]:icmp type:_icmptype'
+        '-K[icmp code]:icmp code:'
+        '--icmpcode[icmp code]:icmp code:'
+        '--icmp-ipver'
+        '--icmp-iphlen'
+        '--icmp-ipid'
+        '--icmp-ipproto'
+        '--icmp-cksum'
+        '--icmp-ts[send ICMP timestamp requests]'
+        '--icmp-addr[send ICMP address mask requests]'
+
+    )
+
+    tcp_udp=(
+        '-s[base source port]:source port:'
+        '--baseport[base source port]:source port:'
+        '-p[destination port]:destination port:(+ ++)'
+        '--destport[destination port]:destination port:(+ ++)'
+        '-k[keep still source port]'
+        '--keep[keep still source port]'
+        '-w'
+        '--win'
+        '-O'
+        '--tcpoff'
+        '-M'
+        '--tcpseq'
+        '-L'
+        '--tcpack'
+        '-Q'
+        '--seqnum'
+        '-b'
+        '--badcksum'
+        '--tcp-timestamp'
+        '-F[set FIN tcp flag]'
+        '--fin[set FIN tcp flag]'
+        '-S[set SYN tcp flag]'
+        '--syn[set SYN tcp flag]'
+        '-R[set RST tcp flag]'
+        '--rst[set RST tcp flag]'
+        '-P[set PUSH tcp flag]'
+        '--push[set PUSH tcp flag]'
+        '-A[set ACK tcp flag]'
+        '--ack[set ACK tcp flag]'
+        '-U[set URG tcp flag]'
+        '--urg[set URG tcp flag]'
+        '-X[set Xmas tcp flag]'
+        '--xmas[set Xmas tcp flag]'
+        '-Y[set Ymas tcp flag]'
+        '--ymas[set Ymas tcp flag]'
+    )
+
+    common=(
+        '-d:packet body size:'
+        '--data:packet body size:'
+        '-E:filename:_files'
+        '--file:filename:_files'
+        '-e:signature:'
+        '--sign:signature:'
+        '-j'
+        '--dump'
+        '-J'
+        '--print'
+        '-B'
+        '--safe'
+        '-u'
+        '--end'
+        '-T[traceroute mode]'
+        '--traceroute[traceroute mode]'
+        '--tr-keep-ttl[keep the source TTL fixed, useful to monitor just one hop]'
+        '--tr-stop[exit when receive the first not ICMP in traceroute mode]'
+        '--tr-no-rtt'
+        '--tcpexitcode'
+    )
+
+    case "$service" in
+        hping3)
+            basic=(
+                $basic
+                '--faster[wait 1 microsecond between sending each packet]'
+                "--flood[sent packets as fast as possible. Don't show replies]"
+                '--beep'
+            )
+            ;;
+    esac
+
+    _arguments \
+        $basic \
+        $mode \
+        $ip \
+        $icmp \
+        $tcp_udp \
+        $common \
+        '*::host:_hosts'
+}
+
+(( $+functions[_icmptype()] )) || _icmptype()
+{
+    local _icmptypes
+    _icmptypes=(
+        '0:Echo Reply Message'
+        '3:Destination Unreachable Message'
+        '4:Source Quench Message'
+        '5:Redirect Message'
+        '8:Echo Message'
+        '9:Router Advertisement Message'
+        '10:Router Solicitation Message'
+        '11:Time Exceeded Message'
+        '12:Parameter Problem Message'
+        '13:Timestamp Message'
+        '14:Timestamp Reply Message'
+        '15:Information Request Message'
+        '16:Information Reply Message'
+        '17:Address Mask Request Message'
+        '18:Address Mask Reply Message'
+    )
+
+    _describe -t icmptype 'icmp type' _icmptypes || compadd "$@"
+}
+
+_hping "$@"
