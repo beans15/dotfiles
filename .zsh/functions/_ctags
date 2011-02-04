@@ -1,0 +1,94 @@
+#compdef ctags
+
+_ctags()
+{
+    local args
+    args=(
+        '-a[Append the tags to an existing tag file]:append:(yes no)'
+        '--append=[Append the tags to an existing tag file]:append:(yes no)'
+        '-B[Use backward searching patterns]'
+        '-e[Output tag file for use with Emacs]'
+        '-f[Write tags to specified file]:tag file:_files'
+        '-F[Use forward searching patterns (default)]'
+        '-h[Specify list of file extensions to be treated as include files]:ext list:'
+        '-I[A list of tokens to be specially handled, the command line or the specified file]:token list:_files'
+        '-L[A list of source file names are read from the specified file]:source files:_files'
+        '-n[Equivalent to --excmd=number]'
+        '-N[Equivalent to --excmd=pattern]'
+        '-o[Write tags to specified file]:tag file:_files'
+        '-R[Recurse into directories]'
+        '--recurse=[Recurse into directories]:recurse:(yes no)'
+        '-u[Should tags be sorted (ignore case)]'
+        '--sort=[Should tags be sorted (ignore case)]:sort:(yes no foldcase)'
+        '-V[Enable verbose messages describing actions on each source file]'
+        '--verbose=[Enable verbose messages describing actions on each source file]:verbose:(yes no)'
+        '-x[Print a tabular cross reference file to standard output]'
+        "--etags-include=[Include reference to 'file' in Emacs-style tag file (requires -e)]:etag file:_files"
+        "--exclude=[Exclude files and directories matching 'pattern']:pattern:"
+        '--excmd=[Uses the specified type of EX command to locate tags]:EX command:(number pattern mix)'
+        '--extra=[Include extra tag entries for selected information]:extra tag flags:_extra_flags'
+        '--fields=[Include selected extension fields]:field flags:_field_flags'
+    )
+
+    _arguments $args
+}
+
+_complete_flags()
+{
+    local _current_str _current_flags _base_flags _all_flags
+    _current_str=${words[CURRENT]##*=}
+    for i in {1..${#_current_str}}; do
+        _current_flags=( ${_current_flags} ${_current_str[$i]} )
+    done
+
+    _base_flags=( $@ )
+
+    if [[ -z ${_current_str} ]]; then
+        _base_flags=( ${_base_flags} "+" "-" )
+    fi
+
+    local flag_name
+    for flag in ${_base_flags}; do
+        flag_name="${flag%:*}"
+        if [[ -z ${_current_str[(r)${flag_name}]} ]]; then
+            _all_flags=( ${_all_flags} "${_current_str}$flag" )
+            if [[ ${_current_str} != "+" && ${_current_str} != "-" ]]; then
+                _all_flags=( ${_all_flags} ${_current_str} )
+            fi
+        fi
+    done
+
+    _describe -t extra "extra flags" _all_flags || compadd "$@"
+}
+
+(( $+functions[_extra_flags()] )) || _extra_flags()
+{
+    _flags=(
+        'f:Include an entry for the base file name of every source file'
+        'q:Include an extra class-qualified tag entry for each tag which is a member of a class'
+    )
+
+    _complete_flags ${_flags}
+}
+
+(( $+functions[_field_flags()] )) || _field_flags()
+{
+    _flags=(
+        'a:Access (or export) of class members'
+        'f:File-restricted scoping [enabled]'
+        'i:Inheritance information'
+        'k:Kind of tag as a single letter [enabled]'
+        'K:Kind of tag as full name'
+        'l:Language of source file containing tag'
+        'm:Implementation information'
+        'n:Line number of tag definition'
+        's:Scope of tag definition [enabled]'
+        'S:Signature of routine (e.g. prototype or parameter list)'
+        'z:Include the "kind:" key in kind field'
+        't:Type and name of a variable or typedef as "typeref:" field [enabled]'
+    )
+
+    _complete_flags ${_flags}
+}
+
+_ctags "$@"
