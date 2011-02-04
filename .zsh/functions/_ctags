@@ -1,7 +1,9 @@
-#compdef ctags
+#compdef ctags etags
 
 _ctags()
 {
+    _define_common_languages
+
     local args
     args=(
         '-a[Append the tags to an existing tag file]:append:(yes no)'
@@ -28,6 +30,16 @@ _ctags()
         '--excmd=[Uses the specified type of EX command to locate tags]:EX command:(number pattern mix)'
         '--extra=[Include extra tag entries for selected information]:extra tag flags:_extra_flags'
         '--fields=[Include selected extension fields]:field flags:_field_flags'
+        '--file-scope=[Should tags scoped only for a single file]:file scope:(yes no)'
+        '--filter=[Behave as a filter, reading file names from standard input and writing tags to standard output]:filter:(yes no)'
+        '--filter-terminator=[Specify string to print to stdout following the tags for each file parsed]:terminator:'
+        "--format=[Force output of specified tag file format]:format level:((1\:'the original tag file format' 2\:'a new extended format containing extension fields'))"
+        '--help'
+        '--if0=[Should C code within #if 0 conditional branches be parsed]:#if:(yes no)'
+        '--langdef=[Define a new language to be parsed with regular expressions]:language definition:'
+        '--langmap=[Override default mapping of language to source file extension]:language mapping:'
+        '--language-force=[Force all files to be interpreted using specified language]:language force:_languages'
+        '::target:_files'
     )
 
     _arguments $args
@@ -89,6 +101,49 @@ _complete_flags()
     )
 
     _complete_flags ${_flags}
+}
+
+(( $+functions[_define_common_languages()] )) || _define_common_languages()
+{
+    _common_languages=(
+        'asm'
+        'asp'
+        'awk'
+        'beta'
+        'c'
+        'c++'
+        'c#'
+        'cobol'
+        'eiffel'
+        'erlang'
+        'fortran'
+        'html'
+        'java'
+        'lisp'
+        'lua'
+        'make'
+        'pascal'
+        'perl'
+        'php'
+        'python'
+        'rexx'
+        'ruby'
+        'scheme'
+        'sh'
+        'slang'
+        'sml'
+        'sql'
+        'tcl'
+        'vera'
+        'verilog'
+        'vim'
+        'yacc'
+    )
+}
+
+(( $+functions[_languages()] )) || _languages()
+{
+    compadd "$@" -a -- _common_languages
 }
 
 _ctags "$@"
