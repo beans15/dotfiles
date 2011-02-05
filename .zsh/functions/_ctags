@@ -54,6 +54,11 @@ _ctags()
         '::target:_files'
     )
 
+    # language kinds
+    for lang in ${_common_languages}; do
+        args=( ${args} "--${lang}-kinds=:language kinds:_lang_kinds" )
+    done
+
     _arguments $args
 }
 
@@ -122,49 +127,7 @@ _complete_flags()
 
 (( $+functions[_define_common_languages()] )) || _define_common_languages()
 {
-    _common_languages=(
-        'ant'
-        'asm'
-        'asp'
-        'awk'
-        'basic'
-        'beta'
-        'c'
-        'c++'
-        'c#'
-        'cobol'
-        'dosbatch'
-        'eiffel'
-        'erlang'
-        'flex'
-        'fortran'
-        'html'
-        'java'
-        'javascript'
-        'lisp'
-        'lua'
-        'make'
-        'matlab'
-        'ocaml'
-        'pascal'
-        'perl'
-        'php'
-        'python'
-        'rexx'
-        'ruby'
-        'scheme'
-        'sh'
-        'slang'
-        'sml'
-        'sql'
-        'tcl'
-        'tex'
-        'vera'
-        'verilog'
-        'vhdl'
-        'vim'
-        'yacc'
-    )
+    _common_languages=( $(ctags --list-languages 2> /dev/null | tr '[A-Z]' '[a-z]' | uniq) )
 }
 
 (( $+functions[_update_all_languages()] )) || _update_all_languages()
@@ -261,7 +224,7 @@ _complete_flags()
     if [[ -z ${_current_str[(r)=]} ]]; then
         compadd "$@" -a -Q -S '=/' -- _all_languages
     else
-        if (( ${#_current_str} - ${#_current_str:gs/\///} == 3 )); then
+        if (( ${#_current_str} - ${#_current_str:gs/\///} >= 3 )); then
             local _flags _current_flags _base_flags _flag_name
             _base_flags=(
                 'b:The pattern is interpreted as a Posix basic regular expression'
@@ -288,4 +251,37 @@ _complete_flags()
     fi
 }
 
-_ctags "$@"
+(( $+functions[_lang_kinds()] )) || _lang_kinds()
+{
+    local _current_str _language _base_flags _flags _current_flags
+    _current_str=${words[CURRENT]}
+    _language=${${_current_str#--}%%-*}
+
+    for flag in $(ctags --list-kinds=${_language} 2> /dev/null | uniq | sed -e 's/  /:/' | sed -e 's/ /_/g'); do
+        _base_flags=( ${_base_flags} "${flag:gs/_/ /}" )
+    done
+
+    _current_flags=${_current_str##*=}
+
+    if [[ -z ${_current_flags} ]]; then
+        _flags=( ${_base_flags} '+' '-' )
+    else
+        local _flag_name
+        for flag in ${_base_flags}; do
+            _flag_name=${flag%%:*}
+            if [[ -z ${_current_flags[(r)${_flag_name}]} ]]; then
+                _flags=( ${_flags} ${flag} )
+            fi
+        done
+
+        if [[ ${_current_flags} != '+' && ${_current_flags} != '-' ]]; then
+            _flags=( ${_flags} ' ' )
+        fi
+    fi
+
+    if [[ -z ${_current_flags} ]]; then
+        _describe -t kinds "${_language}-kinds" _flags || compadd "$@"
+    else
+        _describe -t kinds "${_language}-kinds" _flags -Q -P ${_current_flags} || compadd "$@"
+    fi
+}
