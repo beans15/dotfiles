@@ -285,3 +285,5 @@ _complete_flags()
         _describe -t kinds "${_language}-kinds" _flags -Q -P ${_current_flags} || compadd "$@"
     fi
 }
+
+_ctags "$@"
