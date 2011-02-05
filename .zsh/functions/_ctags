@@ -34,11 +34,23 @@ _ctags()
         '--filter=[Behave as a filter, reading file names from standard input and writing tags to standard output]:filter:(yes no)'
         '--filter-terminator=[Specify string to print to stdout following the tags for each file parsed]:terminator:'
         "--format=[Force output of specified tag file format]:format level:((1\:'the original tag file format' 2\:'a new extended format containing extension fields'))"
-        '--help'
+        '--help[Print this option summary]'
         '--if0=[Should C code within #if 0 conditional branches be parsed]:#if:(yes no)'
         '--langdef=[Define a new language to be parsed with regular expressions]:language definition:'
-        '--langmap=[Override default mapping of language to source file extension]:language mapping:'
+        '--langmap=[Override default mapping of language to source file extension]:language mapping:_langmap'
         '--language-force=[Force all files to be interpreted using specified language]:language force:_languages'
+        '--languages=[Restrict files scanned for tags to those mapped to langauges]:languages:_flag_languages'
+        '--license[Print details of software license]'
+        '--line-directives=[Should #line directives be processed?]:line directives:(yes no)'
+        '--links=[Indicate whether symbolic links should be followed]:symlinks:(yes no)'
+        '--list-kinds=[Output a list of all tag kinds for specified language or all]:list kinds:_all_or_languages'
+        '--list-languages[Output list of supported languages]'
+        '--list-maps=[Output list of language mappings]:list maps:_all_or_languages'
+        '--options=[Specify file from which command line options should be read]:command line files:_files'
+        '--regex--[Define regular expression for locating tags in specific language]:regex:_regex_lang'
+        '--tag-relative=[Should paths be relative to location of tag file?]:tag relative:(yes no)'
+        '--totals=[Print statistics about source and tag files]:totals:(yes no)'
+        '--version[Print version identifier to standard output]'
         '::target:_files'
     )
 
@@ -59,18 +71,23 @@ _complete_flags()
         _base_flags=( ${_base_flags} "+" "-" )
     fi
 
-    local flag_name
+    local _flag_name
     for flag in ${_base_flags}; do
-        flag_name="${flag%:*}"
-        if [[ -z ${_current_str[(r)${flag_name}]} ]]; then
-            _all_flags=( ${_all_flags} "${_current_str}$flag" )
-            if [[ ${_current_str} != "+" && ${_current_str} != "-" ]]; then
-                _all_flags=( ${_all_flags} ${_current_str} )
-            fi
+        _flag_name=${flag%:*}
+        if [[ -z ${_current_str[(r)${_flag_name}]} ]]; then
+            _all_flags=( ${_all_flags} ${flag} )
         fi
     done
 
-    _describe -t extra "extra flags" _all_flags || compadd "$@"
+    if [[ -n ${_current_str} ]]; then
+        _all_flags=( ${_all_flags} ' ' )
+    fi
+
+    if [[ -z ${_current_str} ]]; then
+        _describe -t flags "flags" _all_flags || compadd "$@"
+    else
+        _describe -t flags "flags" _all_flags -Q -P ${_current_str} || compadd "$@"
+    fi
 }
 
 (( $+functions[_extra_flags()] )) || _extra_flags()
@@ -106,22 +123,29 @@ _complete_flags()
 (( $+functions[_define_common_languages()] )) || _define_common_languages()
 {
     _common_languages=(
+        'ant'
         'asm'
         'asp'
         'awk'
+        'basic'
         'beta'
         'c'
         'c++'
         'c#'
         'cobol'
+        'dosbatch'
         'eiffel'
         'erlang'
+        'flex'
         'fortran'
         'html'
         'java'
+        'javascript'
         'lisp'
         'lua'
         'make'
+        'matlab'
+        'ocaml'
         'pascal'
         'perl'
         'php'
@@ -134,16 +158,134 @@ _complete_flags()
         'sml'
         'sql'
         'tcl'
+        'tex'
         'vera'
         'verilog'
+        'vhdl'
         'vim'
         'yacc'
     )
 }
 
+(( $+functions[_update_all_languages()] )) || _update_all_languages()
+{
+    _all_languages=( ${_common_languages} )
+
+    if [[ -n ${words[(r)--langdef=*]} ]]; then
+        local _lang
+        _lang=${words[(r)--langdef=*]}
+        _all_languages=( ${_common_languages} ${_lang##*=} )
+    fi
+}
+
 (( $+functions[_languages()] )) || _languages()
 {
-    compadd "$@" -a -- _common_languages
+    _update_all_languages
+
+    compadd "$@" -a -Q -- _all_languages
+}
+
+(( $+functions[_langmap()] )) || _langmap()
+{
+    _update_all_languages
+
+    local _current_str
+    _current_str=${words[CURRENT]##*=}
+
+    local _prefix
+    _prefix="${_current_str%,*}"
+
+    if [[ ${_prefix} != ${_current_str} ]]; then
+        _prefix="${_prefix},"
+
+        compadd "$@" -a -Q -P ${_prefix} -S ":" -- _all_languages
+    else
+        compadd "$@" -a -Q -S ":" -- _all_languages
+    fi
+}
+
+(( $+functions[_flag_languages()] )) || _flag_languages()
+{
+    _update_all_languages
+
+    local _current_str
+    _current_str=${words[CURRENT]##*=}
+
+    if [[ -z ${_current_str} ]]; then
+        local _languages
+        _languages=( '+' '-' ${_all_languages} )
+
+        compadd "$@" -a -- _languages
+    else
+        local _prefix
+        _prefix="${_current_str%,*}"
+        if [[ ${_prefix} != ${_current_str} ]]; then
+            _prefix="${_prefix},"
+        else
+            if [[ ${_current_str[1]} == '+' ]]; then
+                _prefix='+'
+            elif [[ ${_current_str[1]} == '-' ]]; then
+                _prefix='-'
+            else
+                _prefix=""
+            fi
+        fi
+
+        if [[ -z ${_prefix} ]]; then
+            compadd "$@" -Q -S "" -a -- _all_languages
+        else
+            compadd "$@" -Q -P ${_prefix} -S "" -a -- _all_languages
+        fi
+    fi
+}
+
+(( $+functions[_all_or_languages()] )) || _all_or_languages()
+{
+    _update_all_languages
+
+    local _languages
+    _languages=( 'all' ${_all_languages} )
+
+    compadd "$@" -a -Q -- _languages
+}
+
+(( $+functions[_regex_lang()] )) || _regex_lang()
+{
+    _update_all_languages
+
+    local _current_str
+    _current_str=${words[CURRENT]}
+
+    local _prefix
+
+    if [[ -z ${_current_str[(r)=]} ]]; then
+        compadd "$@" -a -Q -S '=/' -- _all_languages
+    else
+        if (( ${#_current_str} - ${#_current_str:gs/\///} == 3 )); then
+            local _flags _current_flags _base_flags _flag_name
+            _base_flags=(
+                'b:The pattern is interpreted as a Posix basic regular expression'
+                'e:The pattern is interpreted as a Posix extended regular expression'
+                'i:The regular expression is to be applied in a case-insensitive manner'
+            )
+
+            _current_flags=${_current_str##*/}
+            for flag in ${_base_flags}; do
+                _flag_name=${flag%%:*}
+                if [[ -z ${_current_flags[(r)${_flag_name}]} ]]; then
+                    _flags=( ${_flags} ${flag} )
+                fi
+            done
+
+            if [[ -n ${_current_flags} ]]; then
+                _flags=( ${_flags} ' ' )
+            fi
+
+            _prefix="${_current_str#--regex-}"
+
+            _describe -t regflags "regex flags" _flags -Q -P ${_prefix} || compadd "$@"
+        fi
+    fi
 }
 
 _ctags "$@"
