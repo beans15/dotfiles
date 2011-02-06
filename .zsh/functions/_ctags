@@ -47,7 +47,7 @@ _ctags()
         '--list-languages[Output list of supported languages]'
         '--list-maps=[Output list of language mappings]:list maps:_all_or_languages'
         '--options=[Specify file from which command line options should be read]:command line files:_files'
-        '--regex--[Define regular expression for locating tags in specific language]:regex:_regex_lang'
+        '*--regex--[Define regular expression for locating tags in specific language]:regex:_regex_lang'
         '--tag-relative=[Should paths be relative to location of tag file?]:tag relative:(yes no)'
         '--totals=[Print statistics about source and tag files]:totals:(yes no)'
         '--version[Print version identifier to standard output]'
