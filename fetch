@@ -3,5 +3,5 @@
 # Fetch the setting files from local machine and copy them to here.
 
 cat .exclude .exclude-local 2> /dev/null > .exclude-all
-rsync -auzvr --delete $* --files-from=.files --exclude-from=.exclude-all ~/ .
+rsync -auzvrL --delete $* --files-from=.files --exclude-from=.exclude-all ~/ .
 rm .exclude-all
