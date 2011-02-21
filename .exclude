@@ -21,4 +21,6 @@ Thumbs.db
 .DS_Store
 
 .vim/tags/*-tags
+.vim/bundle/vimproc/autoload/proc.so
+
 .zsh/cache/*
