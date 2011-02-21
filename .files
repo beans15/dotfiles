@@ -4,3 +4,4 @@
 .zshrc
 .virtualenvs/postactivate
 .virtualenvs/postdeactivate
+.gitconfig
