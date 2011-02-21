@@ -3,3 +3,8 @@
 	status = auto
 	branch = auto
 	interactive = auto
+	ui = auto
+[core]
+	editor = vim
+[alias]
+	show-graph = log --graph --abbrev-commit --pretty=oneline --all
