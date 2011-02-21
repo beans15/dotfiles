@@ -13,12 +13,12 @@ path = os.path.dirname(full_path)
 project_name = os.path.basename(full_path)
 sys.path.append(path)
 
-prev_environ = os.environ['DJANGO_SETTINGS_MODULE']
+#prev_environ = os.environ['DJANGO_SETTINGS_MODULE']
 os.environ['DJANGO_SETTINGS_MODULE'] = project_name + '.settings'
 
 from django import db
 
-os.environ['DJANGO_SETTINGS_MODULE'] = prev_environ
+#os.environ['DJANGO_SETTINGS_MODULE'] = prev_environ
 EOF
 endfunction
 

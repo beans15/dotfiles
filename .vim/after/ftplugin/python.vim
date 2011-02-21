@@ -1,8 +1,10 @@
-" neocomplcacheを無効にする
-"NeoComplCacheEnable
-"NeoComplCacheCachingBuffer
-"NeoComplCacheCachingSyntax
-"NeoComplCacheCachingTags
+" neocomplcacheを有効にする
+NeoComplCacheEnable
+NeoComplCacheCachingBuffer
+NeoComplCacheCachingSyntax
+NeoComplCacheCachingTags
+
+" 辞書ファイルを設定
 
 setl tabstop=4
 setl shiftwidth=4
@@ -16,6 +18,10 @@ setl tags+=~/.vim/tags/python-tags
 setl formatoptions=tcq
 " 自動折り返しの幅をPEP8に準拠させる
 setl tw=79
+" Omni補完をpythoncompleteに
+setl omnifunc=pythoncomplete#Complete
+" Omni補完をPySmellに
+"setl omnifunc=pysmell#Complete
 
 " :PEP8で現在のバッファのPEPエラーチェックを行う
 command! -buffer PEP8 :call ListPep8Errors()
