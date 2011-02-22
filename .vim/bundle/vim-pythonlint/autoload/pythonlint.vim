@@ -32,6 +32,7 @@ endfunction
 
 function! pythonlint#pep8()
   set lazyredraw
+  write
   let old_make_prg = &makeprg
   let &makeprg = 'pep8 --repeat'
   silent! make! %
