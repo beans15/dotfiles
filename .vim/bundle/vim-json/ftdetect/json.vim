@@ -1,2 +1,2 @@
 " JSON
-au BufNewFile,BufRead *.json setf json
+au BufNewFile,BufRead *.json set filetype=json
