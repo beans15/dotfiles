@@ -1,6 +1,3 @@
-" neocomplcacheを無効にする
-let g:neocomplcache_enable_at_startup = 0
-
 setl tabstop=4
 setl shiftwidth=4
 setl softtabstop=4
