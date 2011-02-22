@@ -107,18 +107,45 @@ inoremap <F1> <ESC>
 "------------------------------------------------
 " プラグインの設定
 "------------------------------------------------
+"------------------------------
+" 基本設定
+"------------------------------
+" bundle配下のプラグインをロードする
+" 一時的にファイルタイプを無効に
+filetype off
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+set helpfile=$VIMRUNTIME/doc/help.txt
 " ファイルタイプによるプラグインとインデントを有効にする
 filetype plugin indent on
 
-" VimShellのプロンプトを設定
-let g:VimShell_UserPrompt = 'fnamemodify(getcwd(), ":~")'
-let g:VimShell_RightPrompt = 'vimshell#vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
+"------------------------------
+" VimShellの設定
+"------------------------------
+" プロンプトを設定
+"let g:VimShell_UserPrompt = 'fnamemodify(getcwd(), ":~")'
+"let g:VimShell_RightPrompt = 'vimshell#vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
 
-" neocomplcacheの補完で、大文字小文字が混じっている場合は、
-" 大文字小文字を区別する
-let g:NeoComplCache_SmartCase=1
+"------------------------------
+" neocomplcacheの設定
+"------------------------------
+" 起動時に有効にする
+let g:neocomplcache_enable_at_startup = 1
+" 大文字小文字が混じっている場合は、大文字小文字を区別する
+let g:neocomplcache_enable_smart_case = 1
+" キーワードの最小長さを3文字に
+let g:neocomplcache_min_syntax_length = 3
+" 補完候補の先頭を選択状態に
+let g:neocomplcache_enable_auto_select = 1
+" 辞書の設定を初期化
+let g:neocomplcache_dictionary_filetype_lists = {
+    \ 'default': ''
+    \ }
 
-" netrwで非表示にするファイルパターンを設定
+"------------------------------
+" netrwの設定
+"------------------------------
+" 非表示にするファイルパターンを設定
 let g:netrw_list_hide = '.*\.pyc,.*\.pyo'
 
 "------------------------------------------------
@@ -130,3 +157,11 @@ function! GetGitBranch()
   let branch = substitute(ret, '\v^.*\* (.{-1,})\r*\n*$', '[\1]', '')
   return branch
 endfunction
+
+"------------------------------------------------
+" 環境依存の設定
+"------------------------------------------------
+" 環境ごとの設定は.vimrc.mineに記述する
+if filereadable(expand('~/.vimrc.mine'))
+    source ~/.vimrc.mine
+endif
