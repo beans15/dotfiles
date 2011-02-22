@@ -136,7 +136,7 @@ let g:neocomplcache_enable_smart_case = 1
 " キーワードの最小長さを3文字に
 let g:neocomplcache_min_syntax_length = 3
 " 補完候補の先頭を選択状態に
-let g:neocomplcache_enable_auto_select = 1
+"let g:neocomplcache_enable_auto_select = 1
 " 辞書の設定を初期化
 let g:neocomplcache_dictionary_filetype_lists = {
     \ 'default': ''
