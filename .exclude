@@ -22,5 +22,6 @@ Thumbs.db
 
 .vim/tags/*-tags
 .vim/bundle/vimproc/autoload/proc.so
+.vim/.netrw*
 
 .zsh/cache/*
