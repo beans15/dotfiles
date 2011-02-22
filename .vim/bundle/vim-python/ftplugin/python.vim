@@ -17,16 +17,7 @@ setl omnifunc=pythoncomplete#Complete
 " Omni補完をPySmellに
 "setl omnifunc=pysmell#Complete
 
-" :PEP8で現在のバッファのPEPエラーチェックを行う
-command! -buffer PEP8 :call ListPep8Errors()
-
-function! ListPep8Errors()
-    set lazyredraw
-    let old_make_prg = &makeprg
-    let &makeprg = 'pep8 --repeat'
-    silent! make! %
-    let &makeprg = old_make_prg
-    set nolazyredraw
-    redraw!
-    cw
-endfunction
+" PEP8で構文チェックを行う
+nnoremap ,l :call pythonlint#pep8()<CR>
+" PyLintで構文チェックを行う
+"nnoremap ,l :call pythonlint#pylint()<CR>
