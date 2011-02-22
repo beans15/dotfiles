@@ -4,6 +4,7 @@
 *.swo
 *.pyc
 *.pyo
+*.zwc
 Thumbs.db
 .DS_Store
 .exclude-local
