@@ -43,12 +43,12 @@ let g:Tex_IgnoredWarnings =
   \"Float too large for page"
 let g:Tex_IgnoreLevel = 14
 
-set expandtab
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set autoindent
-set fenc=cp932
+setl expandtab
+setl tabstop=2
+setl shiftwidth=2
+setl softtabstop=2
+setl autoindent
+setl fenc=cp932
 
 
 if !exists('s:initLatexSuite')
