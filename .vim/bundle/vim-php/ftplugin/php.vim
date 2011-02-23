@@ -4,4 +4,4 @@ setl tw=120
 setl autoindent
 
 " PHPのlintで構文チェック
-nnoremap ,l :call phplint#lint()<CR>
+nnoremap <buffer> ,l :call phplint#lint()<CR>
