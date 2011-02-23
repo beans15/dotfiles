@@ -1,14 +1,10 @@
 function! phplint#lint()
-  set lazyredraw
   write
-  let old_make_prg = &makeprg
+  let filename = expand('%')
   let old_errorformat = &errorformat
-  let &makeprg = 'php -l'
   let &errorformat = '%m in %f on line %l'
-  silent! make! %
-  let &makeprg = old_make_prg
+  silent! cex system('php -l '.filename.' 2> /dev/null')
   let &errorformat = old_errorformat
-  set nolazyredraw
-  redraw!
   cw
+  let w:quickfix_title = 'php -l '.filename
 endfunction

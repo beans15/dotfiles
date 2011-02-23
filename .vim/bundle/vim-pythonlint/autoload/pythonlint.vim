@@ -15,29 +15,21 @@ function! pythonlint#pylint()
     return
   endif
 
-  set lazyredraw
   write
-  let old_make_prg = &makeprg
+  let filename = expand('%')
   let old_errorformat = &errorformat
-  let &makeprg = 'pylint --rcfile='.s:pylintrc_file
   let &errorformat = '%t: \*%l:%m'
-  silent! make! %
-  let &makeprg = old_make_prg
+  silent! cex system('pylint --rcfile='.s:pylintrc_file.' '.filename.' 2> /dev/null')
   let &errorformat = old_errorformat
-  set nolazyredraw
-  redraw!
   cw
+  let w:quickfix_title = 'pylint --rcfile='.s:pylintrc_file.' '.filename
 endfunction
 
 
 function! pythonlint#pep8()
-  set lazyredraw
   write
-  let old_make_prg = &makeprg
-  let &makeprg = 'pep8 --repeat'
-  silent! make! %
-  let &makeprg = old_make_prg
-  set nolazyredraw
-  redraw!
+  let filename = expand('%')
+  silent! cex system('pep8 --repeat '.filename.' 2> /dev/null')
   cw
+  let w:quickfix_title = 'pep8 --repeat '.filename
 endfunction
