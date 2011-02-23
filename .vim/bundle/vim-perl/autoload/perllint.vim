@@ -1,5 +1,7 @@
 function! perllint#lint()
-  write
+  if &modified
+    write
+  endif
 
   let filename = expand('%')
 

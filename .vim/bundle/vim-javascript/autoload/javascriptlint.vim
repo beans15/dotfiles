@@ -1,5 +1,8 @@
 function! javascriptlint#lint()
-  write
+  if &modified
+    write
+  endif
+
   let filename = expand('%')
 
   let old_errorformat = &errorformat

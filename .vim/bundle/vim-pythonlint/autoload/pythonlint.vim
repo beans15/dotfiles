@@ -15,7 +15,10 @@ function! pythonlint#pylint()
     return
   endif
 
-  write
+  if &modified
+    write
+  endif
+
   let filename = expand('%')
   let old_errorformat = &errorformat
   let &errorformat = '%t: \*%l:%m'
@@ -27,7 +30,10 @@ endfunction
 
 
 function! pythonlint#pep8()
-  write
+  if &modified
+    write
+  endif
+
   let filename = expand('%')
   silent! cex system('pep8 --repeat '.filename.' 2> /dev/null')
   cw
