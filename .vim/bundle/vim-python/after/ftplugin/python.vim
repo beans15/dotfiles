@@ -15,6 +15,6 @@ setl omnifunc=pythoncomplete#Complete
 "setl omnifunc=pysmell#Complete
 
 " PEP8で構文チェックを行う
-nnoremap <buffer> ,l :call pythonlint#pep8()<CR>
+nnoremap <buffer> <Leader>L :call pythonlint#pep8()<CR>
 " PyLintで構文チェックを行う
-"nnoremap <buffer> ,l :call pythonlint#pylint()<CR>
+"nnoremap <buffer> <Leader>L :call pythonlint#pylint()<CR>

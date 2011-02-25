@@ -1,4 +1,4 @@
 setl autoindent
 
 " javascript-lintで構文チェック
-nnoremap <buffer> ,l :call javascriptlint#lint()<CR>
+nnoremap <buffer> <Leader>L :call javascriptlint#lint()<CR>
