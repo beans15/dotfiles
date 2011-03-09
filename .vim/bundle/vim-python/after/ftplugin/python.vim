@@ -18,3 +18,14 @@ setl omnifunc=pythoncomplete#Complete
 nnoremap <buffer> <Leader>L :call pythonlint#pep8()<CR>
 " PyLintで構文チェックを行う
 "nnoremap <buffer> <Leader>L :call pythonlint#pylint()<CR>
+
+" Pythonのパスをpathに追加
+if has('python')
+  python <<EOM
+import sys
+import vim
+
+pathes = ','.join(sys.path)
+vim.command('setl path+=%s' % pathes)
+EOM
+endif
