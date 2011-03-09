@@ -19,7 +19,8 @@ _shred()
         '-z[add a final overwrite with zeros to hide shredding]' \
         '--zero[add a final overwrite with zeros to hide shredding]' \
         '--help[display this help and exit]' \
-        '--version[output version information and exit]'
+        '--version[output version information and exit]' \
+        '::files:_files'
 }
 
 _shred "$@"
