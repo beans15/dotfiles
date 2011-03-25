@@ -21,6 +21,8 @@ set textwidth=80
 set backspace=2
 " ファイルを開いたときに、自動的にcdする
 set autochdir
+" 外部変更をキャッチする
+set autoread
 
 "------------------------------------------------
 " 検索関連の設定
