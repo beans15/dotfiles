@@ -109,11 +109,11 @@ inoremap <F1> <ESC>
 "------------------------------------------------
 " オートコマンド
 "------------------------------------------------
-" 外部変更のチェック
-augroup vimrc-checktime
-  autocmd!
-  autocmd CursorMoved * checktime
-augroup END
+"" 外部変更のチェック
+"augroup vimrc-checktime
+"  autocmd!
+"  autocmd CursorMoved * checktime
+"augroup END
 
 "------------------------------------------------
 " プラグインの設定
