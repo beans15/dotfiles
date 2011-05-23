@@ -162,12 +162,12 @@ let g:netrw_list_hide = '.*\.pyc,.*\.pyo'
 "------------------------------------------------
 " ユーザー定義関数
 "------------------------------------------------
-function! GetGitBranch()
-  " 現在のGitのブランチを取得する
-  let ret = system('git branch 2> /dev/null')
-  let branch = substitute(ret, '\v^.*\* (.{-1,})\r*\n*$', '[\1]', '')
-  return branch
-endfunction
+"function! GetGitBranch()
+"  " 現在のGitのブランチを取得する
+"  let ret = system('git branch 2> /dev/null')
+"  let branch = substitute(ret, '\v^.*\* (.{-1,})\r*\n*$', '[\1]', '')
+"  return branch
+"endfunction
 
 "------------------------------------------------
 " 環境依存の設定
