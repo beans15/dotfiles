@@ -5,3 +5,5 @@
 .virtualenvs/postactivate
 .virtualenvs/postdeactivate
 .gitconfig
+.loginhook
+.logouthook

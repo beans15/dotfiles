@@ -1,0 +1,10 @@
+#!/bin/sh
+
+rsync -auzrLK --delete --exclude-from=$HOME/.ramdisk_exclude /Volumes/ramdisk/ ~/.ramdisk/
+
+RAM_DISK=`mount | grep '/Volumes/ramdisk' | awk '{printf $1}'`
+
+hdiutil unmount /Volumes/ramdisk
+hdiutil detach $RAM_DISK
+
+unset RAM_DISK

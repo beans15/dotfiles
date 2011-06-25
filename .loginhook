@@ -1,0 +1,4 @@
+#!/bin/sh
+
+hdiutil attach -nomount ram://524288 | xargs diskutil eraseDisk HFS+ ramdisk
+sh -c "rsync -auzrKL --exclude-from=/Users/$1/.ramdisk_exclude /Users/$1/.ramdisk/ /Volumes/ramdisk/; growlnotify -s -t 'ramdisk' -m 'RAMディスク構築完了'" &
