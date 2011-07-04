@@ -9,3 +9,4 @@ Thumbs.db
 .DS_Store
 .exclude-local
 .exclude-all
+.vim/bundle/

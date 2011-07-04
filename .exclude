@@ -21,6 +21,7 @@
 Thumbs.db
 .DS_Store
 
+.vim/bundle/
 .vim/tags/*-tags
 .vim/off/vimproc/autoload/proc.so
 .vim/.netrw*
