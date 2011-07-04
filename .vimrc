@@ -121,21 +121,31 @@ inoremap <F1> <ESC>
 "------------------------------
 " 基本設定
 "------------------------------
-" bundle配下のプラグインをロードする
+" Vundleでの管理を行う
 " 一時的にファイルタイプを無効に
 filetype off
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
-set helpfile=$VIMRUNTIME/doc/help.txt
-" ファイルタイプによるプラグインとインデントを有効にする
-filetype plugin indent on
 
-"------------------------------
-" VimShellの設定
-"------------------------------
-" プロンプトを設定
-"let g:VimShell_UserPrompt = 'fnamemodify(getcwd(), ":~")'
-"let g:VimShell_RightPrompt = 'vimshell#vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
+" Vundleへのパスを追加
+set rtp+=~/.vim/vundle.git/
+" Vundleを初期化
+call vundle#rc()
+
+" 拡張機能をロード
+Bundle 'neocomplcache'
+Bundle 'quickrun'
+Bundle 'ref.vim'
+Bundle 'surround.vim'
+
+" 自分用の設定
+Bundle 'beans15/surround-hack'
+Bundle 'beans15/vim-bin'
+Bundle 'beans15/vim-latex'
+Bundle 'beans15/vim-lint'
+Bundle 'beans15/vim-mine'
+Bundle 'beans15/vim-qf'
+
+" ファイルタイプを有効にする
+filetype plugin indent on
 
 "------------------------------
 " neocomplcacheの設定
