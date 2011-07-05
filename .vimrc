@@ -135,14 +135,13 @@ Bundle 'neocomplcache'
 Bundle 'quickrun'
 Bundle 'ref.vim'
 Bundle 'surround.vim'
+Bundle 'ZenCoding.vim'
 
 " 自分用の設定
-Bundle 'beans15/surround-hack'
 Bundle 'beans15/vim-bin'
 Bundle 'beans15/vim-latex'
 Bundle 'beans15/vim-lint'
 Bundle 'beans15/vim-mine'
-Bundle 'beans15/vim-qf'
 
 " ファイルタイプを有効にする
 filetype plugin indent on
@@ -158,10 +157,21 @@ let g:neocomplcache_enable_smart_case = 1
 let g:neocomplcache_min_syntax_length = 3
 " 補完候補の先頭を選択状態に
 "let g:neocomplcache_enable_auto_select = 1
+" スニペットのディレクトリを指定
+let g:neocomplcache_snippets_dir = expand('~/.vim/bundle/vim-mine/snippets')
+" スニペット補完のキーバインド
+imap <silent><C-l> <Plug>(neocomplcache_snippets_expand)
+smap <silent><C-l> <Plug>(neocomplcache_snippets_expand)
 " 辞書の設定を初期化
 let g:neocomplcache_dictionary_filetype_lists = {
     \ 'default': ''
     \ }
+
+"------------------------------
+" ZenCodingの設定
+"------------------------------
+" 展開キー
+" let g:user_zen_expandabbr_key = '<C-e>'
 
 "------------------------------
 " netrwの設定
