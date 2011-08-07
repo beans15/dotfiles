@@ -131,24 +131,11 @@ set rtp+=~/.vim/vundle.git/
 call vundle#rc()
 
 " 拡張機能をロード
+"------------------------------
+" neocomplcache
+"------------------------------
 Bundle 'neocomplcache'
-Bundle 'quickrun'
-Bundle 'ref.vim'
-Bundle 'surround.vim'
-Bundle 'ZenCoding.vim'
 
-" 自分用の設定
-Bundle 'beans15/vim-bin'
-Bundle 'beans15/vim-latex'
-Bundle 'beans15/vim-lint'
-Bundle 'beans15/vim-mine'
-
-" ファイルタイプを有効にする
-filetype plugin indent on
-
-"------------------------------
-" neocomplcacheの設定
-"------------------------------
 " 起動時に有効にする
 let g:neocomplcache_enable_at_startup = 1
 " 大文字小文字が混じっている場合は、大文字小文字を区別する
@@ -168,10 +155,33 @@ let g:neocomplcache_dictionary_filetype_lists = {
     \ }
 
 "------------------------------
-" ZenCodingの設定
+" quickrun
 "------------------------------
+Bundle 'quickrun'
+
+"------------------------------
+" ref.vim
+"------------------------------
+Bundle 'ref.vim'
+
+"------------------------------
+" surround
+"------------------------------
+Bundle 'surround.vim'
+
+"------------------------------
+" ZenCoding
+"------------------------------
+Bundle 'ZenCoding.vim'
+
 " 展開キー
 " let g:user_zen_expandabbr_key = '<C-e>'
+
+" 自分用の設定
+Bundle 'beans15/vim-latex'
+
+" ファイルタイプを有効にする
+filetype plugin indent on
 
 "------------------------------
 " netrwの設定

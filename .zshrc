@@ -1,4 +1,5 @@
 #!/opt/local/bin/zsh
+# vim: ft=zsh
 
 #------------------------------------------------
 # エイリアス
@@ -161,4 +162,4 @@ function precmd() {
 # 環境依存の設定
 #------------------------------------------------
 # 特定環境用のzshrc
-[[ -f ~/.zshrc.mine ]] && source ~/.zshrc.mine
+[[ -f $HOME/.zshrc.mine ]] && source $HOME/.zshrc.mine

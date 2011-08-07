@@ -1,0 +1,16 @@
+snippet     ifmain
+abbr        if __name__ == '__main__': ...
+prev_word   '^'
+	if __name__ == '__main__':
+		${1:pass}
+
+snippet     shebang
+abbr        #!/usr/bin/env python
+prev_word   '^'
+	#!/usr/bin/env python
+	${2}
+
+snippet     coding
+abbr        # -*- coding: ... -*-
+	# -*- coding: ${1:utf-8} -*-
+	${2}
