@@ -82,6 +82,8 @@ set cmdheight=1
 set ambiwidth=double
 " マーカーに基づいて折りたたむ
 set foldmethod=marker
+" 最初は折りたたまない
+set foldlevelstart=1000
 
 "------------------------------------------------
 " シンタックス
@@ -177,11 +179,19 @@ Bundle 'ZenCoding.vim'
 " 展開キー
 " let g:user_zen_expandabbr_key = '<C-e>'
 
+"------------------------------
+" python_fold
+"------------------------------
+Bundle 'python_fold'
+
+"------------------------------
 " 自分用の設定
+"------------------------------
 Bundle 'beans15/vim-latex'
 
 " ファイルタイプを有効にする
 filetype plugin indent on
+filetype detect
 
 "------------------------------
 " netrwの設定
