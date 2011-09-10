@@ -8,3 +8,6 @@
 	editor = vim
 [alias]
 	show-graph = log --graph --abbrev-commit --pretty=oneline --all
+[user]
+	name = beans15
+	email = beans15@dummy.com
