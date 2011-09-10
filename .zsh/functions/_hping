@@ -1,4 +1,4 @@
-#compdef hping2 hping3
+#compdef hping hping2 hping3
 
 _hping()
 {
