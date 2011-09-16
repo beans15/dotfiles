@@ -147,7 +147,7 @@ let g:neocomplcache_min_syntax_length = 3
 " 補完候補の先頭を選択状態に
 "let g:neocomplcache_enable_auto_select = 1
 " スニペットのディレクトリを指定
-let g:neocomplcache_snippets_dir = expand('~/.vim/bundle/vim-mine/snippets')
+let g:neocomplcache_snippets_dir = expand('~/.vim/snippets')
 " スニペット補完のキーバインド
 imap <silent><C-l> <Plug>(neocomplcache_snippets_expand)
 smap <silent><C-l> <Plug>(neocomplcache_snippets_expand)
