@@ -35,7 +35,10 @@ function! pythonlint#pep8()
   endif
 
   let filename = expand('%')
+  let old_errorformat = &errorformat
+  let &errorformat = '%f:%l:%c \*%m'
   silent! cex system('pep8 --repeat '.filename.' 2> /dev/null')
+  let &errorformat = old_errorformat
   cw
   let w:quickfix_title = 'pep8 --repeat '.filename
 endfunction
