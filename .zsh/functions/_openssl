@@ -1,0 +1,172 @@
+#compdef openssl
+
+_openssl()
+{
+    _arguments \
+        '*::command:_openssl_command'
+}
+
+(( $+functions[_openssl_command()] )) || _openssl_command()
+{
+    local _commands _pseudo_commands _standard_commands _digest_commands _encoding_cipher_commands
+
+    _pseudo_commands=(
+        'list-standard-commands:output of the names of all standard commands.'
+        'list-message-digest-commands:output of the names of all message digest commands.'
+        'list-cipher-commands:output of the names of all cipher commands.'
+    )
+
+    _standard_commands=(
+        "asn1parse:Parse an ASN.1 sequence"
+        "ca:Certificate Authority (CA) Management"
+        "ciphers:Cipher Suite Description Determination"
+        "crl:Certificate Revocation List (CRL) Management"
+        "crl2pkcs7:CRL to PKCS#7 Conversion"
+        "dgst:Message Digest Calculation"
+        "dh:Diffie-Hellman Parameter Management"
+        "dsa:DSA Data Management"
+        "dsaparam:DSA Parameter Generation"
+        "enc:Encoding with Ciphers"
+        "errstr:Error Number to Error String Conversion"
+        "dhparam:Generation and Management of Diffie-Hellman Parameters"
+        "gendh:Generation of Diffie-Hellman Parameters.  Obsoleted by dhparam"
+        "gendsa:Generation of DSA Parameters"
+        "genrsa:Generation of RSA Parameters"
+        "ocsp:Online Certificate Status Protocol utility"
+        "passwd:Generation of hashed passwords"
+        "pkcs12:PKCS#12 Data Management"
+        "pkcs7:PKCS#7 Data Management"
+        "rand:Generate pseudo-random bytes"
+        "req:X.509 Certificate Signing Request (CSR) Management"
+        "rsa:RSA Data Management"
+        "rsautl:RSA utility for signing, verification, encryption, and decryption"
+        "s_client:Implements a generic SSL/TLS client which can establish a transparent connection to a remote server speaking SSL/TLS"
+        "s_server:Implements a generic SSL/TLS server which accepts connections from remote clients speaking SSL/TLS"
+        "s_time:SSL Connection Timer"
+        "sess_id:SSL Session Data Management"
+        "smime:S/MIME mail processing"
+        "speed:Algorithm Speed Measurement"
+        "verify:X.509 Certificate Verification"
+        "version:OpenSSL Version Information"
+        "x509:X.509 Certificate Data Management"
+    )
+
+    _openssl_message_digest_commands
+    _openssl_cipher_commands
+
+    _commands=( ${_pseudo_commands} ${_standard_commands} ${_message_digest_commands} ${_cipher_commands} )
+
+    # Display openssl commands.
+    if (( CURRENT == 1 )); then
+        _describe -t commands 'openssl commands' _commands || compadd "$@"
+    else
+        local curcontext="${curcontext}"
+
+        # Get command name if inputted command is included in `_commands`;
+        # otherwise empty value
+        cmd="${_commands[(r)$words[1]:*]%%:*}"
+
+        if [[ -n $cmd ]]; then
+            curcontext="${curcontext%:*:*}:openssl-${cmd}:"
+
+            local update_policy
+            zstyle -s ":completion:${curcontext}:" cache-policy update_policy
+            if [[ -z "${update_policy}" ]]; then
+                zstyle ":completion:${curcontext}:" cache-policy _openssl_caching_policy
+            fi
+
+            _call_function ret _openssl_$cmd || _message "no more arguments"
+
+            return ret
+        else
+            _message "unknown openssl command: $words[1]"
+        fi
+    fi
+}
+
+_openssl_message_digest_commands()
+{
+    _message_digest_commands=( $(openssl list-message-digest-commands 2> /dev/null) )
+}
+
+_openssl_cipher_commands()
+{
+    _cipher_commands=( $(openssl list-cipher-commands 2> /dev/null) )
+}
+
+_openssl_caching_policy()
+{
+    return 1
+}
+
+_openssl_pass_phrase_args()
+{
+    local arg
+    arg="${curcontext##*:}"
+
+    local _current_word _current_option expl
+    _current_word=${words[CURRENT]}
+    _current_option=${_current_word%%:*}
+
+    if compset -P '*:'; then
+        case ${_current_option} in
+            env)
+                _wanted ${arg}-env expl 'Environment Variable' _printenv
+                ;;
+            file)
+                _wanted ${arg}-file expl 'Pass File' _files
+                ;;
+        esac
+    else
+        local _keys _novalue_keys
+        _keys=(
+            'pass:the actual password'
+            'env:obtain the password from the environment variable'
+            'file:the first line of the file is the password'
+            'fd:read the password from the file descriptor'
+        )
+        _novalue_keys=(
+            'stdin:read the password from standard input'
+        )
+
+        _describe -t ${arg}-keys 'pass phrase args keys' \
+            _keys -S ':' -- _novalue_keys || compadd "$@"
+    fi
+}
+
+#--- OpenSSL commands ---
+
+(( $+functions[_openssl_enc] )) || _openssl_enc()
+{
+    _arguments -C \
+        '-in[input file]:input file:_files' \
+        '-out[output file]:output file:_files' \
+        '-pass[pass phrase source]:pass source:_openssl_pass_phrase_args' \
+        '-e[encrypt]' \
+        '-d[decrypt]' \
+        '-a[base64 encode/decode]' \
+        '-base64[base64 encode/decode]' \
+        '-k[passphrase]:pass:' \
+        '-kfile[passphrase is the first line of the file argument]:pass file:_files' \
+        '-md[the md to use to create a key from a passphrase]:md:(md2 md5 sha sha1)' \
+        '-K[key/iv in hex]:key/iv:' \
+        '-iv[key/iv in hex]:key/iv:' \
+        '-p[print the iv/key]' \
+        '-P[print the iv/key then exit]' \
+        '-bufsize[buffer size]' \
+        '-engine[use engine, possible a hardware device]:engine:' \
+        '*::cipher types:->cipher-types'
+
+    case ${state} in
+        cipher-types)
+            local _types
+            for command in ${_cipher_commands}; do
+                _types=( ${_types} "-${command}" )
+            done
+
+            _describe -t cipher-types 'cipher types' _types -J 'cipher types' -X '%UCipher Types%u' || compadd "$@"
+            ;;
+    esac
+}
+
+_openssl "$@"
