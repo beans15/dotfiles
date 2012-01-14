@@ -64,7 +64,7 @@ _openssl()
 
         # Get command name if inputted command is included in `_commands`;
         # otherwise empty value
-        cmd="${_commands[(r)$words[1]:*]%%:*}"
+        cmd="${_commands[(r)$words[1]:#*]%%:*}"
 
         if [[ -n $cmd ]]; then
             curcontext="${curcontext%:*:*}:openssl-${cmd}:"
@@ -75,7 +75,13 @@ _openssl()
                 zstyle ":completion:${curcontext}:" cache-policy _openssl_caching_policy
             fi
 
-            _call_function ret _openssl_$cmd || _message "no more arguments"
+            if (( ${+_message_digest_commands[(r)${cmd}]} )); then
+                _call_function ret _openssl_dgst || _message "no more arguments"
+            elif (( ${+_cipher_commands[(r)${cmd}]} )); then
+                _call_function ret _openssl_enc || _message "no more arguments"
+            else
+                _call_function ret _openssl_$cmd || _message "no more arguments"
+            fi
 
             return ret
         else
@@ -136,6 +142,31 @@ _openssl_pass_phrase_args()
 
 #--- OpenSSL commands ---
 
+(( $+functions[_openssl_dgst] )) || _openssl_dgst()
+{
+    _arguments -C \
+        '-c[to output the digest with separating colons]' \
+        '-d[to output debug info]' \
+        '-hex[output as hex dump]' \
+        '-binary[output in binary form]' \
+        '-sign[sign digest using private key in file]:private key:_files' \
+        '-verify[verify a signature using public key in file]:public key:_files' \
+        '-preverify[verify a signature using private key in file]:private key:_files' \
+        '-engine[use engine e, possibly a hardware device]:engine: ' \
+        '-md5[to use the md5 message digest algorithm]' \
+        '-md4[to use the md4 message digest algorithm]' \
+        '-md2[to use the md2 message digest algorithm]' \
+        '-sha1[to use the sha1 message digest algorithm]' \
+        '-sha[to use the sha message digest algorithm]' \
+        '-sha224[to use the sha224 message digest algorithm]' \
+        '-sha256[to use the sha256 message digest algorithm]' \
+        '-sha384[to use the sha384 message digest algorithm]' \
+        '-sha512[to use the sha512 message digest algorithm]' \
+        '-mdc2[to use the mdc2 message digest algorithm]' \
+        '-ripemd160[to use the ripemd160 message digest algorithm]' \
+        '*::file:_files'
+}
+
 (( $+functions[_openssl_enc] )) || _openssl_enc()
 {
     _arguments -C \
@@ -146,27 +177,38 @@ _openssl_pass_phrase_args()
         '-d[decrypt]' \
         '-a[base64 encode/decode]' \
         '-base64[base64 encode/decode]' \
-        '-k[passphrase]:pass:' \
+        '-k[passphrase]:pass: ' \
         '-kfile[passphrase is the first line of the file argument]:pass file:_files' \
         '-md[the md to use to create a key from a passphrase]:md:(md2 md5 sha sha1)' \
-        '-K[key/iv in hex]:key/iv:' \
-        '-iv[key/iv in hex]:key/iv:' \
+        '-K[key/iv in hex]:key/iv: ' \
+        '-iv[key/iv in hex]:key/iv: ' \
         '-p[print the iv/key]' \
         '-P[print the iv/key then exit]' \
         '-bufsize[buffer size]' \
-        '-engine[use engine, possible a hardware device]:engine:' \
-        '*::cipher types:->cipher-types'
+        '-engine[use engine, possible a hardware device]:engine: '
 
-    case ${state} in
-        cipher-types)
-            local _types
-            for command in ${_cipher_commands}; do
-                _types=( ${_types} "-${command}" )
-            done
+    local _types
+    for command in ${_cipher_commands}; do
+        _types=( ${_types} "-${command}" )
+    done
 
-            _describe -t cipher-types 'cipher types' _types -J 'cipher types' -X '%UCipher Types%u' || compadd "$@"
-            ;;
-    esac
+    _describe -t cipher-types 'cipher types' _types -J 'cipher types' -X '%UCipher Types%u' || compadd "$@"
+}
+
+(( $+functions[_openssl_passwd] )) || _openssl_passwd()
+{
+    _arguments -C \
+        '-crypt[standard Unix password algorithm]' \
+        '-1[MD5-based password algorithm]' \
+        '-apr1[MD5-based password algorithm, Apache variant]' \
+        '-salt[use provided salt]:salt: ' \
+        '-in[read passwords from file]:input file:_files' \
+        '-stdin[read passwords from stdin]' \
+        '-noverify[never verify when reading password from terminal]' \
+        '-quiet[no warnings]' \
+        '-table[format output as table]' \
+        '-reverse[switch table columns]' \
+        '*::passwords: '
 }
 
 _openssl "$@"
