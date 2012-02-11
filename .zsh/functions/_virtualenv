@@ -13,10 +13,13 @@ common=(
     "--python=-[The Python interpreter to use]:file:_files"
     "--clear[Clear out the non-root install and start from scratch]"
     "--no-site-packages[Don't give access to the global site-packages dir to the virtual environment]"
+    "--system-site-packages[Give access to the global site-packages dir to the virtual environment]"
     "--unzip-setuptools[Unzip Setuptools or Distribute when installing it]"
     "--relocatable[Make an EXISTING virtualenv environment relocatable.]"
     "--distribute[Use Distribute instead of Setuptools.]"
     "--prompt=[Provides an alternative prompt prefix for this environment]"
+    "--never-download[Never download anything from the network.]"
+    "--extra-search-dir=[Directory to look for setuptools/distribute/pip distributions in.]"
 )
 
 case "$service" in
