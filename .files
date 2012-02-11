@@ -7,3 +7,4 @@
 .gitconfig
 .loginhook
 .logouthook
+.tmux.conf
