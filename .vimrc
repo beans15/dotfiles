@@ -197,14 +197,16 @@ Bundle 'unite.vim'
 " インサートモードで開始
 let g:unite_enable_start_insert = 1
 
-imap <silent> <C-k>  <Plug>(neocomplcache_start_unite_complete)
+"imap <silent> <C-k>  <Plug>(neocomplcache_start_unite_complete)
 nmap <silent> <Leader>uf :<C-u>Unite -buffer-name=files file<CR>
 nmap <silent> <Leader>ub :<C-u>Unite -buffer-name=buffers buffer<CR>
 nmap <silent> <Leader>ur :<C-u>Unite -buffer-name=register register<CR>
 nmap <silent> <Leader>u/ :<C-u>Unite line<CR>
 nmap <silent> <Leader>us :<C-u>Unite source<CR>
+nmap <silent> <Leader>uc :<C-u>Unite change<CR>
+nmap <silent> <Leader>uj :<C-u>Unite jump<CR>
 nmap <silent> <Leader>uu :<C-u>Unite file_mru buffer<CR>
-nmap <silent> <Leader>ua :<C-u>Unite file file_mru buffer<CR>
+nmap <silent> <Leader>ua :<C-u>Unite file buffer file_mru<CR>
 
 "------------------------------
 " vim-coffee-script

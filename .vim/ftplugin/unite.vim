@@ -1,3 +1,6 @@
+setl cursorline
+
+" Unite内でのキーマッピング
 nmap <buffer><expr> <Leader>v unite#do_action('left')
 nmap <buffer><expr> <Leader>V unite#do_action('right')
 nmap <buffer><expr> <Leader>s unite#do_action('above')
