@@ -224,6 +224,16 @@ Bundle 'Lokaltog/vim-powerline'
 let g:Powerline_symbols = 'fancy'
 
 "------------------------------
+" taglist
+"------------------------------
+Bundle 'taglist.vim'
+
+"------------------------------
+" vim-proc
+"------------------------------
+Bundle 'Shougo/vimproc'
+
+"------------------------------
 " オレオレセッティング
 "------------------------------
 Bundle 'beans15/vim-latex'
