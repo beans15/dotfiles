@@ -8,3 +8,4 @@
 .loginhook
 .logouthook
 .tmux.conf
+bin/

@@ -18,6 +18,12 @@ alias mv='mv -i'
 alias mkdir='mkdir -p'
 alias .='source'
 alias nosetests='nosetests -v --with-doctest --doctest-tests'
+alias tmux='tmuxx'
+
+#------------------------------------------------
+# パス設定
+#------------------------------------------------
+PATH=~/bin:$PATH
 
 #------------------------------------------------
 # 基本設定
@@ -136,7 +142,7 @@ SPROMPT="%{${fg[green]}%}%r %{${fg[red]}%}is correct? [n,y,a,e]: %{${reset_color
 function precmd() {
     # タイトルの設定
     case "${TERM}" in
-    kterm*|xterm)
+    kterm*|xterm*)
         echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
     ;;
     esac

@@ -27,3 +27,5 @@ Thumbs.db
 .vim/.netrw*
 
 .zsh/cache/*
+
+/bin/reattach-to-user-namespace
