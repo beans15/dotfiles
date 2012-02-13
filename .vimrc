@@ -217,7 +217,14 @@ Bundle 'vim-coffee-script'
 let g:coffee_make_options = '-b'
 
 "------------------------------
-" 自分用の設定
+" vim-powerline
+"------------------------------
+Bundle 'Lokaltog/vim-powerline'
+
+let g:Powerline_symbols = 'fancy'
+
+"------------------------------
+" オレオレセッティング
 "------------------------------
 Bundle 'beans15/vim-latex'
 
@@ -230,6 +237,12 @@ filetype detect
 "------------------------------
 " 非表示にするファイルパターンを設定
 let g:netrw_list_hide = '.*\.pyc,.*\.pyo'
+
+"------------------------------
+" color
+"------------------------------
+colorscheme default
+hi Normal ctermfg=lightgrey ctermbg=black
 
 "------------------------------------------------
 " ユーザー定義関数
