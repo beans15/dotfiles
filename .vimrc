@@ -63,7 +63,7 @@ set ls=2
 " &statuslineを変更しているので無視される
 set ruler
 " ステータスラインの表示項目を変更する
-set statusline=%F\ %m%r%h%w[%{&fenc}][%{&ff}]%y%=%l,%-12v%P\ [%L\ lines]
+"set statusline=%F\ %m%r%h%w[%{&fenc}][%{&ff}]%y%=%l,%-12v%P\ [%L\ lines]
 " 行番号を表示する
 set nu
 " 特殊文字を表示する
@@ -232,6 +232,11 @@ Bundle 'taglist.vim'
 " vim-proc
 "------------------------------
 Bundle 'Shougo/vimproc'
+
+"------------------------------
+" fugitive
+"------------------------------
+Bundle 'tpope/vim-fugitive'
 
 "------------------------------
 " オレオレセッティング
