@@ -36,7 +36,7 @@ set wrapscan
 " インデント関連の設定
 "------------------------------------------------
 " タブの空白数を8つに
-set tabstop=8
+set tabstop=4
 " 自動インデントの空白数を4つに
 set shiftwidth=4
 " バックスペースで4つの空白を消す
@@ -112,132 +112,7 @@ inoremap <F1> <ESC>
 "------------------------------------------------
 " プラグインの設定
 "------------------------------------------------
-"------------------------------
-" 基本設定
-"------------------------------
-" NeoBundleでの管理を行う
-" 一時的にファイルタイプを無効に
-filetype off
-
-" NeoBundleへのパスを追加
-set rtp+=~/.vim/neobundle.vim.git/
-" NeoBundleを初期化
-call neobundle#rc(expand('~/.vim/bundle'))
-
-" 拡張機能をロード
-"------------------------------
-" neocomplcache
-"------------------------------
-NeoBundle 'neocomplcache'
-
-" 起動時に有効にする
-let g:neocomplcache_enable_at_startup = 1
-" 大文字小文字が混じっている場合は、大文字小文字を区別する
-let g:neocomplcache_enable_smart_case = 1
-" キーワードの最小長さを3文字に
-let g:neocomplcache_min_syntax_length = 3
-" 補完候補の先頭を選択状態に
-"let g:neocomplcache_enable_auto_select = 1
-" スニペットのディレクトリを指定
-let g:neocomplcache_snippets_dir = expand('~/.vim/snippets')
-" スニペット補完のキーバインド
-imap <silent><C-l> <Plug>(neocomplcache_snippets_expand)
-smap <silent><C-l> <Plug>(neocomplcache_snippets_expand)
-" 辞書の設定を初期化
-let g:neocomplcache_dictionary_filetype_lists = {
-    \ 'default': ''
-    \ }
-
-"------------------------------
-" quickrun
-"------------------------------
-NeoBundle 'quickrun'
-
-"------------------------------
-" ref.vim
-"------------------------------
-"NeoBundle 'ref.vim'
-
-"------------------------------
-" surround
-"------------------------------
-NeoBundle 'surround.vim'
-
-"------------------------------
-" ZenCoding
-"------------------------------
-NeoBundle 'ZenCoding.vim'
-
-let g:user_zen_settings = {
-\   'lang': 'ja',
-\   'indentation': '    ',
-\   'css': {
-\     'filters': 'fc',
-\   }
-\}
-
-"------------------------------
-" python_fold
-"------------------------------
-NeoBundle 'python_fold'
-
-"------------------------------
-" unite
-"------------------------------
-NeoBundle 'unite.vim'
-
-" インサートモードで開始
-let g:unite_enable_start_insert = 1
-
-"imap <silent> <C-k>  <Plug>(neocomplcache_start_unite_complete)
-nmap <silent> <Leader>uf :<C-u>Unite -buffer-name=files file<CR>
-nmap <silent> <Leader>ub :<C-u>Unite -buffer-name=buffers buffer<CR>
-nmap <silent> <Leader>ur :<C-u>Unite -buffer-name=register register<CR>
-nmap <silent> <Leader>u/ :<C-u>Unite line<CR>
-nmap <silent> <Leader>us :<C-u>Unite source<CR>
-nmap <silent> <Leader>uc :<C-u>Unite change<CR>
-nmap <silent> <Leader>uj :<C-u>Unite jump<CR>
-nmap <silent> <Leader>uu :<C-u>Unite file_mru buffer<CR>
-nmap <silent> <Leader>ua :<C-u>Unite file buffer file_mru<CR>
-
-"------------------------------
-" vim-coffee-script
-"------------------------------
-NeoBundle 'vim-coffee-script'
-
-" 無名関数でラップしない
-let g:coffee_make_options = '-b'
-
-"------------------------------
-" vim-powerline
-"------------------------------
-NeoBundle 'Lokaltog/vim-powerline'
-
-let g:Powerline_symbols = 'fancy'
-
-"------------------------------
-" taglist
-"------------------------------
-NeoBundle 'taglist.vim'
-
-"------------------------------
-" vim-proc
-"------------------------------
-NeoBundle 'Shougo/vimproc'
-
-"------------------------------
-" fugitive
-"------------------------------
-NeoBundle 'tpope/vim-fugitive'
-
-"------------------------------
-" オレオレセッティング
-"------------------------------
-NeoBundle 'beans15/vim-latex'
-
-" ファイルタイプを有効にする
-filetype plugin indent on
-filetype detect
+source ~/.vimrc.plugin
 
 "------------------------------
 " netrwの設定
