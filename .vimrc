@@ -108,14 +108,6 @@ set fileformats=unix,dos,mac
 " 要するに無効化する
 inoremap <F1> <ESC>
 
-"------------------------------------------------
-" オートコマンド
-"------------------------------------------------
-"" 外部変更のチェック
-"augroup vimrc-checktime
-"  autocmd!
-"  autocmd CursorMoved * checktime
-"augroup END
 
 "------------------------------------------------
 " プラグインの設定
@@ -123,20 +115,20 @@ inoremap <F1> <ESC>
 "------------------------------
 " 基本設定
 "------------------------------
-" Vundleでの管理を行う
+" NeoBundleでの管理を行う
 " 一時的にファイルタイプを無効に
 filetype off
 
-" Vundleへのパスを追加
-set rtp+=~/.vim/vundle.git/
-" Vundleを初期化
-call vundle#rc()
+" NeoBundleへのパスを追加
+set rtp+=~/.vim/neobundle.vim.git/
+" NeoBundleを初期化
+call neobundle#rc(expand('~/.vim/bundle'))
 
 " 拡張機能をロード
 "------------------------------
 " neocomplcache
 "------------------------------
-Bundle 'neocomplcache'
+NeoBundle 'neocomplcache'
 
 " 起動時に有効にする
 let g:neocomplcache_enable_at_startup = 1
@@ -159,22 +151,22 @@ let g:neocomplcache_dictionary_filetype_lists = {
 "------------------------------
 " quickrun
 "------------------------------
-Bundle 'quickrun'
+NeoBundle 'quickrun'
 
 "------------------------------
 " ref.vim
 "------------------------------
-Bundle 'ref.vim'
+"NeoBundle 'ref.vim'
 
 "------------------------------
 " surround
 "------------------------------
-Bundle 'surround.vim'
+NeoBundle 'surround.vim'
 
 "------------------------------
 " ZenCoding
 "------------------------------
-Bundle 'ZenCoding.vim'
+NeoBundle 'ZenCoding.vim'
 
 let g:user_zen_settings = {
 \   'lang': 'ja',
@@ -187,12 +179,12 @@ let g:user_zen_settings = {
 "------------------------------
 " python_fold
 "------------------------------
-Bundle 'python_fold'
+NeoBundle 'python_fold'
 
 "------------------------------
 " unite
 "------------------------------
-Bundle 'unite.vim'
+NeoBundle 'unite.vim'
 
 " インサートモードで開始
 let g:unite_enable_start_insert = 1
@@ -211,7 +203,7 @@ nmap <silent> <Leader>ua :<C-u>Unite file buffer file_mru<CR>
 "------------------------------
 " vim-coffee-script
 "------------------------------
-Bundle 'vim-coffee-script'
+NeoBundle 'vim-coffee-script'
 
 " 無名関数でラップしない
 let g:coffee_make_options = '-b'
@@ -219,29 +211,29 @@ let g:coffee_make_options = '-b'
 "------------------------------
 " vim-powerline
 "------------------------------
-Bundle 'Lokaltog/vim-powerline'
+NeoBundle 'Lokaltog/vim-powerline'
 
 let g:Powerline_symbols = 'fancy'
 
 "------------------------------
 " taglist
 "------------------------------
-Bundle 'taglist.vim'
+NeoBundle 'taglist.vim'
 
 "------------------------------
 " vim-proc
 "------------------------------
-Bundle 'Shougo/vimproc'
+NeoBundle 'Shougo/vimproc'
 
 "------------------------------
 " fugitive
 "------------------------------
-Bundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-fugitive'
 
 "------------------------------
 " オレオレセッティング
 "------------------------------
-Bundle 'beans15/vim-latex'
+NeoBundle 'beans15/vim-latex'
 
 " ファイルタイプを有効にする
 filetype plugin indent on
@@ -258,16 +250,6 @@ let g:netrw_list_hide = '.*\.pyc,.*\.pyo'
 "------------------------------
 colorscheme default
 hi Normal ctermfg=lightgrey ctermbg=black
-
-"------------------------------------------------
-" ユーザー定義関数
-"------------------------------------------------
-"function! GetGitBranch()
-"  " 現在のGitのブランチを取得する
-"  let ret = system('git branch 2> /dev/null')
-"  let branch = substitute(ret, '\v^.*\* (.{-1,})\r*\n*$', '[\1]', '')
-"  return branch
-"endfunction
 
 "------------------------------------------------
 " 環境依存の設定
