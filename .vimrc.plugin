@@ -1,3 +1,5 @@
+" vim: foldlevelstart=-1
+
 " NeoBundleでの管理を行う
 " 一時的にファイルタイプを無効に
 filetype off
@@ -7,10 +9,9 @@ set rtp+=~/.vim/neobundle.vim.git/
 " NeoBundleを初期化
 call neobundle#rc(expand('~/.vim/bundle'))
 
-" 拡張機能をロード
-"------------------------------
-" neocomplcache
-"------------------------------
+
+" neocomplcache {{{
+
 NeoBundle 'neocomplcache'
 
 " 起動時に有効にする
@@ -31,24 +32,28 @@ let g:neocomplcache_dictionary_filetype_lists = {
     \ 'default': ''
     \ }
 
-"------------------------------
-" quickrun
-"------------------------------
+"}}} - neocomplcache
+
+" quickrun {{{
+
 NeoBundle 'quickrun'
 
-"------------------------------
-" ref.vim
-"------------------------------
+" }}} - quickrun
+
+" # ref {{{
+
 "NeoBundle 'ref.vim'
 
-"------------------------------
-" surround
-"------------------------------
+" }}} - ref.vim
+
+" surround {{{
+
 NeoBundle 'surround.vim'
 
-"------------------------------
-" ZenCoding
-"------------------------------
+" }}} - surround
+
+" ZenCoding {{{
+
 NeoBundle 'ZenCoding.vim'
 
 let g:user_zen_settings = {
@@ -59,14 +64,16 @@ let g:user_zen_settings = {
 \   }
 \}
 
-"------------------------------
-" python_fold
-"------------------------------
-NeoBundle 'python_fold'
+" }}} - ZenCoding
 
-"------------------------------
-" unite
-"------------------------------
+" # python_fold {{{
+
+"NeoBundle 'python_fold'
+
+" }}} - python_fold
+
+" unite {{{
+
 NeoBundle 'unite.vim'
 
 " インサートモードで開始
@@ -83,39 +90,45 @@ nmap <silent> <Leader>uj :<C-u>Unite jump<CR>
 nmap <silent> <Leader>uu :<C-u>Unite file_mru buffer<CR>
 nmap <silent> <Leader>ua :<C-u>Unite file buffer file_mru<CR>
 
-"------------------------------
-" vim-coffee-script
-"------------------------------
+" }}} - unite
+
+" vim-coffee-script {{{
+
 NeoBundle 'vim-coffee-script'
 
 " 無名関数でラップしない
 let g:coffee_make_options = '-b'
 
-"------------------------------
-" vim-powerline
-"------------------------------
+" }}}
+
+" vim-powerline {{{
+
 NeoBundle 'Lokaltog/vim-powerline'
 
 let g:Powerline_symbols = 'fancy'
 
-"------------------------------
-" taglist
-"------------------------------
+" }}} - vim-powerline
+
+" taglist {{{
+
 NeoBundle 'taglist.vim'
 
-"------------------------------
-" vim-proc
-"------------------------------
+" }}} - taglist
+
+" vim-proc {{{
+
 NeoBundle 'Shougo/vimproc'
 
-"------------------------------
-" fugitive
-"------------------------------
+" }}}
+
+" fugitive {{{
+
 NeoBundle 'tpope/vim-fugitive'
 
-"------------------------------
-" myprojects
-"------------------------------
+" }}} - fugitive
+
+" myprojects {{{
+
 NeoBundle "vim-scripts/myprojects"
 
 " 自動的にプロジェクトパネルを開かない
@@ -123,15 +136,26 @@ let g:myprojects_auto_open=0
 " 自動保存しない
 "let g:myprojects_autowrite=0
 
-"------------------------------
-" localrc
-"------------------------------
-"NeoBundle "thinca/vim-localrc"
+" }}} - myprojects
 
-"------------------------------
-" オレオレセッティング
-"------------------------------
+" # localrc {{{
+
+"NeoBundle 'thinca/vim-localrc'
+
+" }}} - localrc
+
+" sudo {{{
+
+NeoBundle 'sudo.vim'
+
+" }}} - sudo
+
+" オレオレセッティング {{{
+
 NeoBundle 'beans15/vim-latex'
+
+" }}}
+
 
 " ファイルタイプを有効にする
 filetype plugin indent on
