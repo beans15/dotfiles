@@ -9,4 +9,5 @@
 .loginhook
 .logouthook
 .tmux.conf
+.tmux/
 bin/
