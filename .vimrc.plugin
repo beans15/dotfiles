@@ -80,15 +80,15 @@ NeoBundle 'unite.vim'
 let g:unite_enable_start_insert = 1
 
 "imap <silent> <C-k>  <Plug>(neocomplcache_start_unite_complete)
-nmap <silent> <Leader>uf :<C-u>Unite -buffer-name=files file<CR>
-nmap <silent> <Leader>ub :<C-u>Unite -buffer-name=buffers buffer<CR>
-nmap <silent> <Leader>ur :<C-u>Unite -buffer-name=register register<CR>
-nmap <silent> <Leader>u/ :<C-u>Unite line<CR>
-nmap <silent> <Leader>us :<C-u>Unite source<CR>
-nmap <silent> <Leader>uc :<C-u>Unite change<CR>
-nmap <silent> <Leader>uj :<C-u>Unite jump<CR>
-nmap <silent> <Leader>uu :<C-u>Unite file_mru buffer<CR>
-nmap <silent> <Leader>ua :<C-u>Unite file buffer file_mru<CR>
+nnoremap <silent> <Leader>uf :<C-u>Unite -buffer-name=files file<CR>
+nnoremap <silent> <Leader>ub :<C-u>Unite -buffer-name=buffers buffer<CR>
+nnoremap <silent> <Leader>ur :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> <Leader>u/ :<C-u>Unite line<CR>
+nnoremap <silent> <Leader>us :<C-u>Unite source<CR>
+nnoremap <silent> <Leader>uc :<C-u>Unite change<CR>
+nnoremap <silent> <Leader>uj :<C-u>Unite jump<CR>
+nnoremap <silent> <Leader>uu :<C-u>Unite file_mru buffer<CR>
+nnoremap <silent> <Leader>ua :<C-u>Unite file buffer file_mru<CR>
 
 " }}} - unite
 
