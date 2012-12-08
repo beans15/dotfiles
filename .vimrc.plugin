@@ -150,6 +150,14 @@ NeoBundle 'sudo.vim'
 
 " }}} - sudo
 
+" jedi {{{
+
+NeoBundle 'davidhalter/jedi-vim'
+
+let g:jedi#show_function_definition = 0
+
+" }}} - jedi
+
 " オレオレセッティング {{{
 
 NeoBundle 'beans15/vim-latex'
@@ -159,4 +167,3 @@ NeoBundle 'beans15/vim-latex'
 
 " ファイルタイプを有効にする
 filetype plugin indent on
-filetype detect
