@@ -10,7 +10,9 @@ set rtp+=~/.vim/neobundle.vim.git/
 call neobundle#rc(expand('~/.vim/bundle'))
 
 
-" neocomplcache {{{
+"==================
+" neocomplcache
+"==================
 
 NeoBundle 'neocomplcache'
 
@@ -32,27 +34,32 @@ let g:neocomplcache_dictionary_filetype_lists = {
     \ 'default': ''
     \ }
 
-"}}} - neocomplcache
 
-" quickrun {{{
+"==================
+" quickrun
+"==================
 
 NeoBundle 'quickrun'
 
-" }}} - quickrun
 
-" # ref {{{
+"==================
+" ref
+"==================
+
 
 "NeoBundle 'ref.vim'
 
-" }}} - ref.vim
 
-" surround {{{
+"==================
+" surround
+"==================
 
 NeoBundle 'surround.vim'
 
-" }}} - surround
 
-" ZenCoding {{{
+"==================
+" ZenCoding
+"==================
 
 NeoBundle 'ZenCoding.vim'
 
@@ -64,15 +71,17 @@ let g:user_zen_settings = {
 \   }
 \}
 
-" }}} - ZenCoding
 
-" # python_fold {{{
+"==================
+" python_fold {{{
+"==================
 
 "NeoBundle 'python_fold'
 
-" }}} - python_fold
 
-" unite {{{
+"==================
+" unite
+"==================
 
 NeoBundle 'unite.vim'
 
@@ -90,79 +99,88 @@ nnoremap <silent> <Leader>uj :<C-u>Unite jump<CR>
 nnoremap <silent> <Leader>uu :<C-u>Unite file_mru buffer<CR>
 nnoremap <silent> <Leader>ua :<C-u>Unite file buffer file_mru<CR>
 
-" }}} - unite
 
-" vim-coffee-script {{{
+"==================
+" unite-outline
+"==================
+
+NeoBundle 'h1mesuke/unite-outline'
+
+nnoremap <silent> <Leader>uo :<C-u>Unite -no-quit -vertical -winwidth=30 outline<CR>
+
+
+"==================
+" vim-coffee-script
+"==================
 
 NeoBundle 'vim-coffee-script'
 
 " 無名関数でラップしない
 let g:coffee_make_options = '-b'
 
-" }}}
 
-" vim-powerline {{{
+"==================
+" vim-powerline
+"==================
 
 NeoBundle 'Lokaltog/vim-powerline'
 
 let g:Powerline_symbols = 'fancy'
 
-" }}} - vim-powerline
 
-" taglist {{{
+"==================
+" taglist
+"==================
 
 NeoBundle 'taglist.vim'
 
-" }}} - taglist
 
-" vim-proc {{{
+"==================
+" vim-proc
+"==================
 
 NeoBundle 'Shougo/vimproc'
 
-" }}}
 
-" fugitive {{{
+"==================
+" fugitive
+"==================
 
 NeoBundle 'tpope/vim-fugitive'
 
-" }}} - fugitive
 
-" myprojects {{{
-
-NeoBundle "vim-scripts/myprojects"
-
-" 自動的にプロジェクトパネルを開かない
-let g:myprojects_auto_open=0
-" 自動保存しない
-"let g:myprojects_autowrite=0
-
-" }}} - myprojects
-
-" # localrc {{{
+"==================
+" localrc
+"==================
 
 "NeoBundle 'thinca/vim-localrc'
 
-" }}} - localrc
 
-" sudo {{{
+"==================
+" sudo
+"==================
 
 NeoBundle 'sudo.vim'
 
-" }}} - sudo
 
-" jedi {{{
+"==================
+" jedi
+"==================
 
 NeoBundle 'davidhalter/jedi-vim'
 
 let g:jedi#show_function_definition = 0
 
-" }}} - jedi
 
-" オレオレセッティング {{{
+"======================
+" オレオレセッティング
+"======================
 
 NeoBundle 'beans15/vim-latex'
 
-" }}}
+if filereadable(expand('~/.vimrc.plugin.mine'))
+  source ~/.vimrc.plugin.mine
+endif
 
 
 " ファイルタイプを有効にする
