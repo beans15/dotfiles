@@ -19,6 +19,7 @@ alias mkdir='mkdir -p'
 alias .='source'
 alias nosetests='nosetests -v --with-doctest --doctest-tests'
 alias tmux='tmuxx'
+alias pudb='python -m pudb.run'
 
 #------------------------------------------------
 # パス設定

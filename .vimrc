@@ -19,8 +19,8 @@ set formatoptions=q
 set textwidth=80
 " バックスペースでどこでも消せるようにする
 set backspace=2
-" ファイルを開いたときに、自動的にcdする
-set autochdir
+" ファイルを開いたときに、自動的にcdしない
+set noautochdir
 " 外部変更をキャッチする
 set autoread
 
@@ -126,8 +126,8 @@ let g:netrw_list_hide = '.*\.pyc,.*\.pyo'
 "------------------------------
 " color
 "------------------------------
-colorscheme default
-hi Normal ctermfg=lightgrey ctermbg=black
+colorscheme jellybeans
+"hi Normal ctermfg=lightgrey ctermbg=black
 
 "------------------------------------------------
 " 環境依存の設定

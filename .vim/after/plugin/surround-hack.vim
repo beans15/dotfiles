@@ -7,7 +7,6 @@ endif
 let g:loaded_surround_hack = 1
 
 " visualモードでのsとSのマッピングを消す
-vunmap s
 vunmap S
 " sの代わりにgsを使うようにする
 vmap gs <Plug>Vsurround
