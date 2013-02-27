@@ -10,4 +10,4 @@
 .logouthook
 .tmux.conf
 .tmux/
-bin/
+bin/tmuxx
