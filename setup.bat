@@ -1,4 +1,4 @@
 REM vimの設定ファイルだけコピー
-COPY .vimrc %USERPROFILE%\_vimrc
-COPY .vimrc.plugin %USERPROFILE%\.vimrc.plugin
-XCOPY .vim %USERPROFILE%\vimfiles
+XCOPY /H .vimrc %USERPROFILE%\_vimrc
+XCOPY /H .vimrc.plugin %USERPROFILE%\.vimrc.plugin
+XCOPY /H .vim %USERPROFILE%\vimfiles
