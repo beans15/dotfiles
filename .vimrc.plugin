@@ -17,6 +17,8 @@ NeoBundle 'surround.vim'
 NeoBundle 'sudo.vim'
 NeoBundle 'unite.vim'
 NeoBundle 'h1mesuke/unite-outline'
+NeoBundle 'sgur/unite-qf'
+NeoBundle 'tsukkee/unite-help'
 NeoBundle 'Shougo/vimfiler'
 
 " 開発用
@@ -27,7 +29,8 @@ NeoBundle 'http://conque.googlecode.com/svn/trunk/'
 NeoBundle 'quickrun'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'ZenCoding.vim'
-"NeoBundle 'ref.vim'
+NeoBundle 'thinca/vim-ref'
+NeoBundle 'scrooloose/syntastic'
 "NeoBundle 'taglist.vim'
 
 " 特定言語の開発用
@@ -97,16 +100,19 @@ let g:user_zen_settings = {
 let g:unite_enable_start_insert = 1
 
 "imap <silent> <C-k>  <Plug>(neocomplcache_start_unite_complete)
-nnoremap <silent> <Leader>uf :<C-u>Unite -buffer-name=files file<CR>
-nnoremap <silent> <Leader>ub :<C-u>Unite -buffer-name=buffers buffer<CR>
-nnoremap <silent> <Leader>ur :<C-u>Unite -buffer-name=register register<CR>
-nnoremap <silent> <Leader>u/ :<C-u>Unite line<CR>
-nnoremap <silent> <Leader>us :<C-u>Unite source<CR>
-nnoremap <silent> <Leader>uc :<C-u>Unite change<CR>
-nnoremap <silent> <Leader>uj :<C-u>Unite jump<CR>
-nnoremap <silent> <Leader>uu :<C-u>Unite file_mru buffer<CR>
-nnoremap <silent> <Leader>ua :<C-u>Unite file buffer file_mru<CR>
-nnoremap <silent> <Leader>up :<C-u>call <SID>unite_project()<CR>
+nnoremap [unite] <Nop>
+nmap     <Leader>u [unite]
+nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file file/new<CR>
+nnoremap <silent> [unite]u :<C-u>Unite -buffer-name=files file_mru buffer<CR>
+nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=files file buffer file_mru file/new<CR>
+nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=buffers buffer<CR>
+nnoremap <silent> [unite]t :<C-u>Unite -immediately tab:no-current<CR>
+nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register -no-start-insert register<CR>
+nnoremap <silent> [unite]/ :<C-u>Unite line<CR>
+nnoremap <silent> [unite]* :<C-u>UniteWithCursorWord -keep-focus -no-quit -no-start-insert line<CR>
+nnoremap <silent> [unite]s :<C-u>Unite -no-start-insert source<CR>
+nnoremap <silent> [unite]p :<C-u>call <SID>unite_project()<CR>
+nnoremap <silent> [unite]o :<C-u>Unite -no-quit -vertical -no-start-insert -winwidth=30 outline<CR>
 
 function! s:unite_project(...)
   let opts = (a:0 ? join(a:000, ' ') : '')
@@ -114,12 +120,13 @@ function! s:unite_project(...)
   execute 'Unite '.opts.' file_rec:'.dir
 endfunction
 
-
-"==================
-" unite-outline
-"==================
-
-nnoremap <silent> <Leader>uo :<C-u>Unite -no-quit -vertical -winwidth=30 outline<CR>
+augroup UniteRef
+  autocmd!
+  "autocmd FileType vim      nnoremap <silent><buffer> K :<C-u>UniteWithCursorWord help<CR>
+  autocmd FileType sh       nnoremap <silent><buffer> K :<C-u>UniteWithCursorWord -default-action=right ref/man<CR>
+  autocmd FileType python   nnoremap <silent><buffer> K :<C-u>UniteWithCursorWord -default-action=right ref/pydoc<CR>
+  autocmd FileType ruby     nnoremap <silent><buffer> K :<C-u>UniteWithCursorWord -default-action=right ref/refe<CR>
+augroup END
 
 
 "==================
@@ -143,6 +150,10 @@ let g:Powerline_symbols = 'fancy'
 
 let g:jedi#show_function_definition = 0
 
+" quickrunと衝突するので変更
+let g:jedi#rename_command = 'R'
+let g:jedi#pydoc = ''
+
 "==================
 " Conque
 "==================
@@ -164,6 +175,13 @@ autocmd BufWinLeave zsh\s-\s? call <SID>delete_ConqueTerm(expand('%'))
 autocmd BufWinLeave ipython\s-\s? call <SID>delete_ConqueTerm(expand('%'))
 autocmd BufWinLeave irb\s-\s? call <SID>delete_ConqueTerm(expand('%'))
 
+"==================
+" syntastic
+"==================
+let g:syntastic_mode_map = {
+  \ 'mode':               'passive',
+  \ 'active_filetypes':   ['python', 'javascript', 'ruby'],
+  \ 'passive_filetypes':  [] }
 
 "======================
 " オレオレセッティング
@@ -176,3 +194,5 @@ endif
 
 " ファイルタイプを有効にする
 filetype plugin indent on
+
+NeoBundleCheck
