@@ -35,7 +35,9 @@ NeoBundle 'scrooloose/syntastic'
 
 " 特定言語の開発用
 NeoBundle 'vim-coffee-script'
-NeoBundle 'davidhalter/jedi-vim'
+if has('python')
+  NeoBundle 'davidhalter/jedi-vim'
+endif
 "NeoBundle 'python_fold'
 
 " カラースキーム
