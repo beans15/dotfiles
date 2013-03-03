@@ -3,7 +3,7 @@
 filetype off
 
 " NeoBundleへのパスを追加
-set rtp+=~/.vim/neobundle.vim.git/
+set rtp+=~/.vim/bundle/neobundle.vim/
 " NeoBundleを初期化
 call neobundle#rc(expand('~/.vim/bundle'))
 
