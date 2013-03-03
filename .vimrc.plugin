@@ -197,6 +197,4 @@ endif
 " ファイルタイプを有効にする
 filetype plugin indent on
 
-if has('python')
-  NeoBundleCheck
-endif
+NeoBundleCheck
