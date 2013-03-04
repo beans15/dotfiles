@@ -122,7 +122,7 @@ function! s:unite_project(...)
   execute 'Unite '.opts.' file_rec:'.dir
 endfunction
 
-augroup UniteRef
+augroup UniteFileType
   autocmd!
   "autocmd FileType vim      nnoremap <silent><buffer> K :<C-u>UniteWithCursorWord help<CR>
   autocmd FileType sh       nnoremap <silent><buffer> K :<C-u>UniteWithCursorWord -default-action=right ref/man<CR>
@@ -167,6 +167,7 @@ let g:ConqueTerm_CWInsert = 1
 noremap <silent> <Leader>sh :ConqueTermVSplit zsh<CR>
 noremap <silent> <Leader>py :ConqueTermVSplit ipython<CR>
 noremap <silent> <Leader>rb :ConqueTermVSplit irb<CR>
+noremap <silent> <Leader>sbt :ConqueTermVSplit sbt<CR>
 
 " バッファを閉じたときにプロセスを終了するようにする
 function! s:delete_ConqueTerm(buffer_name)
@@ -176,6 +177,7 @@ endfunction
 autocmd BufWinLeave zsh\s-\s? call <SID>delete_ConqueTerm(expand('%'))
 autocmd BufWinLeave ipython\s-\s? call <SID>delete_ConqueTerm(expand('%'))
 autocmd BufWinLeave irb\s-\s? call <SID>delete_ConqueTerm(expand('%'))
+autocmd BufWinLeave sbt\s-\s? call <SID>delete_ConqueTerm(expand('%'))
 
 "==================
 " syntastic
@@ -184,6 +186,8 @@ let g:syntastic_mode_map = {
   \ 'mode':               'passive',
   \ 'active_filetypes':   ['python', 'javascript', 'ruby'],
   \ 'passive_filetypes':  [] }
+
+nnoremap <silent> <Leader>L :<C-u>SyntasticCheck<CR>
 
 "======================
 " オレオレセッティング
