@@ -3,6 +3,7 @@
 .vimrc.plugin
 .zsh/
 .zshrc
+.zshrc.virtualenv
 .virtualenvs/postactivate
 .virtualenvs/postdeactivate
 .gitconfig
