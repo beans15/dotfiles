@@ -11,3 +11,7 @@
 [user]
 	name = beans15
 	email = beans15@dummy.com
+[push]
+	default = simple
+[github]
+	user = beans15
