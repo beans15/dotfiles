@@ -174,6 +174,7 @@ chpwd() {
 }
 
 export EDITOR=`which vim`
+export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
 
 #------------------------------------------------
 # 環境依存の設定

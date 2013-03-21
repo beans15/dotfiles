@@ -11,3 +11,5 @@ if !exists('g:neocomplcache_include_patterns')
     let g:neocomplcache_include_patterns= {}
 endif
 let g:neocomplcache_include_patterns['scala'] = '^import'
+
+filetype indent off
