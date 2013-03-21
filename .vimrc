@@ -1,10 +1,21 @@
 "------------------------------------------------
-" 基本設定
+" Windows用の設定
 "------------------------------------------------
+" Windowsでvimフォルダにvimrc等を置く場合
+let g:portable = 0
+if has('win32')
+  if ! filereadable(expand('~/_vimrc'))
+    let g:portable = 1
+  endif
+endif
 " Windowsでruntimepathに.vimを追加
 if has('win32')
   set rtp+=~/.vim/
 endif
+
+"------------------------------------------------
+" 基本設定
+"------------------------------------------------
 " Vimの拡張機能を有効にする
 set nocompatible
 " バックアップを取らない
@@ -119,7 +130,11 @@ noremap : ;
 "------------------------------------------------
 " プラグインの設定
 "------------------------------------------------
-source ~/.vimrc.plugin
+if g:portable
+  source $VIM/.vimrc.plugin
+else
+  source ~/.vimrc.plugin
+endif
 
 "------------------------------
 " netrwの設定

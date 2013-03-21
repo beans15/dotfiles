@@ -2,10 +2,15 @@
 " 一時的にファイルタイプを無効に
 filetype off
 
-" NeoBundleへのパスを追加
-set rtp+=~/.vim/bundle/neobundle.vim/
-" NeoBundleを初期化
-call neobundle#rc(expand('~/.vim/bundle'))
+if g:portable
+  " NeoBundleへのパスを追加
+  set rtp+=$VIM/vimfiles/bundle/neobundle.vim/
+  " NeoBundleを初期化
+  call neobundle#rc($VIM.'vimfiles/bundle')
+else
+  set rtp+=~/.vim/bundle/neobundle.vim/
+  call neobundle#rc(expand('~/.vim/bundle'))
+endif
 
 
 " プラグインのロード
@@ -123,6 +128,7 @@ nnoremap <silent> [unite]o :<C-u>Unite -no-quit -vertical -no-start-insert -winw
 function! s:unite_project(...)
   let opts = (a:0 ? join(a:000, ' ') : '')
   let dir = unite#util#path2project_directory(expand('%'))
+
   execute 'Unite '.opts.' file_rec:'.dir
 endfunction
 
@@ -134,6 +140,7 @@ augroup UniteFileType
   autocmd FileType ruby     nnoremap <silent><buffer> K :<C-u>UniteWithCursorWord -default-action=right ref/refe<CR>
 augroup END
 
+call unite#custom_source('file_rec', 'filters', ['matcher_fuzzy', 'sorter_default', 'converter_default'])
 
 "==================
 " vim-coffee-script
