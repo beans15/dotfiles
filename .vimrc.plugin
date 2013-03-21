@@ -25,6 +25,7 @@ NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'sgur/unite-qf'
 NeoBundle 'tsukkee/unite-help'
 NeoBundle 'Shougo/vimfiler'
+NeoBundle 'deton/jasegment.vim'
 
 " 開発用
 NeoBundle 'neocomplcache'
