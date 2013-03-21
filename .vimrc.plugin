@@ -28,17 +28,21 @@ NeoBundle 'Shougo/vimshell'
 NeoBundle 'http://conque.googlecode.com/svn/trunk/'
 NeoBundle 'quickrun'
 NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'ZenCoding.vim'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'scrooloose/syntastic'
 "NeoBundle 'taglist.vim'
 
 " 特定言語の開発用
-NeoBundle 'vim-coffee-script'
+NeoBundleLazy 'vim-coffee-script', {'autoload': {'filetypes': ['coffee']}}
+NeoBundleLazy 'mattn/zencoding-vim', {'autoload': {'filetypes': ['html', 'htmldjango']}}
 if has('python')
-  NeoBundle 'davidhalter/jedi-vim'
+  NeoBundleLazy 'davidhalter/jedi-vim', {'autoload': {'filetypes': ['python']}}
 endif
 "NeoBundle 'python_fold'
+
+" その他
+NeoBundle 'mattn/webapi-vim'
+NeoBundleLazy 'mattn/gist-vim', {'autoload': {'commands': ['Gist']}}
 
 " カラースキーム
 "NeoBundle 'w0ng/vim-hybrid'
@@ -49,7 +53,7 @@ NeoBundle 'nanotech/jellybeans.vim'
 "NeoBundle 'vim-scripts/Wombat'
 "NeoBundle 'vim-scripts/twilight'
 
-NeoBundle 'beans15/vim-latex'
+NeoBundleLazy 'beans15/vim-latex', {'autoload': {'filetypes': ['tex']}}
 
 
 "==================
@@ -82,7 +86,7 @@ let g:neocomplcache_dictionary_filetype_lists = {
 
 
 "==================
-" ZenCoding
+" zencoding-vim
 "==================
 
 let g:user_zen_settings = {
@@ -110,7 +114,7 @@ nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=files file buffer file_mru f
 nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=buffers buffer<CR>
 nnoremap <silent> [unite]t :<C-u>Unite -immediately tab:no-current<CR>
 nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register -no-start-insert register<CR>
-nnoremap <silent> [unite]/ :<C-u>Unite line<CR>
+nnoremap <silent> [unite]/ :<C-u>Unite -keep-focus -no-quit line<CR>
 nnoremap <silent> [unite]* :<C-u>UniteWithCursorWord -keep-focus -no-quit -no-start-insert line<CR>
 nnoremap <silent> [unite]s :<C-u>Unite -no-start-insert source<CR>
 nnoremap <silent> [unite]p :<C-u>call <SID>unite_project()<CR>
@@ -168,6 +172,7 @@ noremap <silent> <Leader>sh :ConqueTermVSplit zsh<CR>
 noremap <silent> <Leader>py :ConqueTermVSplit ipython<CR>
 noremap <silent> <Leader>rb :ConqueTermVSplit irb<CR>
 noremap <silent> <Leader>sbt :ConqueTermVSplit sbt<CR>
+noremap <silent> <Leader>sc :ConqueTermVSplit scala<CR>
 
 " バッファを閉じたときにプロセスを終了するようにする
 function! s:delete_ConqueTerm(buffer_name)
@@ -178,13 +183,14 @@ autocmd BufWinLeave zsh\s-\s? call <SID>delete_ConqueTerm(expand('%'))
 autocmd BufWinLeave ipython\s-\s? call <SID>delete_ConqueTerm(expand('%'))
 autocmd BufWinLeave irb\s-\s? call <SID>delete_ConqueTerm(expand('%'))
 autocmd BufWinLeave sbt\s-\s? call <SID>delete_ConqueTerm(expand('%'))
+autocmd BufWinLeave sc\s-\s? call <SID>delete_ConqueTerm(expand('%'))
 
 "==================
 " syntastic
 "==================
 let g:syntastic_mode_map = {
   \ 'mode':               'passive',
-  \ 'active_filetypes':   ['python', 'javascript', 'ruby'],
+  \ 'active_filetypes':   [],
   \ 'passive_filetypes':  [] }
 
 nnoremap <silent> <Leader>L :<C-u>SyntasticCheck<CR>
