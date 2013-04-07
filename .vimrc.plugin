@@ -17,7 +17,6 @@ endif
 " 汎用的なもの
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'Lokaltog/vim-powerline'
-NeoBundle 'thinca/vim-localrc'
 NeoBundle 'surround.vim'
 NeoBundle 'sudo.vim'
 NeoBundle 'unite.vim'
@@ -33,9 +32,9 @@ NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/vimshell'
 NeoBundle 'http://conque.googlecode.com/svn/trunk/'
 NeoBundle 'quickrun'
-NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'scrooloose/syntastic'
+NeoBundle 'tpope/vim-fugitive'
 "NeoBundle 'taglist.vim'
 
 " 特定言語の開発用
@@ -51,7 +50,7 @@ NeoBundle 'mattn/webapi-vim'
 NeoBundleLazy 'mattn/gist-vim', {'autoload': {'commands': ['Gist']}}
 
 " カラースキーム
-"NeoBundle 'w0ng/vim-hybrid'
+NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'nanotech/jellybeans.vim'
 "NeoBundle 'jonathanfilip/vim-lucius'
 "NeoBundle 'tomasr/molokai'
@@ -60,6 +59,8 @@ NeoBundle 'nanotech/jellybeans.vim'
 "NeoBundle 'vim-scripts/twilight'
 
 NeoBundleLazy 'beans15/vim-latex', {'autoload': {'filetypes': ['tex']}}
+
+NeoBundle 'thinca/vim-localrc'
 
 
 "==================
@@ -117,11 +118,11 @@ nmap     <Leader>u [unite]
 nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file file/new<CR>
 nnoremap <silent> [unite]u :<C-u>Unite -buffer-name=files file_mru buffer<CR>
 nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=files file buffer file_mru file/new<CR>
-nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=buffers buffer<CR>
+nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=files bookmark<CR>
 nnoremap <silent> [unite]t :<C-u>Unite -immediately tab:no-current<CR>
 nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register -no-start-insert register<CR>
-nnoremap <silent> [unite]/ :<C-u>Unite -keep-focus -no-quit line<CR>
-nnoremap <silent> [unite]* :<C-u>UniteWithCursorWord -keep-focus -no-quit -no-start-insert line<CR>
+nnoremap <silent> [unite]/ :<C-u>Unite -keep-focus -no-quit -winheight=10 line<CR>
+nnoremap <silent> [unite]* :<C-u>UniteWithCursorWord -keep-focus -no-quit -no-start-insert -winheight=10 line<CR>
 nnoremap <silent> [unite]s :<C-u>Unite -no-start-insert source<CR>
 nnoremap <silent> [unite]p :<C-u>call <SID>unite_project()<CR>
 nnoremap <silent> [unite]o :<C-u>Unite -no-quit -vertical -no-start-insert -winwidth=30 outline<CR>
@@ -142,6 +143,20 @@ augroup UniteFileType
 augroup END
 
 call unite#custom_source('file_rec', 'filters', ['matcher_fuzzy', 'sorter_default', 'converter_default'])
+
+"==================
+" vimfiler
+"==================
+
+" セーフモードを無効にする
+let g:vimfiler_safe_mode_by_default = 0
+
+nnoremap <silent> <Leader>Ex :<C-u>VimFilerBufferDir -simple -explorer<CR>
+nnoremap <silent> <Leader>Tex :<C-u>call <SID>vimfiler_tab_bufferdir()<CR>
+
+function! s:vimfiler_tab_bufferdir()
+  exec 'VimFilerTab -simple ' . expand('%:p:h')
+endfunction
 
 "==================
 " vim-coffee-script
