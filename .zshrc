@@ -11,7 +11,6 @@ alias ls='ls -F'
 alias ll='ls -lh'
 alias la='ls -a'
 alias df='df -h'
-alias du='du -h'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
@@ -135,11 +134,28 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 #------------------------------------------------
 # 右側まで入力がきたら、右プロンプトを消す
 setopt transient_rprompt
-# プロンプトとタイトル
-# プロンプト
-# 基本の情報
-RPROMPT="%{${fg[green]}%}[%~]%{${reset_color}%}"
-SPROMPT="%{${fg[green]}%}%r %{${fg[red]}%}is correct? [n,y,a,e]: %{${reset_color}%}"
+function abbrev_path() {
+    local _current current directories over heads tail display LIMIT
+    LIMIT=5
+    _current='%~'
+    current=${(%)_current}
+    directories=( ${(s:/:)current} )
+    over=$(( $#directories - $LIMIT ))
+    if [[ $over -lt 0 ]]; then
+        over=0
+    fi
+
+    heads=( $directories[1,over] )
+    tail=( $directories[over+1,$#directories] )
+    # LIMITを超えたディレクトリは頭1文字だけ表示
+    display=( ${(M)heads#?} $tail )
+    display=${(j:/:)display}
+    if [[ $current[1] = '/' ]]; then
+        display="/$display"
+    fi
+    echo $display
+}
+
 function precmd() {
     # タイトルの設定
     case "${TERM}" in
@@ -162,6 +178,17 @@ function precmd() {
         color=${fg[red]}
     fi
     PROMPT="%{$color%}$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1) /')%b%{${reset_color}%}"${PROMPT}
+
+    # カレントディレクトリを長さに応じて省略
+    display=$(abbrev_path)
+    RPROMPT="%{${fg[green]}%}[$display]%{${reset_color}%}"
+
+    # virtualenvでは、環境名を表示する
+    if [[ $#VIRTUAL_ENV -ge 1 ]]; then
+        local name
+        name=`basename "$VIRTUAL_ENV"`
+        RPROMPT="%{${fg_bold[white]}%}(env: %{${fg[green]}%}$name%{${fg_bold[white]}%})%{${reset_color}%} $RPROMPT"
+    fi
 }
 
 #------------------------------------------------
