@@ -123,6 +123,7 @@ let g:unite_enable_start_insert = 1
 "imap <silent> <C-k>  <Plug>(neocomplcache_start_unite_complete)
 nnoremap [unite] <Nop>
 nmap     <Leader>u [unite]
+nmap     <Space>u [unite]
 nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file file/new<CR>
 nnoremap <silent> [unite]u :<C-u>Unite -buffer-name=files file_mru buffer<CR>
 nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=files file buffer file_mru file/new<CR>
@@ -133,7 +134,7 @@ nnoremap <silent> [unite]/ :<C-u>Unite -keep-focus -no-quit -winheight=10 line<C
 nnoremap <silent> [unite]* :<C-u>UniteWithCursorWord -keep-focus -no-quit -no-start-insert -winheight=10 line<CR>
 nnoremap <silent> [unite]s :<C-u>Unite -no-start-insert source<CR>
 nnoremap <silent> [unite]p :<C-u>call <SID>unite_project()<CR>
-nnoremap <silent> [unite]o :<C-u>Unite -no-quit -vertical -no-start-insert -winwidth=30 outline<CR>
+nnoremap <silent> [unite]o :<C-u>Unite -no-quit -vertical -no-start-insert -direction=rightbelow -winwidth=30 outline<CR>
 
 function! s:unite_project(...)
   let opts = (a:0 ? join(a:000, ' ') : '')
