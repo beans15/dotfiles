@@ -26,28 +26,31 @@ NeoBundle 'Shougo/vimproc', {
 "NeoBundle 'Lokaltog/powerline', { 'rtp': 'powerline/bindings/vim' }
 NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'surround.vim'
-NeoBundle 'sudo.vim'
 NeoBundle 'unite.vim'
 NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'sgur/unite-qf'
 NeoBundle 'tsukkee/unite-help'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'deton/jasegment.vim'
+NeoBundle 'kana/vim-textobj-user'
+NeoBundle 'kana/vim-textobj-indent'
+NeoBundle 'kana/vim-smartinput'
 
 " 開発用
 NeoBundle 'neocomplcache'
 NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/vimshell'
-NeoBundle 'http://conque.googlecode.com/svn/trunk/'
+"NeoBundle 'http://conque.googlecode.com/svn/trunk/'
 NeoBundle 'quickrun'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'tpope/vim-fugitive'
+NeoBundleLazy 'Shougo/vimshell', {'autoload': {'commands': ['VimShell']}}
 "NeoBundle 'taglist.vim'
 
 " 特定言語の開発用
 NeoBundleLazy 'vim-coffee-script', {'autoload': {'filetypes': ['coffee']}}
-NeoBundleLazy 'mattn/zencoding-vim', {'autoload': {'filetypes': ['html', 'htmldjango']}}
+"NeoBundleLazy 'mattn/zencoding-vim', {'autoload': {'filetypes': ['html', 'htmldjango']}}
+NeoBundleLazy 'mattn/emmet-vim', {'autoload': {'filetypes': ['html', 'css', 'scss', 'php']}}
 if has('python')
   NeoBundleLazy 'davidhalter/jedi-vim', {'autoload': {'filetypes': ['python']}}
 endif
@@ -56,9 +59,10 @@ endif
 " その他
 NeoBundle 'mattn/webapi-vim'
 NeoBundleLazy 'mattn/gist-vim', {'autoload': {'commands': ['Gist']}}
+NeoBundleLazy 'sudo.vim', {'autoload': {'commands': ['SudoRead', 'SudoWrite']}}
 
 " カラースキーム
-NeoBundle 'w0ng/vim-hybrid'
+"NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'nanotech/jellybeans.vim'
 "NeoBundle 'jonathanfilip/vim-lucius'
 "NeoBundle 'tomasr/molokai'
@@ -90,27 +94,25 @@ let g:neocomplcache_min_syntax_length = 3
 "==================
 
 " スニペットのディレクトリを指定
-let g:neocomplcache_snippets_dir = expand('~/.vim/snippets')
+let g:neosnippet#snippets_directory = expand('~/.vim/snippets')
 " スニペット補完のキーバインド
-imap <silent><C-l> <Plug>(neocomplcache_snippets_expand)
-smap <silent><C-l> <Plug>(neocomplcache_snippets_expand)
-" 辞書の設定を初期化
-let g:neocomplcache_dictionary_filetype_lists = {
-    \ 'default': ''
-    \ }
+imap <silent><C-l> <Plug>(neosnippet_expand_or_jump)
+smap <silent><C-l> <Plug>(neosnippet_expand_or_jump)
+
+let g:neosnippet#enable_snipmate_compatibility = 1
 
 
 "==================
 " zencoding-vim
 "==================
-
-let g:user_zen_settings = {
-\   'lang': 'ja',
-\   'indentation': '    ',
-\   'css': {
-\     'filters': 'fc',
-\   }
-\}
+"
+"let g:user_zen_settings = {
+"\   'lang': 'ja',
+"\   'indentation': '    ',
+"\   'css': {
+"\     'filters': 'fc',
+"\   }
+"\}
 
 
 "==================
@@ -196,26 +198,26 @@ let g:jedi#pydoc = ''
 " Conque
 "==================
 
-let g:ConqueTerm_ReadUnfocused = 1
-let g:ConqueTerm_CloseOnEnd = 1
-let g:ConqueTerm_StartMessages = 0
-let g:ConqueTerm_CWInsert = 1
-noremap <silent> <Leader>sh :ConqueTermVSplit zsh<CR>
-noremap <silent> <Leader>py :ConqueTermVSplit ipython<CR>
-noremap <silent> <Leader>rb :ConqueTermVSplit irb<CR>
-noremap <silent> <Leader>sbt :ConqueTermVSplit sbt<CR>
-noremap <silent> <Leader>sc :ConqueTermVSplit scala<CR>
-
-" バッファを閉じたときにプロセスを終了するようにする
-function! s:delete_ConqueTerm(buffer_name)
-    let term_obj = conque_term#get_instance(a:buffer_name)
-    call term_obj.close()
-endfunction
-autocmd BufWinLeave zsh\s-\s? call <SID>delete_ConqueTerm(expand('%'))
-autocmd BufWinLeave ipython\s-\s? call <SID>delete_ConqueTerm(expand('%'))
-autocmd BufWinLeave irb\s-\s? call <SID>delete_ConqueTerm(expand('%'))
-autocmd BufWinLeave sbt\s-\s? call <SID>delete_ConqueTerm(expand('%'))
-autocmd BufWinLeave sc\s-\s? call <SID>delete_ConqueTerm(expand('%'))
+"let g:ConqueTerm_ReadUnfocused = 1
+"let g:ConqueTerm_CloseOnEnd = 1
+"let g:ConqueTerm_StartMessages = 0
+"let g:ConqueTerm_CWInsert = 1
+"noremap <silent> <Leader>sh :ConqueTermVSplit zsh<CR>
+"noremap <silent> <Leader>py :ConqueTermVSplit ipython<CR>
+"noremap <silent> <Leader>rb :ConqueTermVSplit irb<CR>
+"noremap <silent> <Leader>sbt :ConqueTermVSplit sbt<CR>
+"noremap <silent> <Leader>sc :ConqueTermVSplit scala<CR>
+"
+"" バッファを閉じたときにプロセスを終了するようにする
+"function! s:delete_ConqueTerm(buffer_name)
+"    let term_obj = conque_term#get_instance(a:buffer_name)
+"    call term_obj.close()
+"endfunction
+"autocmd BufWinLeave zsh\s-\s? call <SID>delete_ConqueTerm(expand('%'))
+"autocmd BufWinLeave ipython\s-\s? call <SID>delete_ConqueTerm(expand('%'))
+"autocmd BufWinLeave irb\s-\s? call <SID>delete_ConqueTerm(expand('%'))
+"autocmd BufWinLeave sbt\s-\s? call <SID>delete_ConqueTerm(expand('%'))
+"autocmd BufWinLeave sc\s-\s? call <SID>delete_ConqueTerm(expand('%'))
 
 "==================
 " syntastic
