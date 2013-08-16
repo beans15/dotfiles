@@ -1,4 +1,10 @@
 #!/bin/sh
 
+if [[ $1 ]]; then
+    user=$1
+else
+    user=$USER
+fi
+
 hdiutil attach -nomount ram://1048576 | xargs diskutil eraseDisk JHFSX ramdisk
-sh -c "rsync -auzrKL --exclude-from=/Users/$1/.ramdisk_exclude /Users/$1/.ramdisk/ /Volumes/ramdisk/; growlnotify -s -t 'ramdisk' -m 'RAMディスク構築完了'" &
+sh -c "rsync -auzrKL --exclude-from=/Users/$user/.ramdisk_exclude /Users/$user/.ramdisk/ /Volumes/ramdisk/; terminal-notifier -title 'ramdisk' -message 'RAMディスク構築完了' > /dev/null" &
