@@ -46,6 +46,9 @@ set autoread
 set incsearch
 " 折り返して検索する
 set wrapscan
+" 自動的にエスケープ
+cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
+cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 
 "------------------------------------------------
 " インデント関連の設定
