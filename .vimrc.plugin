@@ -24,7 +24,8 @@ NeoBundle 'Shougo/vimproc', {
   \   },
   \ }
 "NeoBundle 'Lokaltog/powerline', { 'rtp': 'powerline/bindings/vim' }
-NeoBundle 'Lokaltog/vim-powerline'
+"NeoBundle 'Lokaltog/vim-powerline'
+NeoBundle 'bling/vim-airline'
 NeoBundle 'surround.vim'
 NeoBundle 'unite.vim'
 NeoBundle 'h1mesuke/unite-outline'
@@ -62,13 +63,14 @@ NeoBundleLazy 'mattn/gist-vim', {'autoload': {'commands': ['Gist']}}
 NeoBundleLazy 'sudo.vim', {'autoload': {'commands': ['SudoRead', 'SudoWrite']}}
 
 " カラースキーム
-"NeoBundle 'w0ng/vim-hybrid'
+NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'nanotech/jellybeans.vim'
 "NeoBundle 'jonathanfilip/vim-lucius'
-"NeoBundle 'tomasr/molokai'
+NeoBundle 'tomasr/molokai'
 "NeoBundle 'jpo/vim-railscasts-theme'
 "NeoBundle 'vim-scripts/Wombat'
 "NeoBundle 'vim-scripts/twilight'
+NeoBundle 'altercation/vim-colors-solarized'
 
 NeoBundleLazy 'beans15/vim-latex', {'autoload': {'filetypes': ['tex']}}
 
@@ -228,6 +230,62 @@ let g:syntastic_mode_map = {
   \ 'passive_filetypes':  [] }
 
 nnoremap <silent> <Leader>L :<C-u>SyntasticCheck<CR>
+
+"==================
+" smartinput
+"==================
+call smartinput#map_to_trigger('i', '<Space>', '<Space>', '<Space>')
+
+call smartinput#define_rule({
+  \ 'at': '(\%#)',
+  \ 'char': '<Space>',
+  \ 'input': '<Space><Space><Left>',
+  \ })
+
+call smartinput#define_rule({
+  \ 'at': '{\%#}',
+  \ 'char': '<Space>',
+  \ 'input': '<Space><Space><Left>',
+  \ })
+
+call smartinput#define_rule({
+  \ 'at': '\[\%#\]',
+  \ 'char': '<Space>',
+  \ 'input': '<Space><Space><Left>',
+  \ })
+
+call smartinput#define_rule({
+  \ 'at': '( \%# )',
+  \ 'char': '<BS>',
+  \ 'input': '<Del><BS>',
+  \ })
+
+call smartinput#define_rule({
+  \ 'at': '{ \%# }',
+  \ 'char': '<BS>',
+  \ 'input': '<Del><BS>',
+  \ })
+
+call smartinput#define_rule({
+  \ 'at': '\[ \%# \]',
+  \ 'char': '<BS>',
+  \ 'input': '<Del><BS>',
+  \ })
+
+" タグの間で改行した時に空行を作る
+call smartinput#define_rule({
+  \ 'at': '<\(\w\+\)\( .*\)\?>\%#<\/\1>',
+  \ 'char': '<Enter>',
+  \ 'input': '<Enter><C-O>O'
+  \ })
+
+"==================
+" airline
+"==================
+
+let g:airline_theme = 'powerlineish'
+let g:unite_force_overwrite_statusline = 0
+let g:vimfiler_force_overwrite_statusline = 0
 
 "======================
 " オレオレセッティング

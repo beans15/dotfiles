@@ -130,6 +130,10 @@ inoremap <F1> <ESC>
 noremap ; :
 noremap : ;
 
+" jとkの移動を表示している行の移動にする
+noremap j gj
+noremap k gk
+
 "------------------------------------------------
 " プラグインの設定
 "------------------------------------------------
@@ -148,7 +152,7 @@ let g:netrw_list_hide = '.*\.pyc,.*\.pyo'
 "------------------------------
 " color
 "------------------------------
-colorscheme jellybeans
+colorscheme hybrid
 "hi Normal ctermfg=lightgrey ctermbg=black
 
 "------------------------------------------------
