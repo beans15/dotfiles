@@ -25,7 +25,8 @@ NeoBundle 'Shougo/vimproc', {
   \ }
 "NeoBundle 'Lokaltog/powerline', { 'rtp': 'powerline/bindings/vim' }
 "NeoBundle 'Lokaltog/vim-powerline'
-NeoBundle 'bling/vim-airline'
+"NeoBundle 'bling/vim-airline'
+NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'surround.vim'
 NeoBundle 'unite.vim'
 NeoBundle 'h1mesuke/unite-outline'
@@ -128,14 +129,14 @@ let g:unite_enable_start_insert = 1
 nnoremap [unite] <Nop>
 nmap     <Leader>u [unite]
 nmap     <Space>u [unite]
-nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file file/new<CR>
+nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file file/new directory/new<CR>
 nnoremap <silent> [unite]u :<C-u>Unite -buffer-name=files file_mru buffer<CR>
 nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=files file buffer file_mru file/new<CR>
 nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=files bookmark<CR>
 nnoremap <silent> [unite]t :<C-u>Unite -immediately tab:no-current<CR>
 nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register -no-start-insert register<CR>
-nnoremap <silent> [unite]/ :<C-u>Unite -keep-focus -no-quit -winheight=10 line<CR>
-nnoremap <silent> [unite]* :<C-u>UniteWithCursorWord -keep-focus -no-quit -no-start-insert -winheight=10 line<CR>
+nnoremap <silent> [unite]/ :<C-u>Unite -winheight=10 -auto-highlight line<CR>
+nnoremap <silent> [unite]* :<C-u>UniteWithCursorWord -no-start-insert -winheight=10 -auto-highlight line<CR>
 nnoremap <silent> [unite]s :<C-u>Unite -no-start-insert source<CR>
 nnoremap <silent> [unite]p :<C-u>call <SID>unite_project()<CR>
 nnoremap <silent> [unite]o :<C-u>Unite -no-quit -vertical -no-start-insert -direction=rightbelow -winwidth=30 outline<CR>
@@ -156,6 +157,14 @@ augroup UniteFileType
 augroup END
 
 call unite#custom_source('file_rec', 'filters', ['matcher_fuzzy', 'sorter_default', 'converter_default'])
+
+" unite-grepのバックエンドをagに変更
+if executable('ag')
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts = '--nocolor --nogroup'
+  let g:unite_source_grep_recursive_opt = ''
+  let g:unite_source_grep_max_candidates = 200
+endif
 
 "==================
 " vimfiler
@@ -279,6 +288,28 @@ call smartinput#define_rule({
   \ 'input': '<Enter><C-O>O'
   \ })
 
+" vimの辞書定義で自動的にバックスラッシュを入れる
+call smartinput#define_rule({
+  \ 'at': '^ *\\ *.*\%#$',
+  \ 'char': '<Enter>',
+  \ 'input': '<Enter><Bslash>',
+  \ 'filetype': ['vim'],
+  \ })
+
+call smartinput#define_rule({
+  \ 'at': '^ *function!\?.*\%#$',
+  \ 'char': '<Enter>',
+  \ 'input': '<Enter>endfunction<C-O>O',
+  \ 'filetype': ['vim'],
+  \ })
+
+call smartinput#define_rule({
+  \ 'at': '^ *if.*\%#$',
+  \ 'char': '<Enter>',
+  \ 'input': '<Enter>endif<C-O>O',
+  \ 'filetype': ['vim'],
+  \ })
+
 "==================
 " airline
 "==================
@@ -287,6 +318,66 @@ let g:airline_theme = 'powerlineish'
 let g:unite_force_overwrite_statusline = 0
 let g:vimfiler_force_overwrite_statusline = 0
 
+"==================
+" lightline
+"==================
+
+" リロードしたときにエラーが出るのを防ぐ
+if !exists('g:lightline')
+  let g:lightline = {
+    \ 'colorscheme':  'wombat',
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ],
+    \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ],
+    \ },
+    \ 'component': {
+    \   'readonly': '%{&readonly?"⭤":""}',
+    \   'modified': '%{&modified?"+":&modifiable?"":"-"""}',
+    \ },
+    \ 'component_function': {
+    \   'fugitive': 'MyFugitive',
+    \   'fileformat': 'MyFileFormat',
+    \   'filetype': 'MyFiletype',
+    \   'fileencoding': 'MyFileencoding',
+    \   'filename': 'MyFilename',
+    \ },
+    \ 'component_visible_condition': {
+    \   'readonly': '&readonly',
+    \   'modified': '(&modified||!&modifiable)',
+    \ },
+    \ }
+endif
+
+function! MyFilename()
+  let filetype_mapping = {
+    \ 'vimfiler': 'vimfiler#get_status_string()',
+    \ 'unite': 'unite#get_status_string()',
+    \ 'vimshell': "substitute(b:vimshell.current_dir, expand('~'), '~', '')",
+    \ }
+
+  if has_key(filetype_mapping, &ft)
+    return eval(filetype_mapping[&ft])
+  else
+    return expand('%:t') != '' ? expand('%:t') : '[No Name]'
+  endif
+endfunction
+
+function! MyFugitive()
+  return exists('*fugitive#head') && len(fugitive#head()) ? '⭠ '.fugitive#head() : ''
+endfunction
+
+function! MyFiletype()
+  return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+endfunction
+
+function! MyFileencoding()
+  return winwidth('.') > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+endfunction
+
+function! MyFileFormat()
+  return winwidth('.') > 70 ? &fileformat : ''
+endfunction
+
 "======================
 " オレオレセッティング
 "======================
@@ -294,7 +385,6 @@ let g:vimfiler_force_overwrite_statusline = 0
 if filereadable(expand('~/.vimrc.plugin.mine'))
   source ~/.vimrc.plugin.mine
 endif
-
 
 " ファイルタイプを有効にする
 filetype plugin indent on
