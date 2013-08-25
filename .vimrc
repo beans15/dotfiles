@@ -97,7 +97,7 @@ set wildmenu
 " コマンドラインを1行にする
 set cmdheight=1
 " ユニコード文字の幅をASCII文字の2倍の幅にする
-set ambiwidth=double
+"set ambiwidth=double
 " マーカーに基づいて折りたたむ
 set foldmethod=marker
 " 最初は折りたたまない
