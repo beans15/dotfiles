@@ -11,7 +11,3 @@ vunmap S
 " sの代わりにgsを使うようにする
 vmap gs <Plug>Vsurround
 vmap gS <Plug>VSurround
-
-" netrwでdが使いにくくなるので、dのマッピングを消す
-" ds~自体は、cs~<BS>で代用可能
-nunmap ds
