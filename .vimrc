@@ -155,6 +155,13 @@ let g:netrw_list_hide = '.*\.pyc,.*\.pyo'
 colorscheme hybrid
 "hi Normal ctermfg=lightgrey ctermbg=black
 
+function! ChangeSolarized()
+  colorscheme solarized
+  set background=light
+endfunction
+
+command! Solarized call ChangeSolarized()
+
 "------------------------------------------------
 " 環境依存の設定
 "------------------------------------------------

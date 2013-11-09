@@ -14,6 +14,8 @@ endif
 
 
 " プラグインのロード
+let s:meet_neocomplete_requirements = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
+
 " 汎用的なもの
 NeoBundle 'Shougo/vimproc', {
   \ 'build': {
@@ -23,40 +25,41 @@ NeoBundle 'Shougo/vimproc', {
   \     'unix': 'make -f make_unix.mak',
   \   },
   \ }
-"NeoBundle 'Lokaltog/powerline', { 'rtp': 'powerline/bindings/vim' }
-"NeoBundle 'Lokaltog/vim-powerline'
-"NeoBundle 'bling/vim-airline'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'surround.vim'
 NeoBundle 'unite.vim'
-NeoBundle 'h1mesuke/unite-outline'
-NeoBundle 'sgur/unite-qf'
-NeoBundle 'tsukkee/unite-help'
+NeoBundleLazy 'h1mesuke/unite-outline', {'autoload': {'unite_sources': ['outline']}}
+NeoBundleLazy 'sgur/unite-qf', {'autoload': {'unite_sources': ['qf']}}
+NeoBundleLazy 'tsukkee/unite-help', {'autoload': {'unite_sources': ['help']}}
+NeoBundleLazy 'tsukkee/unite-tag', {'autoload': {'unite_sources': ['tag']}}
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'deton/jasegment.vim'
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'kana/vim-textobj-indent'
 NeoBundle 'kana/vim-smartinput'
+NeoBundle 'Align'
 
 " 開発用
-NeoBundle 'neocomplcache'
+if s:meet_neocomplete_requirements
+  NeoBundle 'Shougo/neocomplete.vim'
+  NeoBundleFetch 'Shougo/neocomplcache.vim'
+else
+  NeoBundleFetch 'Shougo/neocomplete.vim'
+  NeoBundle 'Shougo/neocomplcache.vim'
+endif
+
 NeoBundle 'Shougo/neosnippet'
-"NeoBundle 'http://conque.googlecode.com/svn/trunk/'
 NeoBundle 'quickrun'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundleLazy 'Shougo/vimshell', {'autoload': {'commands': ['VimShell']}}
-"NeoBundle 'taglist.vim'
 
 " 特定言語の開発用
 NeoBundleLazy 'vim-coffee-script', {'autoload': {'filetypes': ['coffee']}}
-"NeoBundleLazy 'mattn/zencoding-vim', {'autoload': {'filetypes': ['html', 'htmldjango']}}
 NeoBundleLazy 'mattn/emmet-vim', {'autoload': {'filetypes': ['html', 'css', 'scss', 'php']}}
-if has('python')
-  NeoBundleLazy 'davidhalter/jedi-vim', {'autoload': {'filetypes': ['python']}}
-endif
-"NeoBundle 'python_fold'
+NeoBundleLazy 'kana/vim-filetype-haskell', {'autoload': {'filetypes': ['haskell']}}
+NeoBundleLazy 'ujihisa/neco-ghc', {'autoload': {'filetypes': ['haskell']}}
 
 " その他
 NeoBundle 'mattn/webapi-vim'
@@ -67,7 +70,7 @@ NeoBundleLazy 'sudo.vim', {'autoload': {'commands': ['SudoRead', 'SudoWrite']}}
 NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'nanotech/jellybeans.vim'
 "NeoBundle 'jonathanfilip/vim-lucius'
-NeoBundle 'tomasr/molokai'
+"NeoBundle 'tomasr/molokai'
 "NeoBundle 'jpo/vim-railscasts-theme'
 "NeoBundle 'vim-scripts/Wombat'
 "NeoBundle 'vim-scripts/twilight'
@@ -79,25 +82,48 @@ NeoBundle 'thinca/vim-localrc'
 
 
 "==================
-" neocomplcache
+" neocomplete
 "==================
 
-" 起動時に有効にする
-let g:neocomplcache_enable_at_startup = 1
-" 大文字小文字が混じっている場合は、大文字小文字を区別する
-let g:neocomplcache_enable_smart_case = 1
-" キーワードの最小長さを3文字に
-let g:neocomplcache_min_syntax_length = 3
-" 補完候補の先頭を選択状態に
-"let g:neocomplcache_enable_auto_select = 1
+if s:meet_neocomplete_requirements
+  let g:neocomplete#enable_at_startup = 1
+  let g:neocomplete#enable_smart_case = 1
+  let g:neocomplete#enable_auto_select = 0
 
+  "if !exists('g:neocomplete#force_omni_input_patterns')
+  "  let g:neocomplete#force_omni_input_patterns = {}
+  "endif
+
+  "let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
+
+  if g:portable
+    let g:neocomplete#data_directory = expand("$VIM/.neocomplete")
+  endif
+else
+  " 起動時に有効にする
+  let g:neocomplcache_enable_at_startup = 1
+  " 大文字小文字が混じっている場合は、大文字小文字を区別する
+  let g:neocomplcache_enable_smart_case = 1
+  " キーワードの最小長さを3文字に
+  let g:neocomplcache_min_syntax_length = 3
+  " 補完候補の先頭を選択状態に
+  "let g:neocomplcache_enable_auto_select = 1
+
+  if g:portable
+    let g:neocomplcache_temporary_dir = expand("$VIM/.neocomplcache")
+  endif
+endif
 
 "==================
 " neosnippet
 "==================
 
 " スニペットのディレクトリを指定
-let g:neosnippet#snippets_directory = expand('~/.vim/snippets')
+if g:portable
+  let g:neosnippet#snippets_directory = expand("$VIM/vimfiles/snippets")
+else
+  let g:neosnippet#snippets_directory = expand('~/.vim/snippets')
+endif
 " スニペット補完のキーバインド
 imap <silent><C-l> <Plug>(neosnippet_expand_or_jump)
 smap <silent><C-l> <Plug>(neosnippet_expand_or_jump)
@@ -106,24 +132,12 @@ let g:neosnippet#enable_snipmate_compatibility = 1
 
 
 "==================
-" zencoding-vim
-"==================
-"
-"let g:user_zen_settings = {
-"\   'lang': 'ja',
-"\   'indentation': '    ',
-"\   'css': {
-"\     'filters': 'fc',
-"\   }
-"\}
-
-
-"==================
 " unite
 "==================
 
 " インサートモードで開始
 let g:unite_enable_start_insert = 1
+let g:unite_force_overwrite_statusline = 0
 
 "imap <silent> <C-k>  <Plug>(neocomplcache_start_unite_complete)
 nnoremap [unite] <Nop>
@@ -140,6 +154,7 @@ nnoremap <silent> [unite]* :<C-u>UniteWithCursorWord -no-start-insert -winheight
 nnoremap <silent> [unite]s :<C-u>Unite -no-start-insert source<CR>
 nnoremap <silent> [unite]p :<C-u>call <SID>unite_project()<CR>
 nnoremap <silent> [unite]o :<C-u>Unite -no-quit -vertical -no-start-insert -direction=rightbelow -winwidth=30 outline<CR>
+nnoremap <silent> [unite]] :<C-u>UniteWithCursorWord -no-start-insert -winheight=10 tag<CR>
 
 function! s:unite_project(...)
   let opts = (a:0 ? join(a:000, ' ') : '')
@@ -166,19 +181,35 @@ if executable('ag')
   let g:unite_source_grep_max_candidates = 200
 endif
 
+if g:portable
+  let g:unite_data_directory = expand("$VIM/.unite")
+endif
+
 "==================
 " vimfiler
 "==================
 
 " セーフモードを無効にする
 let g:vimfiler_safe_mode_by_default = 0
+let g:vimfiler_force_overwrite_statusline = 0
+let g:vimfiler_as_default_explorer = 1
 
-nnoremap <silent> <Leader>Ex :<C-u>VimFilerBufferDir -simple -explorer<CR>
+nnoremap <silent> <Leader>Ex :<C-u>VimFilerBufferDir -simple -explorer -winwidth=30<CR>
 nnoremap <silent> <Leader>Tex :<C-u>call <SID>vimfiler_tab_bufferdir()<CR>
 
 function! s:vimfiler_tab_bufferdir()
   exec 'VimFilerTab -simple ' . expand('%:p:h')
 endfunction
+
+if g:portable
+  let g:vimfiler_data_directory = expand("$VIM/.vimfiler")
+endif
+
+"==================
+" vimshell
+"==================
+
+let g:vimshell_force_overwrite_statusline = 0
 
 "==================
 " vim-coffee-script
@@ -186,49 +217,6 @@ endfunction
 
 " 無名関数でラップしない
 let g:coffee_make_options = '-b'
-
-
-"==================
-" vim-powerline
-"==================
-
-let g:Powerline_symbols = 'fancy'
-
-
-"==================
-" jedi
-"==================
-
-let g:jedi#show_function_definition = 0
-
-" quickrunと衝突するので変更
-let g:jedi#rename_command = 'R'
-let g:jedi#pydoc = ''
-
-"==================
-" Conque
-"==================
-
-"let g:ConqueTerm_ReadUnfocused = 1
-"let g:ConqueTerm_CloseOnEnd = 1
-"let g:ConqueTerm_StartMessages = 0
-"let g:ConqueTerm_CWInsert = 1
-"noremap <silent> <Leader>sh :ConqueTermVSplit zsh<CR>
-"noremap <silent> <Leader>py :ConqueTermVSplit ipython<CR>
-"noremap <silent> <Leader>rb :ConqueTermVSplit irb<CR>
-"noremap <silent> <Leader>sbt :ConqueTermVSplit sbt<CR>
-"noremap <silent> <Leader>sc :ConqueTermVSplit scala<CR>
-"
-"" バッファを閉じたときにプロセスを終了するようにする
-"function! s:delete_ConqueTerm(buffer_name)
-"    let term_obj = conque_term#get_instance(a:buffer_name)
-"    call term_obj.close()
-"endfunction
-"autocmd BufWinLeave zsh\s-\s? call <SID>delete_ConqueTerm(expand('%'))
-"autocmd BufWinLeave ipython\s-\s? call <SID>delete_ConqueTerm(expand('%'))
-"autocmd BufWinLeave irb\s-\s? call <SID>delete_ConqueTerm(expand('%'))
-"autocmd BufWinLeave sbt\s-\s? call <SID>delete_ConqueTerm(expand('%'))
-"autocmd BufWinLeave sc\s-\s? call <SID>delete_ConqueTerm(expand('%'))
 
 "==================
 " syntastic
@@ -311,14 +299,6 @@ call smartinput#define_rule({
   \ })
 
 "==================
-" airline
-"==================
-
-let g:airline_theme = 'powerlineish'
-let g:unite_force_overwrite_statusline = 0
-let g:vimfiler_force_overwrite_statusline = 0
-
-"==================
 " lightline
 "==================
 
@@ -335,6 +315,7 @@ if !exists('g:lightline')
     \   'modified': '%{&modified?"+":&modifiable?"":"-"""}',
     \ },
     \ 'component_function': {
+    \   'mode': 'MyMode',
     \   'fugitive': 'MyFugitive',
     \   'fileformat': 'MyFileFormat',
     \   'filetype': 'MyFiletype',
@@ -347,6 +328,13 @@ if !exists('g:lightline')
     \ },
     \ }
 endif
+
+function! MyMode()
+  return  &ft == 'unite' ? 'Unite' :
+        \ &ft == 'vimfiler' ? 'VimFiler' :
+        \ &ft == 'vimshell' ? 'VimShell' :
+        \ winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
 
 function! MyFilename()
   let filetype_mapping = {
@@ -377,6 +365,14 @@ endfunction
 function! MyFileFormat()
   return winwidth('.') > 70 ? &fileformat : ''
 endfunction
+
+"==================
+" vim-ref
+"==================
+
+if g:portable
+  let g:ref_cache_dir = expand("$VIM/.vim_ref_cache")
+endif
 
 "======================
 " オレオレセッティング
