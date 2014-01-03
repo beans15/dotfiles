@@ -1,0 +1,15 @@
+snippet     if neobundle#tap
+abbr        if neobundle#tap(...)
+prev_word   '^'
+	if neobundle#tap('${1}')
+		${2}
+
+		call neobundle#untap()
+	endif
+
+snippet     function_neobundle_on_source
+abbr        function! neobundle#...on_source(bundle)
+prev_word   '^'
+	function! neobundle#tapped.hooks.on_source(bundle)
+		${1}
+	endfunction
