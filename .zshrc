@@ -132,64 +132,68 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 #------------------------------------------------
 # プロンプトの設定
 #------------------------------------------------
+# Pure
+source ~/.zsh/prompt.zsh
+
 # 右側まで入力がきたら、右プロンプトを消す
 setopt transient_rprompt
-function abbrev_path() {
-    local _current current directories over heads tail display LIMIT
-    LIMIT=5
-    _current='%~'
-    current=${(%)_current}
-    directories=( ${(s:/:)current} )
-    over=$(( $#directories - $LIMIT ))
-    if [[ $over -lt 0 ]]; then
-        over=0
-    fi
+#function abbrev_path() {
+#    local _current current directories over heads tail display LIMIT
+#    LIMIT=5
+#    _current='%~'
+#    current=${(%)_current}
+#    directories=( ${(s:/:)current} )
+#    over=$(( $#directories - $LIMIT ))
+#    if [[ $over -lt 0 ]]; then
+#        over=0
+#    fi
+#
+#    heads=( $directories[1,over] )
+#    tail=( $directories[over+1,$#directories] )
+#    # LIMITを超えたディレクトリは頭1文字だけ表示
+#    display=( ${(M)heads#?} $tail )
+#    display=${(j:/:)display}
+#    if [[ $current[1] = '/' ]]; then
+#        display="/$display"
+#    fi
+#    echo $display
+#}
 
-    heads=( $directories[1,over] )
-    tail=( $directories[over+1,$#directories] )
-    # LIMITを超えたディレクトリは頭1文字だけ表示
-    display=( ${(M)heads#?} $tail )
-    display=${(j:/:)display}
-    if [[ $current[1] = '/' ]]; then
-        display="/$display"
-    fi
-    echo $display
-}
-
-function precmd() {
-    # タイトルの設定
-    case "${TERM}" in
-    kterm*|xterm*)
-        echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
-    ;;
-    esac
-
-    PROMPT="%m:%n$ "
-
-    # gitリポジトリでは、ブランチの状態を表示する
-    st=`git status 2>/dev/null`
-    if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
-        color=${fg[cyan]}
-    elif [[ -n `echo "$st" | grep "^nothing added"` ]]; then
-        color=${fg[blue]}
-    elif [[ -n `echo "$st" | grep "^# Untracked"` ]]; then
-        color=${fg_bold[red]}
-    else
-        color=${fg[red]}
-    fi
-    PROMPT="%{$color%}$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1) /')%b%{${reset_color}%}"${PROMPT}
-
-    # カレントディレクトリを長さに応じて省略
-    display=$(abbrev_path)
-    RPROMPT="%{${fg[green]}%}[$display]%{${reset_color}%}"
-
-    # virtualenvでは、環境名を表示する
-    if [[ $#VIRTUAL_ENV -ge 1 ]]; then
-        local name
-        name=`basename "$VIRTUAL_ENV"`
-        RPROMPT="%{${fg_bold[white]}%}(env: %{${fg[green]}%}$name%{${fg_bold[white]}%})%{${reset_color}%} $RPROMPT"
-    fi
-}
+#function precmd() {
+#    # タイトルの設定
+#    case "${TERM}" in
+#    kterm*|xterm*)
+#        echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
+#    ;;
+#    esac
+#
+#    PROMPT="%{${fg[yellow]}%}%~ %{${reset_color}%}"
+#    #PROMPT="%m:%n$ "
+#
+#    # gitリポジトリでは、ブランチの状態を表示する
+#    st=`git status 2>/dev/null`
+#    if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
+#        color=${fg[cyan]}
+#    elif [[ -n `echo "$st" | grep "^nothing added"` ]]; then
+#        color=${fg[blue]}
+#    elif [[ -n `echo "$st" | grep "^# Untracked"` ]]; then
+#        color=${fg_bold[red]}
+#    else
+#        color=${fg[red]}
+#    fi
+#    PROMPT=${PROMPT}"%{$color%}$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1) /')%b%{${reset_color}%}"
+#
+#    # カレントディレクトリを長さに応じて省略
+#    #display=$(abbrev_path)
+#    #RPROMPT="%{${fg[green]}%}[$display]%{${reset_color}%}"
+#
+#    # virtualenvでは、環境名を表示する
+#    if [[ $#VIRTUAL_ENV -ge 1 ]]; then
+#        local name
+#        name=`basename "$VIRTUAL_ENV"`
+#        RPROMPT="%{${fg_bold[white]}%}(env: %{${fg[green]}%}$name%{${fg_bold[white]}%})%{${reset_color}%} $RPROMPT"
+#    fi
+#}
 
 #------------------------------------------------
 # その他
