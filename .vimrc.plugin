@@ -278,7 +278,8 @@ if neobundle#tap('vimfiler')
     \     { 'name': 'VimFiler', 'complete': 'customlist,vimfiler#complete' },
     \     { 'name': 'VimFilerExplorer', 'complete': 'customlist,vimfiler#complete' },
     \     { 'name': 'VimFilerBufferDir', 'complete': 'customlist,vimfiler#complete' },
-    \     { 'name': 'VimFilerTab', 'complete': 'customlist,vimfiler#complete' }
+    \     { 'name': 'VimFilerTab', 'complete': 'customlist,vimfiler#complete' },
+    \     { 'name': 'VimFilerCreate', 'complete': 'customlist,vimfiler#complete' }
     \   ],
     \   'mappings': '<Plug>(vimfiler_',
     \   'explorer': 1
@@ -290,13 +291,23 @@ if neobundle#tap('vimfiler')
   let g:vimfiler_force_overwrite_statusline = 0
   let g:vimfiler_as_default_explorer = 1
 
-  nnoremap <silent> <Leader>Ex :<C-u>VimFilerBufferDir -simple -explorer -winwidth=30<CR>
-  nnoremap <silent> <Space>Ex :<C-u>VimFilerBufferDir -simple -explorer -winwidth=30<CR>
-  nnoremap <silent> <Leader>Tex :<C-u>call <SID>vimfiler_tab_bufferdir()<CR>
-  nnoremap <silent> <Space>Tex :<C-u>call <SID>vimfiler_tab_bufferdir()<CR>
+  nnoremap <silent> <Leader>ex :<C-u>VimFilerBufferDir -simple -explorer -winwidth=30<CR>
+  nnoremap <silent> <Space>ex :<C-u>VimFilerBufferDir -simple -explorer -winwidth=30<CR>
+  nnoremap <silent> <Leader>te :<C-u>call <SID>vimfiler_tab_bufferdir()<CR>
+  nnoremap <silent> <Space>te :<C-u>call <SID>vimfiler_tab_bufferdir()<CR>
 
   function! s:vimfiler_tab_bufferdir()
     exec 'VimFilerTab -simple ' . expand('%:p:h')
+  endfunction
+
+  augroup MyVimFilerSettings
+    autocmd!
+    autocmd FileType vimfiler call <SID>vimfiler_settings()
+  augroup END
+
+  function! s:vimfiler_settings()
+    nmap <buffer> <Space><Space> <Plug>(vimfiler_toggle_mark_current_line)
+    nmap <buffer> <Space><CR> <Plug>(vimfiler_toggle_mark_current_line)
   endfunction
 
   if g:portable
