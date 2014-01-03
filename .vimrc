@@ -23,6 +23,11 @@ set nobackup
 " 上書き前にバックアップを取る
 set writebackup
 
+if v:version > 730
+  " XXX 軽量化のため、NFAエンジンを無効に
+  set regexpengine=1
+endif
+
 "------------------------------------------------
 " 編集関連の設定
 "------------------------------------------------
@@ -144,12 +149,6 @@ else
 endif
 
 "------------------------------
-" netrwの設定
-"------------------------------
-" 非表示にするファイルパターンを設定
-let g:netrw_list_hide = '.*\.pyc,.*\.pyo'
-
-"------------------------------
 " color
 "------------------------------
 colorscheme hybrid
@@ -166,6 +165,6 @@ command! Solarized call ChangeSolarized()
 " 環境依存の設定
 "------------------------------------------------
 " 環境ごとの設定は.vimrc.mineに記述する
-if filereadable(expand('~/.vimrc.mine'))
-    source ~/.vimrc.mine
+if filereadable(expand('$HOME/.vimrc.mine'))
+    source $HOME/.vimrc.mine
 endif
