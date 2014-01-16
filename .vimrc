@@ -58,7 +58,7 @@ cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 "------------------------------------------------
 " インデント関連の設定
 "------------------------------------------------
-" タブの空白数を8つに
+" タブの空白数を4つに
 set tabstop=4
 " 自動インデントの空白数を4つに
 set shiftwidth=4
@@ -135,9 +135,15 @@ inoremap <F1> <ESC>
 noremap ; :
 noremap : ;
 
-" jとkの移動を表示している行の移動にする
+" 表示している行の移動にする
 noremap j gj
+noremap gj j
 noremap k gk
+noremap gk k
+noremap ^ g^
+noremap g^ ^
+noremap $ g$
+noremap g$ $
 
 "------------------------------------------------
 " プラグインの設定
