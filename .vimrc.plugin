@@ -38,7 +38,7 @@ NeoBundle 'deton/jasegment.vim'
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'kana/vim-textobj-indent', {'depends': ['kana/vim-textobj-user']}
 NeoBundle 'kana/vim-smartinput'
-NeoBundle 'tpope/vim-endwise', { 'depends': [ 'kana/vim-smartinput' ] }
+NeoBundle 'cohama/vim-smartinput-endwise', { 'depends': [ 'kana/vim-smartinput' ] }
 NeoBundle 'Align'
 NeoBundleLazy 'sudo.vim', { 'external_commands': [ 'sudo' ] }
 NeoBundleLazy 'thinca/vim-ref'
@@ -70,9 +70,10 @@ NeoBundleLazy 'mattn/gist-vim', {
   \ 'external_commands': [ 'curl' ]
   \ }
 
-" Color
+" Visual
 NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'istepura/vim-toolbar-icons-silk', { 'gui': 1 }
 
 NeoBundleDisable 'thinca/vim-localrc'
 
@@ -91,7 +92,7 @@ if neobundle#tap('lightline.vim')
       \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ],
       \ },
       \ 'component': {
-      \   'readonly': '%{&readonly?"⭤":""}',
+      \   'readonly': '%{&readonly?"RO":""}',
       \   'modified': '%{&modified?"+":&modifiable?"":"-"""}',
       \ },
       \ 'component_function': {
@@ -332,15 +333,33 @@ if neobundle#tap('vim-smartinput')
       \ })
 
     call smartinput#define_rule({
+      \ 'at': '(\%#)',
+      \ 'char': '<Enter>',
+      \ 'input': '<Enter><C-O>O',
+      \ })
+
+    call smartinput#define_rule({
       \ 'at': '{\%#}',
       \ 'char': '<Space>',
       \ 'input': '<Space><Space><Left>',
       \ })
 
     call smartinput#define_rule({
+      \ 'at': '{\%#}',
+      \ 'char': '<Enter>',
+      \ 'input': '<Enter><C-O>O',
+      \ })
+
+    call smartinput#define_rule({
       \ 'at': '\[\%#\]',
       \ 'char': '<Space>',
       \ 'input': '<Space><Space><Left>',
+      \ })
+
+    call smartinput#define_rule({
+      \ 'at': '\[\%#\]',
+      \ 'char': '<Enter>',
+      \ 'input': '<Enter><C-O>O',
       \ })
 
     call smartinput#define_rule({
@@ -510,8 +529,6 @@ if neobundle#tap('vim-fugitive')
   nnoremap  <silent>  [git]d        :<C-u>Gdiff<CR>
   nnoremap  <silent>  [git]pl       :<C-u>Git pull --rebase<CR>
   nnoremap  <silent>  [git]b        :<C-u>Gblame<CR>
-  nnoremap  <silent>  [git]v        :<C-u>Gitv<CR>
-  nnoremap  <silent>  [git]V        :<C-u>Gitv!<CR>
 
   call neobundle#untap()
 endif
@@ -527,20 +544,25 @@ if neobundle#tap('gitv')
     \ }
     \ })
 
+  nnoremap  [git]     <Nop>
+  nmap      <Space>g  [git]
+  nnoremap  <silent>  [git]v        :<C-u>Gitv<CR>
+  nnoremap  <silent>  [git]V        :<C-u>Gitv!<CR>
+
   augroup MyGitvSettings
     autocmd!
     autocmd FileType gitv call s:my_gitv_settings()
     autocmd FileType git setl foldenable foldlevel=0
-    autocmd FileType git nnoremap <silent><buffer> t :<C-u>windo call <SID>toggle_git_folding()<CR>1<C-w>w
+    autocmd FileType git nnoremap <silent><buffer> <C-T> :<C-u>windo call <SID>toggle_git_folding()<CR>1<C-w>w
   augroup END
 
   function! s:my_gitv_settings()
     setl iskeyword+=/,-,.
     nnoremap <silent><buffer> C :<C-u>Git checkout <C-r><C-w><CR>
-    nnoremap <buffer> <Space>grb :<C-u>Git rebase <C-r>=GitvGetCurrentHash()<CR><Space>
-    nnoremap <buffer> <Space>grv :<C-u>Git revert <C-r>=GitvGetCurrentHash()<CR><CR>
-    nnoremap <buffer> <Space>gcp :<C-u>Git cherry-pick <C-r>=GitvGetCurrentHash()<CR><CR>
-    nnoremap <buffer> <Space>grh :<C-u>Git reset --hard <C-r>=GitvGetCurrentHash()<CR>
+    nnoremap <buffer> [git]rb :<C-u>Git rebase <C-r>=GitvGetCurrentHash()<CR><Space>
+    nnoremap <buffer> [git]rv :<C-u>Git revert <C-r>=GitvGetCurrentHash()<CR><CR>
+    nnoremap <buffer> [git]cp :<C-u>Git cherry-pick <C-r>=GitvGetCurrentHash()<CR><CR>
+    "nnoremap <buffer> <Space>grh :<C-u>Git reset --hard <C-r>=GitvGetCurrentHash()<CR>
   endfunction
 
   function! s:gitv_get_current_hash()
@@ -553,8 +575,6 @@ if neobundle#tap('gitv')
     endif
   endfunction
 
-  nnoremap <silent><buffer> <Space>t :<C-u>windo call <SID>toggle_git_folding()<CR>1<C-w>w
-
   call neobundle#untap()
 endif
 
@@ -565,11 +585,24 @@ endif
 if neobundle#tap('vimshell')
   call neobundle#config({
     \ 'autoload': {
-    \   'commands': ['VimShell', 'VimShellPop']
+    \   'commands': ['VimShell', 'VimShellPop', 'VimShellTab', 'VimShellInteractive']
     \ }
     \ })
 
   let g:vimshell_force_overwrite_statusline = 0
+
+  nnoremap [vimshell] <Nop>
+  nmap <Leader>s [vimshell]
+  nmap <Space>s [vimshell]
+  nnoremap [vimshell]h :<C-u>VimShellPop<CR>
+  nnoremap [vimshell]t :<C-u>VimShellTab<CR>
+
+  nnoremap [vimshell-interactive] <Nop>
+  nmap <Leader>i [vimshell-interactive]
+  nmap <Space>i [vimshell-interactive]
+  nnoremap [vimshell-interactive]py :<C-u>VimShellInteractive --split='belowright vsplit' ipython<CR>
+  nnoremap [vimshell-interactive]sc :<C-u>VimShellInteractive --split='belowright vsplit' scala<CR>
+  nnoremap [vimshell-interactive]sb :<C-u>VimShellInteractive --split='belowright vsplit' sbt<CR>
 
   call neobundle#untap()
 endif
