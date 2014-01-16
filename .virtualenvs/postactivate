@@ -4,8 +4,8 @@
 VIRTUAL_ENV_NAME=`basename "$VIRTUAL_ENV"`
 
 # プロンプトの設定
-_OLD_RPROMPT=$RPROMPT
-RPROMPT="%{${fg_bold[white]}%}(env: %{${fg[green]}%}$VIRTUAL_ENV_NAME%{${fg_bold[white]}%})%{${reset_color}%} $RPROMPT"
+#_OLD_RPROMPT=$RPROMPT
+#RPROMPT="%{${fg_bold[white]}%}(env: %{${fg[green]}%}$VIRTUAL_ENV_NAME%{${fg_bold[white]}%})%{${reset_color}%} $RPROMPT"
 
 # 環境ごとの設定を呼び出す
 site_command="$WORKON_HOME/${VIRTUAL_ENV_NAME}.postactivate"
