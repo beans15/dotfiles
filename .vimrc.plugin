@@ -47,7 +47,8 @@ NeoBundleLazy 'thinca/vim-ref'
 NeoBundle 'Shougo/neocomplete.vim', { 'disabled': !g:meet_neocomplete_requirements }
 NeoBundle 'Shougo/neocomplcache.vim', { 'disabled': g:meet_neocomplete_requirements }
 
-NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet', { 'depends': ['Shougo/neosnippet-snippets'] }
+NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundleLazy 'thinca/vim-quickrun'
 NeoBundleLazy 'scrooloose/syntastic'
 NeoBundle 'tpope/vim-fugitive'
@@ -601,8 +602,10 @@ if neobundle#tap('vimshell')
   nmap <Leader>i [vimshell-interactive]
   nmap <Space>i [vimshell-interactive]
   nnoremap [vimshell-interactive]py :<C-u>VimShellInteractive --split='belowright vsplit' ipython<CR>
+  nnoremap [vimshell-interactive]rb :<C-u>VimShellInteractive --split='belowright vsplit' irb<CR>
   nnoremap [vimshell-interactive]sc :<C-u>VimShellInteractive --split='belowright vsplit' scala<CR>
   nnoremap [vimshell-interactive]sb :<C-u>VimShellInteractive --split='belowright vsplit' sbt<CR>
+  nnoremap [vimshell-interactive]gh :<C-u>VimShellInteractive --split='belowright vsplit' ghci<CR>
 
   call neobundle#untap()
 endif
