@@ -35,33 +35,35 @@ setopt PROMPT_SUBST
 # only show username if not default
 [ $USER != $DEFAULT_USERNAME ] && local username='%n@%m '
 
-
 # fastest possible way to check if repo is dirty
 git_dirty() {
-	# check if we're in a git repo
-	command git rev-parse --is-inside-work-tree &>/dev/null || return
-	# check if it's dirty
-	command git diff --quiet --ignore-submodules HEAD &>/dev/null; [ $? -eq 1 ] && echo '*'
+    # check if we're in a git repo
+    command git rev-parse --is-inside-work-tree &>/dev/null || return
+    # check if it's dirty
+    command git diff --quiet --ignore-submodules HEAD &>/dev/null; [ $? -eq 1 ] && echo '*'
 }
 
 # displays the exec time of the last command if set threshold was exceeded
 cmd_exec_time() {
-	local stop=`date +%s`
-	local start=${cmd_timestamp:-$stop}
-	let local elapsed=$stop-$start
-	[ $elapsed -gt $CMD_MAX_EXEC_TIME ] && echo ${elapsed}s
+    local stop=`date +%s`
+    local start=${cmd_timestamp:-$stop}
+    let local elapsed=$stop-$start
+    [ $elapsed -gt $CMD_MAX_EXEC_TIME ] && echo ${elapsed}s
 }
 
 preexec() {
-	cmd_timestamp=`date +%s`
+    cmd_timestamp=`date +%s`
 }
 
 precmd() {
-	vcs_info
-	# add `%*` to display the time
-	print -P '\n%F{blue}%~%F{green}$vcs_info_msg_0_`git_dirty` %F{8}$username%f %F{yellow}`cmd_exec_time`%f'
-	# reset value since `preexec` isn't always triggered
-	unset cmd_timestamp
+    # only show virtualenv if activated
+    [[ -n $VIRTUAL_ENV ]] && local virtualenv=" ${VIRTUAL_ENV##*/}"
+
+    vcs_info
+    # add `%*` to display the time
+    print -P '\n%F{blue}%~%F{yellow}$virtualenv%F{green}$vcs_info_msg_0_`git_dirty` %F{8}$username%f %F{yellow}`cmd_exec_time`%f'
+    # reset value since `preexec` isn't always triggered
+    unset cmd_timestamp
 }
 
 # prompt turns red if the previous command didn't exit with 0
