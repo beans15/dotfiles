@@ -71,6 +71,8 @@ NeoBundleLazy 'mattn/gist-vim', {
   \ 'external_commands': [ 'curl' ]
   \ }
 
+NeoBundle 'vim-jp/vital.vim' " A comprehensive Vim utility functions for Vim plugins
+
 " Visual
 NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'altercation/vim-colors-solarized'

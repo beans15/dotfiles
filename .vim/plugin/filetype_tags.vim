@@ -12,17 +12,17 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 if !exists("g:tags_dir")
-  let g:tags_dir = $HOME."/.tags"
+  let g:filetype_tags#directory = $HOME."/.tags"
 endif
 
-let g:tags_cache = {}
+let g:filetype_tags#cache = {}
 
 function! s:get_tag_files(filetype)
   if a:filetype != ""
-    if has_key(g:tags_cache, a:filetype)
-      return eval('g:tags_cache["'.a:filetype.'"]')
+    if has_key(g:filetype_tags#cache, a:filetype)
+      return g:filetype_tags#cache[a:filetype]
     else
-      let files = split(expand(g:tags_dir."/".a:filetype."*"), "\n")
+      let files = split(expand(g:filetype_tags#directory."/".a:filetype."*"), "\n")
       let tag_files = []
       for f in files
         if filereadable(f)
@@ -34,7 +34,7 @@ function! s:get_tag_files(filetype)
         endif
       endfor
 
-      exec 'let g:tags_cache["'.a:filetype.'"] = tag_files'
+      let g:filetype_tags#cache[a:filetype] = tag_files
 
       return tag_files
     endif
