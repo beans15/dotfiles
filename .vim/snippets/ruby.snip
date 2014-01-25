@@ -1,0 +1,10 @@
+snippet     shebang
+abbr        #!/usr/bin/env ruby
+prev_word   '^'
+	#!/usr/bin/env ruby
+	${2}
+
+snippet     coding
+abbr        # -*- coding: ... -*-
+	# -*- coding: ${1:utf-8} -*-
+	${2}
