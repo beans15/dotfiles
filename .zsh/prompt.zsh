@@ -59,9 +59,15 @@ precmd() {
     # only show virtualenv if activated
     [[ -n $VIRTUAL_ENV ]] && local virtualenv=" ${VIRTUAL_ENV##*/}"
 
+    # show python version if using pythonbrew
+    if which pythonbrew > /dev/null 2>&1; then
+        local pythonver=$( pythonbrew list | grep '\*' | awk '{print $1}' )
+        [[ -n $pythonver ]] && pythonver=" $pythonver"
+    fi
+
     vcs_info
     # add `%*` to display the time
-    print -P '\n%F{blue}%~%F{yellow}$virtualenv%F{green}$vcs_info_msg_0_`git_dirty` %F{8}$username%f %F{yellow}`cmd_exec_time`%f'
+    print -P '\n%F{blue}%~%F{yellow}$virtualenv%F{green}$vcs_info_msg_0_`git_dirty`%F{8}$pythonver $username%f %F{yellow}`cmd_exec_time`%f'
     # reset value since `preexec` isn't always triggered
     unset cmd_timestamp
 }
