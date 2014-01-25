@@ -403,6 +403,18 @@ if neobundle#tap('vim-smartinput')
 endif
 
 "======================
+" vim-smartinput-endwise
+"======================
+
+if neobundle#tap('vim-smartinput-endwise')
+  function! neobundle#tapped.hooks.on_source(bundle)
+    call smartinput_endwise#define_default_rules()
+  endfunction
+
+  call neobundle#untap()
+endif
+
+"======================
 " neocomplete
 "======================
 
