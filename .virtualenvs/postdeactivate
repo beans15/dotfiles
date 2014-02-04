@@ -1,8 +1,6 @@
 #!/usr/bin/env zsh
 # This hook is run after every virtualenv is deactivated.
 
-RPROMPT=$_OLD_RPROMPT
-
 # 環境ごとの設定を呼び出す
 site_command="$WORKON_HOME/${VIRTUAL_ENV_NAME}.postdeactivate"
 if [[ -e $site_command ]]; then
