@@ -33,6 +33,7 @@ NeoBundleLazy 'Shougo/unite.vim', { 'depends': ['Shougo/vimproc'] }
 NeoBundleLazy 'h1mesuke/unite-outline', {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'tsukkee/unite-help', {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'tsukkee/unite-tag', {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'osyo-manga/unite-quickfix', { 'depends': ['Shougo/unite.vim'] }
 NeoBundleLazy 'Shougo/vimfiler', {'depends': ['Shougo/unite.vim']}
 NeoBundle 'deton/jasegment.vim'
 NeoBundle 'kana/vim-textobj-user'
@@ -192,6 +193,7 @@ if neobundle#tap('unite.vim')
   nnoremap <silent> [unite]p :<C-u>call <SID>unite_project()<CR>
   nnoremap <silent> [unite]o :<C-u>Unite -no-quit -vertical -direction=rightbelow -winwidth=30 outline<CR>
   nnoremap <silent> [unite]] :<C-u>UniteWithCursorWord -no-start-insert -winheight=10 tag<CR>
+  nnoremap <silent> [unite]e :<C-u>Unite location_list<CR>
 
   function! s:unite_project(...)
     let opts = (a:0 ? join(a:000, ' ') : '')
@@ -223,7 +225,10 @@ if neobundle#tap('unite.vim')
   " ソースのカスタマイズ
   function! neobundle#tapped.hooks.on_source(bundle)
     call unite#custom_source('file_rec', 'matchers', 'matcher_fuzzy')
-    "call unite#custom_source('file', 'matchers', 'matcher_migemo')
+    call unite#set_profile('source/location_list', 'context', {
+      \ 'winheight': 10,
+      \ 'no_quit': 1
+      \ })
   endfunction
 
   call neobundle#untap()
@@ -267,6 +272,20 @@ if neobundle#tap('unite-tag')
     \   'unite_sources': ['tag']
     \ }
     \ })
+
+  call neobundle#untap()
+endif
+
+"======================
+" unite-quickfix
+"======================
+
+if neobundle#tap('unite-quickfix')
+  call neobundle#config({
+  \ 'autoload': {
+  \   'unite_sources': ['quickfix', 'location_list']
+  \ }
+  \ })
 
   call neobundle#untap()
 endif
@@ -423,6 +442,12 @@ if neobundle#tap('neocomplete.vim')
   let g:neocomplete#enable_smart_case = 1
   let g:neocomplete#enable_auto_select = 0
 
+  if !exists('g:neocomplete#sources')
+    let g:neocomplete#sources = {}
+  endif
+
+  let g:neocomplete#sources.unite = []
+
   if g:portable
     let g:neocomplete#data_directory = expand("$VIM/.neocomplete")
   endif
@@ -526,6 +551,8 @@ if neobundle#tap('syntastic')
     \ 'mode':               'passive',
     \ 'active_filetypes':   [],
     \ 'passive_filetypes':  [] }
+
+  let g:syntastic_always_populate_loc_list = 1
 
   nnoremap <silent> <Leader>L :<C-u>SyntasticCheck<CR>
 
