@@ -67,7 +67,7 @@ precmd() {
 
     vcs_info
     # add `%*` to display the time
-    print -P '\n%F{blue}%~%F{yellow}$virtualenv%F{green}$vcs_info_msg_0_`git_dirty`%F{8}$pythonver $username%f %F{yellow}`cmd_exec_time`%f'
+    print -P '\n%F{blue}%~%F{green}$vcs_info_msg_0_`git_dirty`%F{yellow}$virtualenv%F{8}$pythonver $username%f %F{yellow}`cmd_exec_time`%f'
     # reset value since `preexec` isn't always triggered
     unset cmd_timestamp
 }
