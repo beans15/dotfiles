@@ -55,7 +55,7 @@ NeoBundleLazy 'scrooloose/syntastic'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundleLazy 'gregsexton/gitv', { 'depends': [ 'tpope/vim-fugitive' ] }
 NeoBundleLazy 'Shougo/vimshell', {'depends': ['Shougo/vimproc']}
-NeoBundleLazy 'supermomonga/vimshell-pure.vim', { 'depends' : [ 'Shougo/vimshell'  ]  }
+NeoBundleLazy 'supermomonga/vimshell-pure.vim', { 'depends' : ['Shougo/vimshell'], 'disabled': has('win32') }
 NeoBundle 'Shougo/context_filetype.vim'
 NeoBundle 'osyo-manga/vim-precious', {'depends': 'Shougo/context_filetype.vim'}
 
