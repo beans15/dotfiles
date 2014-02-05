@@ -54,8 +54,12 @@ NeoBundleLazy 'thinca/vim-quickrun'
 NeoBundleLazy 'scrooloose/syntastic'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundleLazy 'gregsexton/gitv', { 'depends': [ 'tpope/vim-fugitive' ] }
+
 NeoBundleLazy 'Shougo/vimshell', {'depends': ['Shougo/vimproc']}
-NeoBundleLazy 'supermomonga/vimshell-pure.vim', { 'depends' : ['Shougo/vimshell'], 'disabled': has('win32') }
+if !has('win32')
+  NeoBundleLazy 'supermomonga/vimshell-pure.vim', { 'depends' : ['Shougo/vimshell'] }
+endif
+
 NeoBundle 'Shougo/context_filetype.vim'
 NeoBundle 'osyo-manga/vim-precious', {'depends': 'Shougo/context_filetype.vim'}
 
@@ -632,6 +636,10 @@ if neobundle#tap('vimshell')
     \ })
 
   let g:vimshell_force_overwrite_statusline = 0
+
+  if g:portable
+    let g:vimshell_data_directory = expand('$VIM/.vimshell')
+  endif
 
   nnoremap [vimshell] <Nop>
   nmap <Leader>s [vimshell]
