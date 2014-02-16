@@ -59,11 +59,10 @@ precmd() {
     # only show virtualenv if activated
     [[ -n $VIRTUAL_ENV ]] && local virtualenv=" ${VIRTUAL_ENV##*/}"
 
-    # show python version if using pythonbrew
-    if which pythonbrew > /dev/null 2>&1; then
-        local pythonver=$( pythonbrew list | grep '\*' | awk '{print $1}' )
-        [[ -n $pythonver ]] && pythonver=" $pythonver"
-    fi
+    # show python version if using pyenv
+    local pythonver=$( pyenv local 2> /dev/null )
+    [[ $pythonver == "system" ]] && pythonver=""
+    [[ -n $pythonver ]] && pythonver=" $pythonver"
 
     vcs_info
     # add `%*` to display the time
