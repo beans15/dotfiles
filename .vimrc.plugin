@@ -320,12 +320,8 @@ if neobundle#tap('vimfiler')
 
   nnoremap <silent> <Leader>ex :<C-u>VimFilerBufferDir -simple -explorer -winwidth=30<CR>
   nnoremap <silent> <Space>ex :<C-u>VimFilerBufferDir -simple -explorer -winwidth=30<CR>
-  nnoremap <silent> <Leader>te :<C-u>call <SID>vimfiler_tab_bufferdir()<CR>
-  nnoremap <silent> <Space>te :<C-u>call <SID>vimfiler_tab_bufferdir()<CR>
-
-  function! s:vimfiler_tab_bufferdir()
-    exec 'VimFilerTab -simple ' . expand('%:p:h')
-  endfunction
+  nnoremap <silent> <Leader>te :<C-u>exec 'VimFilerTab -simple ' . expand('%:p:h')<CR>
+  nnoremap <silent> <Space>te :<C-u>exec 'VimFilerTab -simple ' . expand('%:p:h')<CR>
 
   augroup MyVimFilerSettings
     autocmd!
@@ -631,7 +627,7 @@ endif
 if neobundle#tap('vimshell')
   call neobundle#config({
     \ 'autoload': {
-    \   'commands': ['VimShell', 'VimShellPop', 'VimShellTab', 'VimShellInteractive']
+    \   'commands': ['VimShell', 'VimShellPop', 'VimShellTab', 'VimShellInteractive', 'VimShellBufferDir']
     \ }
     \ })
 
@@ -644,8 +640,8 @@ if neobundle#tap('vimshell')
   nnoremap [vimshell] <Nop>
   nmap <Leader>s [vimshell]
   nmap <Space>s [vimshell]
-  nnoremap [vimshell]h :<C-u>VimShellPop<CR>
-  nnoremap [vimshell]t :<C-u>VimShellTab<CR>
+  nnoremap [vimshell]h :<C-u>exec 'VimShellPop ' . expand('%:p:h')<CR>
+  nnoremap [vimshell]t :<C-u>exec 'VimShellTab ' . expand('%:p:h')<CR>
 
   nnoremap [vimshell-interactive] <Nop>
   nmap <Leader>i [vimshell-interactive]
