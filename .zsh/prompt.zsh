@@ -60,9 +60,9 @@ precmd() {
     [[ -n $VIRTUAL_ENV ]] && local virtualenv=" ${VIRTUAL_ENV##*/}"
 
     # show python version if using pyenv
-    local pythonver=$( pyenv local 2> /dev/null )
+    local pythonver=$( pyenv versions 2> /dev/null | grep '^\*' | sed -e 's/^.* \(.*\) (set by .*$/\1/g' )
     [[ $pythonver == "system" ]] && pythonver=""
-    [[ -n $pythonver ]] && pythonver=" $pythonver"
+    [[ -n $pythonver ]] && pythonver=" Python@$pythonver"
 
     vcs_info
     # add `%*` to display the time
