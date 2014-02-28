@@ -11,4 +11,5 @@
 .logouthook
 .tmux.conf
 .tmux/
+.ghci
 bin/tmuxx
