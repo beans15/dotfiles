@@ -175,7 +175,7 @@ command! Solarized call ChangeSolarized()
 " 環境依存の設定
 "------------------------------------------------
 if g:portable
-  set viminfo=n$VIM/_viminfo
+  set viminfo+=n$VIM/_viminfo
 endif
 
 " 環境ごとの設定は.vimrc.mineに記述する
