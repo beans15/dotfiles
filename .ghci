@@ -1,1 +1,1 @@
-:set prompt "\n\x1b[33m%s\x1b[1;39m\n> "
+:set prompt "\n\x1b[33m%s\x1b[0;39m\n> "
