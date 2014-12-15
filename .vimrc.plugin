@@ -6,10 +6,10 @@ if g:portable
   " NeoBundleへのパスを追加
   set rtp+=$VIM/vimfiles/bundle/neobundle.vim/
   " NeoBundleを初期化
-  call neobundle#rc($VIM.'/vimfiles/bundle')
+  call neobundle#begin($VIM.'/vimfiles/bundle')
 else
   set rtp+=~/.vim/bundle/neobundle.vim/
-  call neobundle#rc(expand('~/.vim/bundle'))
+  call neobundle#begin(expand('~/.vim/bundle'))
 endif
 
 
@@ -29,8 +29,9 @@ NeoBundle 'Shougo/vimproc', {
 
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'surround.vim'
+NeoBundle 'Shougo/neomru.vim'
 NeoBundleLazy 'Shougo/unite.vim', { 'depends': ['Shougo/vimproc'] }
-NeoBundleLazy 'h1mesuke/unite-outline', {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'Shougo/unite-outline', {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'tsukkee/unite-help', {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'tsukkee/unite-tag', {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'osyo-manga/unite-quickfix', { 'depends': ['Shougo/unite.vim'] }
@@ -815,6 +816,8 @@ endif
 if filereadable(expand('~/.vimrc.plugin.mine'))
   source ~/.vimrc.plugin.mine
 endif
+
+call neobundle#end()
 
 " ファイルタイプ プラグインを有効にする
 filetype plugin indent on
