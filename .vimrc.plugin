@@ -141,7 +141,7 @@ if neobundle#tap('lightline.vim')
   endfunction
 
   function! MyFugitive()
-    return exists('*fugitive#head') && len(fugitive#head()) ? '⭠ '.fugitive#head() : ''
+    return exists('*fugitive#head') && len(fugitive#head()) ? ''.fugitive#head() : ''
   endfunction
 
   function! MyFiletype()
