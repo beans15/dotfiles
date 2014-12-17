@@ -13,3 +13,6 @@
 .tmux/
 .ghci
 bin/tmuxx
+.gvimrc
+.gvimrc.win
+.gvimrc.mac
