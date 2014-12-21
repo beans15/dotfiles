@@ -21,6 +21,9 @@ if has('multi_byte_ime') || has('xim')
   "inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 endif
 
+" lightlineのtablineを優先
+set guioptions-=e
+
 " 透明度を5%に
 set transparency=5
 " マウスを無効に
