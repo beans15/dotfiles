@@ -36,6 +36,7 @@ NeoBundleLazy 'tsukkee/unite-help', {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'tsukkee/unite-tag', {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'osyo-manga/unite-quickfix', { 'depends': ['Shougo/unite.vim'] }
 NeoBundleLazy 'Shougo/vimfiler', {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'beans15/unite-maven', { 'depends': ['Shougo/unite.vim', 'mattn/webapi-vim'] }
 NeoBundle 'deton/jasegment.vim'
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'kana/vim-textobj-indent', {'depends': ['kana/vim-textobj-user']}
@@ -230,6 +231,7 @@ if neobundle#tap('unite.vim')
   " ソースのカスタマイズ
   function! neobundle#tapped.hooks.on_source(bundle)
     call unite#custom_source('file_rec', 'matchers', 'matcher_fuzzy')
+
     call unite#set_profile('source/location_list', 'context', {
       \ 'winheight': 10,
       \ 'no_quit': 1
@@ -289,6 +291,20 @@ if neobundle#tap('unite-quickfix')
   call neobundle#config({
   \ 'autoload': {
   \   'unite_sources': ['quickfix', 'location_list']
+  \ }
+  \ })
+
+  call neobundle#untap()
+endif
+
+"======================
+" unite-maven
+"======================
+
+if neobundle#tap('unite-maven')
+  call neobundle#config({
+  \ 'autoload': {
+  \   'unite_sources': ['maven_search']
   \ }
   \ })
 
