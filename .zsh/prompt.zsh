@@ -57,7 +57,9 @@ preexec() {
 
 precmd() {
     # only show virtualenv if activated
-    [[ -n $VIRTUAL_ENV ]] && local virtualenv=" ${VIRTUAL_ENV##*/}"
+    local virtualenv
+    [[ -n $VIRTUAL_ENV ]] && virtualenv=" ${VIRTUAL_ENV##*/}@pyvenv"
+    [[ -n $HSENV ]] && virtualenv=" ${HSENV_NAME}@hsenv"
 
     # show python version if using pyenv
     local pythonver=$( pyenv versions 2> /dev/null | grep '^\*' | sed -e 's/^.* \(.*\) (set by .*$/\1/g' )
