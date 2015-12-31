@@ -32,4 +32,6 @@ set mouse=
 map ¥ \
 noremap! ¥ \
 
+set imdisable
+
 set ambiwidth=
