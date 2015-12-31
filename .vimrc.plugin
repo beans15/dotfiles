@@ -70,7 +70,7 @@ NeoBundleLazy 'mattn/emmet-vim'
 NeoBundleLazy 'kana/vim-filetype-haskell'
 NeoBundleLazy 'ujihisa/neco-ghc', { 'external_commands': [ 'ghc-mod' ] }
 
-NeoBundleLazy 'git://git.code.sf.net/p/vim-latex/vim-latex'
+NeoBundleLazy 'vim-latex/vim-latex'
 
 NeoBundle 'mattn/webapi-vim'
 NeoBundleLazy 'mattn/gist-vim', {
@@ -80,12 +80,14 @@ NeoBundleLazy 'mattn/gist-vim', {
 
 NeoBundle 'vim-jp/vital.vim' " A comprehensive Vim utility functions for Vim plugins
 
+NeoBundleLazy 'leafgarland/typescript-vim'
+NeoBundleLazy 'jason0x43/vim-js-indent'
+NeoBundleLazy 'clausreinke/typescript-tools.vim'
+
 " Visual
 NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'istepura/vim-toolbar-icons-silk', { 'gui': 1 }
-
-NeoBundleDisable 'thinca/vim-localrc'
 
 
 "======================
@@ -325,8 +327,7 @@ if neobundle#tap('vimfiler')
     \     { 'name': 'VimFilerTab', 'complete': 'customlist,vimfiler#complete' },
     \     { 'name': 'VimFilerCreate', 'complete': 'customlist,vimfiler#complete' }
     \   ],
-    \   'mappings': '<Plug>(vimfiler_',
-    \   'explorer': 1
+    \   'mappings': '<Plug>(vimfiler_'
     \ }
     \ })
 
@@ -458,6 +459,7 @@ if neobundle#tap('neocomplete.vim')
   let g:neocomplete#enable_at_startup = 1
   let g:neocomplete#enable_smart_case = 1
   let g:neocomplete#enable_auto_select = 0
+  let g:neocomplete#lock_iminsert = 1
 
   if !exists('g:neocomplete#sources')
     let g:neocomplete#sources = {}
@@ -819,6 +821,51 @@ if neobundle#tap('vim-latex')
   call neobundle#config({
     \ 'autoload': {
     \   'filetypes': ['tex']
+    \ }
+    \ })
+
+  call neobundle#untap()
+endif
+
+"======================
+" typescript-vim
+"======================
+
+if neobundle#tap('typescript-vim')
+  call neobundle#config({
+    \ 'autoload': {
+    \   'filetypes': ['typescript']
+    \ }
+    \ })
+
+  call neobundle#untap()
+endif
+
+"======================
+" vim-js-indent
+"======================
+
+if neobundle#tap('vim-js-indent')
+  call neobundle#config({
+    \ 'autoload': {
+    \   'filetypes': ['javascript', 'typescript']
+    \ }
+    \ })
+
+  let g:js_indent_typescript = 1
+
+  call neobundle#untap()
+endif
+
+"======================
+" typescript-tools
+"======================
+
+if neobundle#tap('typescript-tools')
+  call neobundle#config({
+    \ 'build': 'npm install -g',
+    \ 'autoload': {
+    \   'filetypes': ['typescript']
     \ }
     \ })
 

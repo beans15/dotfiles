@@ -162,6 +162,7 @@ endif
 " color
 "------------------------------
 colorscheme hybrid
+set background=dark
 "hi Normal ctermfg=lightgrey ctermbg=black
 
 function! ChangeSolarized()
