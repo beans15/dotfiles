@@ -80,9 +80,10 @@ NeoBundleLazy 'mattn/gist-vim', {
 
 NeoBundle 'vim-jp/vital.vim' " A comprehensive Vim utility functions for Vim plugins
 
-NeoBundleLazy 'leafgarland/typescript-vim'
 NeoBundleLazy 'jason0x43/vim-js-indent'
-NeoBundleLazy 'clausreinke/typescript-tools.vim'
+"NeoBundleLazy 'Quramy/tsuquyomi'
+"NeoBundleLazy 'leafgarland/typescript-vim'
+"NeoBundle 'clausreinke/typescript-tools.vim'
 
 " Visual
 NeoBundle 'w0ng/vim-hybrid'
@@ -832,6 +833,20 @@ endif
 "======================
 
 if neobundle#tap('typescript-vim')
+  call neobundle#config({
+    \ 'autoload': {
+    \   'filetypes': ['typescript']
+    \ }
+    \ })
+
+  call neobundle#untap()
+endif
+
+"======================
+" tsuquyomi
+"======================
+
+if neobundle#tap('tsuquyomi')
   call neobundle#config({
     \ 'autoload': {
     \   'filetypes': ['typescript']
