@@ -1,0 +1,102 @@
+"------------------------------
+" vimrc
+"
+
+if &compatible
+  set nocompatible
+endif
+
+let g:portable = 0
+
+let s:is_windows = has('win32') || has('win64')
+
+function! IsWindows() abort
+  return s:is_windows
+endfunction
+
+function! IsMac() abort
+  return !s:is_windows && !has('win32unix')
+    \ && (has('mac') || has('macunix') || has('gui_macvim')
+    \ || (!executable('xdg-open') && system('uname') =~? '^darwin'))
+endfunction
+
+"------------------------------------------------
+" 環境依存の設定
+"------------------------------------------------
+" 環境ごとの設定は.vimrc.local.vimに記述する
+let s:local_rc = expand('~/.vimrc.local.vim')
+if filereadable(s:local_rc)
+  execute 'source' s:local_rc
+endif
+
+"------------------------------------------------
+" 基本設定
+"------------------------------------------------
+" バックアップを取らない
+set nobackup
+" 上書き前にバックアップを取る
+set writebackup
+" シンタックスハイライトを有効にする
+syntax on
+
+"if v:version > 730
+"  " NFAエンジンを無効に
+"  set regexpengine=1
+"endif
+
+"------------------------------------------------
+" 編集関連の設定
+"------------------------------------------------
+call beans15#init#source_rc('edit.rc.vim')
+
+"------------------------------------------------
+" 表示に関する設定
+"------------------------------------------------
+call beans15#init#source_rc('view.rc.vim')
+
+"------------------------------------------------
+" 検索に関する設定
+"------------------------------------------------
+" インクリメンタルサーチを行う
+set incsearch
+" 折り返して検索する
+set wrapscan
+
+"------------------------------------------------
+" 文字コードの設定
+"------------------------------------------------
+" 文字コードの自動認識
+set fileencodings=ucs-bom,utf-8,cp932,iso-2022-jp,euc-jp,sjis,default,latin1
+" 改行コードの自動認識
+set fileformats=unix,dos,mac
+
+"------------------------------------------------
+" マッピング
+"------------------------------------------------
+call beans15#init#source_rc('mapping.rc.vim')
+
+"------------------------------------------------
+" プラグインの設定
+"------------------------------------------------
+call beans15#init#source_rc("dein.rc.vim")
+
+filetype plugin indent on
+
+"------------------------------------------------
+" 環境ごとの設定
+"------------------------------------------------
+"if has('nvim')
+"  call beans15#init#source_rc('neovim.rc.vim')
+"endif
+
+if IsWindows()
+  call beans15#init#source_rc('windows.rc.vim')
+else
+  call beans15#init#source_rc('unix.rc.vim')
+endif
+
+" 環境ごとの設定は.vimrc.local.after.vimに記述する
+let s:local_rc = expand('~/.vimrc.local.after.vim')
+if filereadable(s:local_rc)
+  execute 'source' s:local_rc
+endif

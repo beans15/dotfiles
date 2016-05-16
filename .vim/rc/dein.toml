@@ -1,0 +1,85 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo = 'Shougo/vimproc.vim'
+build = 'make'
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+hook_add = 'call beans15#init#source_rc("/plugins/lightline.add.rc.vim")'
+
+[[plugins]]
+repo = 'Shougo/neocomplete'
+
+[[plugins]]
+repo = 'Shougo/neosnippet'
+
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+
+[[plugins]]
+repo = 'surround.vim'
+
+[[plugins]]
+repo = 'Align'
+
+[[plugins]]
+repo = 'kana/vim-textobj-user'
+
+[[plugins]]
+repo = 'kana/vim-textobj-indent'
+depends = 'vim-textobj-user'
+
+[[plugins]]
+repo = 'kana/vim-smartinput'
+
+[[plugins]]
+repo = 'cohama/vim-smartinput-endwise'
+depends = 'vim-smartinput'
+
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+
+[[plugins]]
+repo = 'osyo-manga/vim-precious'
+depends = 'context_filetype.vim'
+
+[[plugins]]
+repo = 'deton/jasegment.vim'
+
+[[plugins]]
+repo = 'mattn/webapi-vim'
+
+[[plugins]]
+repo = 'vim-jp/vital.vim'
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+hook_add = '''
+  nnoremap  [git]     <Nop>
+  nmap      <Space>g  [git]
+  nnoremap  <silent>  [git]<Space>  :<C-u>Git<Space>
+  nnoremap  <silent>  [git]s        :<C-u>Gstatus<CR>
+  nnoremap  <silent>  [git]d        :<C-u>Gdiff<CR>
+  nnoremap  <silent>  [git]pl       :<C-u>Git pull --rebase<CR>
+  nnoremap  <silent>  [git]b        :<C-u>Gblame<CR>
+'''
+
+[[plugins]]
+repo = 'w0ng/vim-hybrid'
+
+[[plugins]]
+repo = 'altercation/vim-colors-solarized'
+hook_add = '''
+  function! ChangeSolarized()
+    colorscheme solarized
+    set background=light
+  endfunction
+
+  command! Solarized call ChangeSolarized()
+'''
+
+[[plugins]]
+repo = 'istepura/vim-toolbar-icons-silk'
+if = 'has("gui")'

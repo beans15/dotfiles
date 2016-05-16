@@ -1,6 +1,11 @@
 " -*- coding: utf-8 -*-
 " surround.vimのキーバインドを変更する
 
+if !exists('g:loaded_surround') || !g:loaded_surround
+  " surroundが読み込まれていなければ実行しない
+  finish
+endif
+
 if exists('g:loaded_surround_hack') && g:loaded_surround_hack
   finish
 endif

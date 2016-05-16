@@ -1,0 +1,1 @@
+call beans15#init#source_rc('/vimrc')

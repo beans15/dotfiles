@@ -1,0 +1,5 @@
+"------------------------------------------------
+" gvimrc
+"
+
+call beans15#init#source_rc('gui.rc.vim')
