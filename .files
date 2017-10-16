@@ -16,3 +16,5 @@ bin/tmuxx
 .gvimrc
 .gvimrc.win
 .gvimrc.mac
+.spacemacs
+.emacs.d/private/

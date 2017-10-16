@@ -1,15 +1,26 @@
-#!/usr/bin/env zsh
+#!/bin/sh
 
-if [[ ( $OSTYPE == darwin* ) && ( -x $(which reattach-to-user-namespace 2>/dev/null) ) ]]; then
-    if [[ ( ${#@} -eq 0 ) ]]; then
-        conf=$( cat ~/.tmux.conf <( echo 'set-option -g default-command "reattach-to-user-namespace -l zsh"' ) )
-        tmux attach || tmux -f <(echo "$conf") new -n zsh
-    elif [[ ( $1 == 'new' ) ]]; then
-        conf=$( cat ~/.tmux.conf <( echo 'set-option -g default-command "reattach-to-user-namespace -l zsh"' ) )
-        tmux -f <(echo "$conf") new -n zsh "${@[2,${#@}]}"
-    else
-        tmux "$@"
-    fi
-else
-    tmux "$@"
+# 設定ファイルを読み込み
+RESTORE_DIR=~/.tmux/restore
+INIT_FILES=`ls $RESTORE_DIR/*.config 2> /dev/null`
+
+# config ファイルがないとき
+if [ ! $? ] ;then
+    tmux new-session
+    exit
 fi
+
+# session がすでに開いていれば警告を出して終了
+tmux has 2> /dev/null
+if [ $? -eq 0 ] ;then
+    echo "Session is already opened"
+    exit
+fi
+
+tmux new-session -d 
+for FILENAME in $INIT_FILES; do
+    eval `cat $FILENAME`   # config ファイル情報読み込み
+    tmux new-window -d -k -t :$window_id -n $window_name "cd $pwd; exec $SHELL --login"
+done
+
+tmux a

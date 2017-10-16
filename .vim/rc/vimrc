@@ -7,6 +7,7 @@ if &compatible
 endif
 
 let g:portable = 0
+let g:cache_dir = expand('~/.cache/')
 
 let s:is_windows = has('win32') || has('win64')
 
@@ -26,8 +27,14 @@ endfunction
 " 環境ごとの設定は.vimrc.local.vimに記述する
 let s:local_rc = expand('~/.vimrc.local.vim')
 if filereadable(s:local_rc)
-  execute 'source' s:local_rc
+  execute 'source' fnameescape(s:local_rc)
 endif
+
+if g:portable
+  let g:cache_dir = expand('$VIM/.cache/')
+endif
+
+let $XDG_CACHE_HOME = g:cache_dir
 
 "------------------------------------------------
 " 基本設定
@@ -78,7 +85,7 @@ call beans15#init#source_rc('mapping.rc.vim')
 "------------------------------------------------
 " プラグインの設定
 "------------------------------------------------
-call beans15#init#source_rc("dein.rc.vim")
+call beans15#init#source_rc('dein.rc.vim')
 
 filetype plugin indent on
 
@@ -98,5 +105,5 @@ endif
 " 環境ごとの設定は.vimrc.local.after.vimに記述する
 let s:local_rc = expand('~/.vimrc.local.after.vim')
 if filereadable(s:local_rc)
-  execute 'source' s:local_rc
+  execute 'source' fnamescape(s:local_rc)
 endif

@@ -2,8 +2,16 @@
 repo = 'Shougo/dein.vim'
 
 [[plugins]]
+repo = 'Shougo/denite.nvim'
+if = 'has("python3")'
+hook_add = 'call beans15#init#source_rc("/plugins/denite.add.rc.vim")'
+
+[[plugins]]
 repo = 'Shougo/vimproc.vim'
 build = 'make'
+
+[[plugins]]
+repo = 'Shougo/neomru.vim'
 
 [[plugins]]
 repo = 'itchyny/lightline.vim'
@@ -11,18 +19,38 @@ hook_add = 'call beans15#init#source_rc("/plugins/lightline.add.rc.vim")'
 
 [[plugins]]
 repo = 'Shougo/neocomplete'
+if = '!has("nvim")'
+hook_add = '''
+  let g:neocomplete#data_directory = g:cache_dir . 'neocomplete'
+  let g:neocomplete#enable_at_startup = 1
+'''
+
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+if = 'has("nvim")'
+hook_add = '''
+  let g:deoplete#enable_at_startup = 1
+  let g:deoplete#auto_complete_delay = 0
+'''
 
 [[plugins]]
 repo = 'Shougo/neosnippet'
+hook_add = '''
+  let g:neosnippet#data_directory = g:cache_dir . 'neosnippet'
+  let g:neosnippet#snippets_directory = $HOME . '/.vim/snippets'
+  imap <C-l>     <Plug>(neosnippet_expand_or_jump)
+  smap <C-l>     <Plug>(neosnippet_expand_or_jump)
+  xmap <C-l>     <Plug>(neosnippet_expand_target)
+'''
 
 [[plugins]]
 repo = 'Shougo/neosnippet-snippets'
 
 [[plugins]]
-repo = 'surround.vim'
+repo = 'vim-scripts/surround.vim'
 
 [[plugins]]
-repo = 'Align'
+repo = 'vim-scripts/Align'
 
 [[plugins]]
 repo = 'kana/vim-textobj-user'

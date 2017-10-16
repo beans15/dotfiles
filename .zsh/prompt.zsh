@@ -56,10 +56,10 @@ preexec() {
 }
 
 precmd() {
-    # only show virtualenv if activated
-    local virtualenv
-    [[ -n $VIRTUAL_ENV ]] && virtualenv=" ${VIRTUAL_ENV##*/}@pyvenv"
-    [[ -n $HSENV ]] && virtualenv=" ${HSENV_NAME}@hsenv"
+    # # only show virtualenv if activated
+    # local virtualenv
+    # [[ -n $VIRTUAL_ENV ]] && virtualenv=" ${VIRTUAL_ENV##*/}@pyvenv"
+    # [[ -n $HSENV ]] && virtualenv=" ${HSENV_NAME}@hsenv"
 
     # show python version if using pyenv
     local pythonver=$( pyenv versions 2> /dev/null | grep '^\*' | sed -e 's/^.* \(.*\) (set by .*$/\1/g' )
@@ -68,7 +68,7 @@ precmd() {
 
     vcs_info
     # add `%*` to display the time
-    print -P '\n%F{blue}%~%F{green}$vcs_info_msg_0_`git_dirty`%F{yellow}$virtualenv%F{8}$pythonver $username%f %F{yellow}`cmd_exec_time`%f'
+    print -P '\n%F{blue}%~%F{green}$vcs_info_msg_0_`git_dirty`%F{yellow}%F{8}$pythonver $username%f %F{yellow}`cmd_exec_time`%f'
     # reset value since `preexec` isn't always triggered
     unset cmd_timestamp
 }

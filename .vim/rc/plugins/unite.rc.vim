@@ -10,9 +10,7 @@ if executable('ag')
   let g:unite_source_grep_max_candidates = 200
 endif
 
-if g:portable
-  let g:unite_data_directory = expand("$VIM/.unite")
-endif
+let g:unite_data_directory = g:cache_dir . 'unite'
 
 " ソースのカスタマイズ
 call unite#custom_source('file_rec', 'matchers', 'matcher_fuzzy')

@@ -153,6 +153,9 @@ export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
 #------------------------------------------------
 # 環境依存の設定
 #------------------------------------------------
+
+eval $(/usr/libexec/path_helper -s)
+
 # 特定環境用のzshrc
 [[ -f $HOME/.zshrc.mine ]] && source $HOME/.zshrc.mine
 

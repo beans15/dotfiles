@@ -1,9 +1,6 @@
 [[plugins]]
-repo = 'Shougo/neomru.vim'
-on_if = 1
-
-[[plugins]]
 repo = 'Shougo/unite.vim'
+if = '!has("python3")'
 depends = ['neomru.vim', 'vimproc.vim']
 on_cmd = ['Unite', 'UniteWithCursorWord', 'UniteWithInput', 'UniteWithBufferDir']
 hook_source = 'call beans15#init#source_rc("/plugins/unite.rc.vim")'
@@ -44,10 +41,7 @@ on_cmd = ['VimShell', 'VimShellPop', 'VimShellTab', 'VimShellInteractive', 'VimS
 hook_add = 'call beans15#init#source_rc("/plugins/vimshell.add.rc.vim")'
 hook_source = '''
   let g:vimshell_force_overwrite_statusline = 0
-
-  if g:portable
-    let g:vimshell_data_directory = expand('$VIM/.vimshell')
-  endif
+  let g:vimshell_data_directory = g:cache_dir . 'vimshell'
 '''
 
 [[plugins]]
@@ -56,7 +50,7 @@ depends = 'vimshell'
 on_source = 'vimshell'
 
 [[plugins]]
-repo = 'sudo.vim'
+repo = 'vim-scripts/sudo.vim'
 if = 'executable("sudo")'
 on_cmd = ['SudoRead', 'SudoWrite']
 
@@ -67,7 +61,7 @@ on_cmd = 'Ref'
 [[plugins]]
 repo = 'thinca/vim-quickrun'
 on_map = [['n', '<Plug>']]
-hook_add = 'nmap <silent> <Leader>r <Plug>(quickrun)'
+hook_add = 'call beans15#init#source_rc("/plugins/quickrun.add.rc.vim")'
 
 [[plugins]]
 repo = 'scrooloose/syntastic'
@@ -98,14 +92,6 @@ repo = 'cespare/vim-toml'
 on_ft = 'toml'
 
 [[plugins]]
-repo = 'vim-coffee-script'
-on_ft = 'coffee'
-hook_source = '''
-  " 無名関数でラップしない
-  g:coffee_make_options = '-b'
-'''
-
-[[plugins]]
 repo = 'mattn/emmet-vim'
 on_ft = ['html', 'css', 'scss', 'php']
 
@@ -118,10 +104,19 @@ repo = 'ujihisa/neco-ghc'
 if = 'executable("ghc-mod")'
 on_ft = 'haskell'
 
-[[plugins]]
-repo = 'vim-latex/vim-latex'
-on_ft = 'tex'
+# [[plugins]]
+# repo = 'vim-latex/vim-latex'
+# on_ft = 'tex'
 
 [[plugins]]
 repo = 'jason0x43/vim-js-indent'
-on_ft = 'js'
+on_ft = 'javascript'
+
+[[plugins]]
+repo = 'mxw/vim-jsx'
+on_ft = 'jsx'
+
+[[plugins]]
+repo = 'zchee/deoplete-jedi'
+if = 'has("nvim")'
+on_ft = 'python'
