@@ -38,7 +38,7 @@ syn keyword scalaObject object nextgroup=scalaClassName skipwhite
 syn keyword scalaTrait trait nextgroup=scalaClassName skipwhite
 syn match scalaDefName "[^ =:;([]\+" contained nextgroup=scalaDefSpecializer skipwhite
 syn match scalaValName "[^ =:;([]\+" contained
-syn match scalaVarName "[^ =:;([]\+" contained 
+syn match scalaVarName "[^ =:;([]\+" contained
 syn match scalaClassName "[^ =:;(\[]\+" contained nextgroup=scalaClassSpecializer skipwhite
 syn region scalaDefSpecializer start="\[" end="\]" contained contains=scalaDefSpecializer
 syn region scalaClassSpecializer start="\[" end="\]" contained contains=scalaClassSpecializer
